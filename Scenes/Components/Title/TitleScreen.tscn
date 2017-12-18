@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Scenes/Components/Title/TitleScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Placeholder/ascend_017.png" type="Texture" id=2]
+
+[node name="TitleScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Sprite" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Button" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 276.0
+margin/top = 285.0
+margin/right = 358.0
+margin/bottom = 305.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "New Game"
+flat = false
+
+[node name="Return" type="Button" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 237.0
+margin/top = 325.0
+margin/right = 401.0
+margin/bottom = 345.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Return to Current Game"
+flat = false
+
+
