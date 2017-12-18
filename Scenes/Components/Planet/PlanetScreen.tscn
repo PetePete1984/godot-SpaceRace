@@ -1,0 +1,382 @@
+[gd_scene load_steps=22 format=1]
+
+[ext_resource path="res://Scenes/Components/Planet/PlanetScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Screens/Planet/Layout/stars.png" type="Texture" id=2]
+[ext_resource path="res://Images/planal05.shp_5.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Components/Planet/PlanetSprite.gd" type="Script" id=4]
+[ext_resource path="res://Images/17np.shp_1.png" type="Texture" id=5]
+[ext_resource path="res://tileset_orbitals.tres" type="TileSet" id=6]
+[ext_resource path="res://tileset_cells.tres" type="TileSet" id=7]
+[ext_resource path="res://tileset_buildings.tres" type="TileSet" id=8]
+[ext_resource path="res://Scenes/Components/Planet/SurfaceProjectOverlaySprite.gd" type="Script" id=9]
+[ext_resource path="res://Materials/ConstructionHoverMaterial.tres" type="CanvasItemMaterial" id=10]
+[ext_resource path="res://Images/planitem.shp_01.png" type="Texture" id=11]
+[ext_resource path="res://Images/AscendancyPlanetTile3.png" type="Texture" id=12]
+[ext_resource path="res://Scenes/Components/Planet/Workers.gd" type="Script" id=13]
+[ext_resource path="res://Scenes/Components/Planet/ProjectDisplay.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/Components/Planet/IndexedPointDisplay.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Images/Screens/Planet/Industry/00.png" type="Texture" id=16]
+[ext_resource path="res://Images/Screens/Planet/Prosperity/00.png" type="Texture" id=17]
+[ext_resource path="res://Scenes/Components/Planet/ProjectGrid.gd" type="Script" id=18]
+[ext_resource path="res://Images/Screens/Planet/Layout/popup.png" type="Texture" id=19]
+
+[sub_resource type="ConvexPolygonShape2D" id=3]
+
+custom_solver_bias = 0.0
+points = Vector2Array( -34, -1, 0, -19, 34, -1, 0, 16 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 19 )
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[node name="PlanetScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="stars" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+offset = Vector2( 320, 294 )
+
+[node name="PlanetSprite" type="Sprite" parent="."]
+
+transform/pos = Vector2( 408, 296 )
+texture = ExtResource( 3 )
+script/script = ExtResource( 4 )
+
+[node name="border" type="Sprite" parent="."]
+
+transform/pos = Vector2( 320, 240 )
+texture = ExtResource( 5 )
+
+[node name="OrbitalAnchor" type="Node2D" parent="."]
+
+transform/pos = Vector2( 7, 115 )
+
+[node name="TileMapOrbitals" type="TileMap" parent="OrbitalAnchor"]
+
+mode = 0
+tile_set = ExtResource( 6 )
+cell/size = Vector2( 72, 72 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="TileMapAnchor" type="Node2D" parent="."]
+
+transform/pos = Vector2( 411, 111 )
+
+[node name="TileMapCells" type="TileMap" parent="TileMapAnchor"]
+
+mode = 1
+tile_set = ExtResource( 7 )
+cell/size = Vector2( 68, 34 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 1
+cell/y_sort = true
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="TileMapBuildings" type="TileMap" parent="TileMapAnchor"]
+
+mode = 1
+tile_set = ExtResource( 8 )
+cell/size = Vector2( 68, 34 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 1
+cell/y_sort = true
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="SurfaceProjectSprite" type="Area2D" parent="TileMapAnchor/TileMapBuildings"]
+
+visibility/visible = false
+input/pickable = true
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 17 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="TileMapAnchor/TileMapBuildings/SurfaceProjectSprite"]
+
+material/material = ExtResource( 10 )
+texture = ExtResource( 11 )
+offset = Vector2( 0, 7 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileMapAnchor/TileMapBuildings/SurfaceProjectSprite"]
+
+transform/pos = Vector2( 0, 17 )
+build_mode = 0
+polygon = Vector2Array( -34, -1, 0, -19, 34, -1, 0, 16 )
+shape_range = Vector2( 0, 0 )
+trigger = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="surface_cursor" type="Sprite" parent="TileMapAnchor"]
+
+visibility/visible = false
+texture = ExtResource( 12 )
+offset = Vector2( 0, 16 )
+modulate = Color( 0, 99.48, 136.56, 0.46 )
+
+[node name="Workers" type="Node2D" parent="."]
+
+transform/pos = Vector2( 360, 12 )
+script/script = ExtResource( 13 )
+
+[node name="PlanetUI" type="Control" parent="."]
+
+editor/display_folded = true
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 640.0
+margin/bottom = 480.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="ProjectDisplay" type="CenterContainer" parent="PlanetUI"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 463.0
+margin/top = 7.0
+margin/right = 7.0
+margin/bottom = 373.0
+use_top_left = false
+script/script = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Stack" type="VBoxContainer" parent="PlanetUI/ProjectDisplay"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 24.0
+margin/right = 169.0
+margin/bottom = 76.0
+alignment = 0
+
+[node name="ProjectTitle" type="Label" parent="PlanetUI/ProjectDisplay/Stack"]
+
+rect/min_size = Vector2( 168, 0 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 168.0
+margin/bottom = 14.0
+text = "No Project"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ProjectIcon" type="TextureFrame" parent="PlanetUI/ProjectDisplay/Stack"]
+
+rect/min_size = Vector2( 34, 34 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 67.0
+margin/top = 18.0
+margin/right = 101.0
+margin/bottom = 52.0
+stretch_mode = 0
+
+[node name="ProjectDays" type="Label" parent="PlanetUI/ProjectDisplay/Stack"]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 4.0
+margin/top = 56.0
+margin/right = 163.0
+margin/bottom = 70.0
+text = "20 days until completion"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ResearchDisplay" parent="PlanetUI" instance=ExtResource( 15 )]
+
+margin/left = 7.0
+margin/top = 7.0
+margin/right = 115.0
+margin/bottom = 107.0
+
+[node name="IndustryDisplay" parent="PlanetUI" instance=ExtResource( 15 )]
+
+margin/left = 123.0
+margin/top = 7.0
+margin/right = 231.0
+margin/bottom = 107.0
+textures/normal = ExtResource( 16 )
+display_type = "Industry"
+
+[node name="ProsperityDisplay" parent="PlanetUI" instance=ExtResource( 15 )]
+
+margin/left = 239.0
+margin/top = 7.0
+margin/right = 347.0
+margin/bottom = 107.0
+textures/normal = ExtResource( 17 )
+display_type = "Prosperity"
+
+[node name="AcceptDialog" type="AcceptDialog" parent="PlanetUI"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 55.0
+margin/bottom = 58.0
+popup/exclusive = true
+window/title = "Alert!"
+dialog/hide_on_ok = true
+
+[node name="ProjectGrid" type="Position2D" parent="PlanetUI/AcceptDialog"]
+
+transform/pos = Vector2( 0, 35 )
+script/script = ExtResource( 18 )
+
+[node name="GridContainer" type="GridContainer" parent="PlanetUI/AcceptDialog/ProjectGrid"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+columns = 4
+
+[node name="PopupPanel" type="PopupPanel" parent="PlanetUI"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+custom_styles/panel = SubResource( 2 )
+popup/exclusive = false
+
+[node name="ProjectButton" type="TextureButton" parent="PlanetUI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 463.0
+margin/top = 7.0
+margin/right = 633.0
+margin/bottom = 107.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="WorkersButton" type="TextureButton" parent="PlanetUI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 355.0
+margin/top = 7.0
+margin/right = 455.0
+margin/bottom = 107.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="orbital_cursor" type="Sprite" parent="."]
+
+transform/pos = Vector2( -60, 50 )
+
+[node name="display_cursor" type="Sprite" parent="."]
+
+transform/pos = Vector2( -60, 360 )
+
+
