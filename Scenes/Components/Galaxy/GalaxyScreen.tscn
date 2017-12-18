@@ -1,0 +1,589 @@
+[gd_scene load_steps=22 format=1]
+
+[ext_resource path="res://Scenes/Components/Galaxy/GalaxyScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Screens/Galaxy/border.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/numbers_background.png" type="Texture" id=3]
+[ext_resource path="res://Materials/Tint.tres" type="CanvasItemMaterial" id=4]
+[ext_resource path="res://Images/Races/FlagsBW/raceflag.shp_01.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Components/Galaxy/GalaxyViewport.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Components/Galaxy/Turns.gd" type="Script" id=7]
+[ext_resource path="res://Materials/TintFromGreen.tres" type="CanvasItemMaterial" id=8]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/Numbers/0.png" type="Texture" id=9]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/left.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/Components/ControlButton.gd" type="Script" id=11]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/right.png" type="Texture" id=12]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/up.png" type="Texture" id=13]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/down.png" type="Texture" id=14]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/zoom_in.png" type="Texture" id=15]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/zoom_out.png" type="Texture" id=16]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/reset.png" type="Texture" id=17]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/lanes.png" type="Texture" id=18]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/influence.png" type="Texture" id=19]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/ships.png" type="Texture" id=20]
+[ext_resource path="res://Images/Screens/Galaxy/Layout/colonies.png" type="Texture" id=21]
+
+[node name="GalaxyScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+transform/pos = Vector2( 320, 240 )
+anchor_mode = 1
+rotating = false
+current = false
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+[node name="Layout" type="Node2D" parent="."]
+
+editor/display_folded = true
+
+[node name="Border" type="Sprite" parent="Layout"]
+
+texture = ExtResource( 2 )
+centered = false
+
+[node name="TurnBackground" type="Sprite" parent="Layout"]
+
+transform/pos = Vector2( 474, 7 )
+texture = ExtResource( 3 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Flag" type="Sprite" parent="Layout"]
+
+material/material = ExtResource( 4 )
+transform/pos = Vector2( 10, 10 )
+texture = ExtResource( 5 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Galaxy3D" parent="." instance=ExtResource( 6 )]
+
+transform/pos = Vector2( 7, 7 )
+
+[node name="bottom_right_anchor" type="Position2D" parent="."]
+
+transform/pos = Vector2( 466, 473 )
+
+[node name="UI" type="Control" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 640.0
+margin/bottom = 480.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TurnAnchor" type="Position2D" parent="UI"]
+
+editor/display_folded = true
+transform/pos = Vector2( 474, 7 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Turns" type="HBoxContainer" parent="UI/TurnAnchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 37.0
+custom_constants/separation = 1
+alignment = 0
+script/script = ExtResource( 7 )
+
+[node name="10k" type="TextureFrame" parent="UI/TurnAnchor/Turns"]
+
+material/material = ExtResource( 8 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 31.0
+margin/bottom = 37.0
+texture = ExtResource( 9 )
+stretch_mode = 0
+
+[node name="1k" type="TextureFrame" parent="UI/TurnAnchor/Turns"]
+
+material/material = ExtResource( 8 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 0.0
+margin/right = 63.0
+margin/bottom = 37.0
+texture = ExtResource( 9 )
+stretch_mode = 0
+
+[node name="100" type="TextureFrame" parent="UI/TurnAnchor/Turns"]
+
+material/material = ExtResource( 8 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 64.0
+margin/top = 0.0
+margin/right = 95.0
+margin/bottom = 37.0
+texture = ExtResource( 9 )
+stretch_mode = 0
+
+[node name="10" type="TextureFrame" parent="UI/TurnAnchor/Turns"]
+
+material/material = ExtResource( 8 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 96.0
+margin/top = 0.0
+margin/right = 127.0
+margin/bottom = 37.0
+texture = ExtResource( 9 )
+stretch_mode = 0
+
+[node name="1" type="TextureFrame" parent="UI/TurnAnchor/Turns"]
+
+material/material = ExtResource( 8 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 128.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 37.0
+texture = ExtResource( 9 )
+stretch_mode = 0
+
+[node name="NextAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 474, 52 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AutoAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 557, 52 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PlanetsAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 474, 130 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ShipsAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 474, 169 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ResearchAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 474, 208 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SpecialAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 474, 247 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SpeciesAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 474, 286 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FiltersAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 474, 442 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Next" type="Button" parent="UI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 475.0
+margin/top = 53.0
+margin/right = 548.0
+margin/bottom = 82.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Next>"
+flat = false
+
+[node name="Auto" type="Button" parent="UI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 558.0
+margin/top = 53.0
+margin/right = 631.0
+margin/bottom = 82.0
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+text = "Next>>"
+flat = false
+
+[node name="Planets" type="Button" parent="UI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 475.0
+margin/top = 131.0
+margin/right = 631.0
+margin/bottom = 160.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Planets"
+flat = false
+
+[node name="Ships" type="Button" parent="UI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 475.0
+margin/top = 170.0
+margin/right = 631.0
+margin/bottom = 199.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Ships"
+flat = false
+
+[node name="Research" type="Button" parent="UI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 475.0
+margin/top = 209.0
+margin/right = 631.0
+margin/bottom = 238.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Research"
+flat = false
+
+[node name="Special" type="Button" parent="UI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 475.0
+margin/top = 248.0
+margin/right = 631.0
+margin/bottom = 277.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Special Ability"
+flat = false
+
+[node name="Species" type="Button" parent="UI"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 475.0
+margin/top = 287.0
+margin/right = 631.0
+margin/bottom = 316.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Species"
+flat = false
+
+[node name="TurnPanel" type="Panel" parent="UI"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 474.0
+margin/top = 7.0
+margin/right = 633.0
+margin/bottom = 44.0
+
+[node name="TurnLabel" type="Label" parent="UI/TurnPanel"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 60.0
+margin/top = 12.0
+margin/right = 100.0
+margin/bottom = 26.0
+text = "00000"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="BottomControls" type="Position2D" parent="."]
+
+transform/pos = Vector2( 479, 364 )
+
+[node name="Left" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 16.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 10 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="Right" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 16.0
+margin/top = 0.0
+margin/right = 31.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 12 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="Up" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 39.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 16.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 13 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="Down" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 39.0
+margin/top = 16.0
+margin/right = 70.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 14 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="ZoomIn" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 78.0
+margin/top = 0.0
+margin/right = 109.0
+margin/bottom = 16.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 15 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="ZoomOut" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 78.0
+margin/top = 16.0
+margin/right = 109.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 16 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="Reset" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 117.0
+margin/top = 0.0
+margin/right = 148.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 17 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="Lanes" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 39.0
+margin/right = 31.0
+margin/bottom = 70.0
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 18 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="Influence" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 39.0
+margin/top = 39.0
+margin/right = 70.0
+margin/bottom = 70.0
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 19 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="Ships" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 78.0
+margin/top = 39.0
+margin/right = 109.0
+margin/bottom = 70.0
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 20 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+[node name="Colonies" type="TextureButton" parent="BottomControls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 117.0
+margin/top = 39.0
+margin/right = 148.0
+margin/bottom = 70.0
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 21 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 11 )
+
+

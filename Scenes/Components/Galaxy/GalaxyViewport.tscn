@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Scenes/Components/Galaxy/GalaxyViewportSprite.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Components/Galaxy/Galaxy3D.tscn" type="PackedScene" id=2]
+
+[node name="GalaxyViewport" type="Node2D"]
+
+[node name="ViewportSprite" type="ViewportSprite" parent="."]
+
+viewport = NodePath("../Viewport")
+centered = false
+script/script = ExtResource( 1 )
+
+[node name="Viewport" type="Viewport" parent="."]
+
+rect = Rect2( 0, 0, 459, 466 )
+own_world = true
+world = null
+transparent_bg = true
+render_target/enabled = true
+render_target/v_flip = false
+render_target/clear_on_new_frame = true
+render_target/filter = false
+render_target/gen_mipmaps = false
+render_target/update_mode = 2
+audio_listener/enable_2d = false
+audio_listener/enable_3d = false
+physics/object_picking = true
+gui/disable_input = false
+
+[node name="galaxy_root" parent="Viewport" instance=ExtResource( 2 )]
+
+
