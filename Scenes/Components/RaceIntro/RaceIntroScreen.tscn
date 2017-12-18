@@ -1,0 +1,130 @@
+[gd_scene load_steps=7 format=1]
+
+[ext_resource path="res://Scenes/Components/RaceIntro/RaceIntroScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Screens/RaceIntro/border.png" type="Texture" id=2]
+[ext_resource path="res://Images/Placeholder/ascend_052.png" type="Texture" id=3]
+[ext_resource path="res://Images/Screens/RaceIntro/Races/lgrace00/lgrace00.shp_1.png" type="Texture" id=4]
+[ext_resource path="res://Images/Races/FlagsBW/raceflag.shp_01.png" type="Texture" id=5]
+[ext_resource path="res://Materials/Tint.tres" type="CanvasItemMaterial" id=6]
+
+[node name="RaceIntroScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Border" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Sprite" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 3 )
+centered = false
+
+[node name="RacePic" type="Sprite" parent="."]
+
+transform/pos = Vector2( 7, 46 )
+texture = ExtResource( 4 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RaceFlag" type="Sprite" parent="."]
+
+transform/pos = Vector2( 10, 10 )
+texture = ExtResource( 5 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="UI" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 640.0
+margin/bottom = 480.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Title" type="Label" parent="UI"]
+
+material/material = ExtResource( 6 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 192.0
+margin/top = 15.0
+margin/right = 438.0
+margin/bottom = 29.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Description" type="RichTextLabel" parent="UI"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 322.0
+margin/top = 54.0
+margin/right = 622.0
+margin/bottom = 234.0
+bbcode/enabled = false
+bbcode/bbcode = ""
+visible_characters = -1
+percent_visible = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="History" type="RichTextLabel" parent="UI"]
+
+material/material = ExtResource( 6 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 16.0
+margin/top = 268.0
+margin/right = 624.0
+margin/bottom = 458.0
+bbcode/enabled = false
+bbcode/bbcode = ""
+visible_characters = -1
+percent_visible = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="OverlayButton" type="TextureButton" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 640.0
+margin/bottom = 480.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
+
