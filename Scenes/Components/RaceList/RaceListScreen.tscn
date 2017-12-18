@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Scenes/Components/RaceList/RaceListScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Placeholder/ascend_066.png" type="Texture" id=2]
+
+[node name="RaceListScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Placeholder" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+centered = false
+
+
