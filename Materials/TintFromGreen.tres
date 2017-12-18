@@ -1,0 +1,44 @@
+[gd_resource type="CanvasItemMaterial" load_steps=2 format=1]
+
+[sub_resource type="CanvasItemShader" id=1]
+
+_code = {
+"fragment": "// external color
+uniform color Color;
+
+// color of the texture
+vec4 texColor = tex(TEXTURE,UV);
+
+// standard grayscale conversion
+vec3 grayscale = vec3(0.299, 0.587, 0.114);/* vec3(0.333);*/
+float gray = dot(texColor.rgb, grayscale);
+vec3 grayColor = vec3(gray);
+
+// photoshop style boosting
+vec3 boost = vec3(1,1.5,-2);
+float luminance = dot(texColor.rgb, boost);
+vec3 shift = vec3(1.8,1.3,1) * 1.33;
+vec3 shift_brightness = vec3(shift.r+shift.g+shift.b) / 3;
+COLOR = vec4(grayColor * Color.rgb * shift_brightness, texColor.a);
+
+//// pete method
+// use the g channel as intensity
+
+
+////
+// zylann method
+//float grey = (texColor.r + texColor.g + texColor.b) * 0.333;
+// COLOR = vec4(grey, grey, grey, texColor.a);",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[resource]
+
+shader/shader = SubResource( 1 )
+shader/shading_mode = 0
+shader_param/Color = Color( 1, 1, 1, 1 )
+

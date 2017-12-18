@@ -1,0 +1,27 @@
+[gd_resource type="CanvasItemMaterial" load_steps=2 format=1]
+
+[sub_resource type="CanvasItemShader" id=1]
+
+_code = {
+"fragment": "float offset = 1.0;
+vec2 pixelsize = TEXTURE_PIXEL_SIZE;
+vec2 base_uv = SCREEN_UV;
+float shift_x = (base_uv.x + sin(TIME) * pixelsize.x);
+float shift_y = (base_uv.y + cos(TIME) * pixelsize.y);
+vec2 shift_uv = vec2(shift_x, shift_y);
+vec4 base = tex(TEXTURE, UV);
+vec3 c = texscreen(shift_uv);
+//COLOR.a = cos(sin(TIME*2)) * base.a;
+COLOR.rgb = mix(c, base.rgb, 0.3);",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[resource]
+
+shader/shader = SubResource( 1 )
+shader/shading_mode = 0
+

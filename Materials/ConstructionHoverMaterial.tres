@@ -1,0 +1,67 @@
+[gd_resource type="CanvasItemMaterial" load_steps=2 format=1]
+
+[sub_resource type="CanvasItemShader" id=1]
+
+_code = {
+"fragment": "// hover coloring
+uniform bool hovering = true;
+
+// construction progress coloring
+uniform float alpha_height = 52.0;
+uniform float progress = 1.0;
+float height = 52.0;
+// UV runs from 0 (top) to 1 (bottom)
+// progress runs from 0 (bottom) to 1 (alpha_height)
+// top UV is UV.y / max_y?
+
+// the current UV coordinate
+float UV_pixel_y = UV.y * height;
+// the highest y coordinate (lowest pixel)
+float progress_bottom_pixel = height;
+// the lowest y coordinate (top pixel)
+float progress_top_pixel = height - alpha_height;
+float progress_height = floor(progress * alpha_height);
+
+bool pixel_masked = false;
+// offset UV position by the top pixel
+// compare to where the progress would sit
+if (UV_pixel_y - progress_top_pixel < alpha_height - progress_height) {
+	pixel_masked = true;
+}
+
+color construction_overlay = color(0.046875, 0.125, 0.1875, 1);
+color hover_overlay = color(0.0625, 0.26953125, 0.30078125, 1);
+color current_tex = tex(TEXTURE, UV);
+
+if (pixel_masked == true) {
+	if (hovering == true) {
+		COLOR = vec4(hover_overlay.rgb, current_tex.a);
+	} else {
+		COLOR = vec4(construction_overlay.rgb, current_tex.a);
+	}
+}
+
+if (pixel_masked == false) {
+	if (hovering == true) {
+		COLOR = vec4(mix(current_tex.rgb, hover_overlay.rgb, 0.5), current_tex.a);
+	} else {
+		COLOR = vec4(current_tex.rgb, current_tex.a);
+	}
+	
+}
+",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[resource]
+
+shader/shader = SubResource( 1 )
+shader/shading_mode = 0
+shader_param/hovering = false
+shader_param/alpha_height = 52.0
+shader_param/progress = 1.0
+
