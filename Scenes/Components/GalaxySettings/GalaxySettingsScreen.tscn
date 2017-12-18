@@ -1,0 +1,631 @@
+[gd_scene load_steps=22 format=1]
+
+[ext_resource path="res://Scenes/Components/GalaxySettings/GalaxySettingsScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Placeholder/ascend_048.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/GalaxySettings/border.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Components/GalaxySettings/GalaxyMicroDisplay.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Components/GalaxySettings/RaceList.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/Components/GalaxySettings/RaceDisplay.gd" type="Script" id=6]
+[ext_resource path="res://Materials/Tint.tres" type="CanvasItemMaterial" id=7]
+[ext_resource path="res://Images/Races/Icons/smrace00/smrace00.shp_1.png" type="Texture" id=8]
+[ext_resource path="res://Images/Races/Rings/racering.shp_8.png" type="Texture" id=9]
+[ext_resource path="res://Images/Races/HomePlanets/smhome.shp_01.png" type="Texture" id=10]
+[ext_resource path="res://Images/Races/FlagsBW/raceflag.shp_01.png" type="Texture" id=11]
+[ext_resource path="res://Images/Screens/GalaxySettings/Density/03_average.png" type="Texture" id=12]
+[ext_resource path="res://Scenes/Components/GalaxySettings/DensityButton.gd" type="Script" id=13]
+[ext_resource path="res://Images/Screens/GalaxySettings/Races/03_05.png" type="Texture" id=14]
+[ext_resource path="res://Scenes/Components/GalaxySettings/RacesButton.gd" type="Script" id=15]
+[ext_resource path="res://Images/Screens/GalaxySettings/Atmosphere/02_neutral.png" type="Texture" id=16]
+[ext_resource path="res://Scenes/Components/GalaxySettings/AtmosphereButton.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/Components/GalaxySettings/PlayerColors.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/Components/GalaxySettings/PlayerColorPicker.gd" type="Script" id=19]
+[ext_resource path="res://Images/Races/color_cursor.png" type="Texture" id=20]
+[ext_resource path="res://Scenes/Components/GalaxySettings/SettingsText.gd" type="Script" id=21]
+
+[node name="GalaxySettingsScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Placeholder" type="Sprite" parent="."]
+
+visibility/visible = false
+visibility/opacity = 0.2
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Layout" type="Node2D" parent="."]
+
+editor/display_folded = true
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Border" type="Sprite" parent="Layout"]
+
+texture = ExtResource( 3 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Title" type="Label" parent="Layout"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 523.0
+margin/top = 14.0
+margin/right = 615.0
+margin/bottom = 28.0
+text = "Player Species"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Galaxy3D" parent="." instance=ExtResource( 4 )]
+
+[node name="RaceListAnchor" type="Position2D" parent="."]
+
+editor/display_folded = true
+transform/pos = Vector2( 503, 46 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="RaceList" type="Node2D" parent="RaceListAnchor"]
+
+script/script = ExtResource( 5 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="RaceListAnchor/RaceList"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -1.0
+margin/top = -1.0
+margin/right = 130.0
+margin/bottom = 327.0
+scroll/horizontal = false
+scroll/vertical = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RaceListAnchor/RaceList/ScrollContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+alignment = 0
+
+[node name="RaceDisplayAnchor" type="Position2D" parent="."]
+
+transform/pos = Vector2( 327, 7 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RaceDisplay" type="Node2D" parent="RaceDisplayAnchor"]
+
+script/script = ExtResource( 6 )
+
+[node name="RaceName" type="Label" parent="RaceDisplayAnchor/RaceDisplay"]
+
+material/material = ExtResource( 7 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 20.0
+margin/top = 8.0
+margin/right = 145.0
+margin/bottom = 22.0
+text = "Minions"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RacePortrait" type="Sprite" parent="RaceDisplayAnchor/RaceDisplay"]
+
+transform/pos = Vector2( 82, 90 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="RaceRing" type="Sprite" parent="RaceDisplayAnchor/RaceDisplay/RacePortrait"]
+
+texture = ExtResource( 9 )
+
+[node name="RaceHomePlanet" type="Sprite" parent="RaceDisplayAnchor/RaceDisplay"]
+
+transform/pos = Vector2( 81, 210 )
+texture = ExtResource( 10 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RaceFlag" type="Sprite" parent="RaceDisplayAnchor/RaceDisplay"]
+
+transform/pos = Vector2( 114, 198 )
+texture = ExtResource( 11 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RaceDescription" type="Label" parent="RaceDisplayAnchor/RaceDisplay"]
+
+material/material = ExtResource( 7 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 6.0
+margin/top = 256.0
+margin/right = 163.0
+margin/bottom = 361.0
+text = "Lorem ipsum
+Minions are great
+Hello Godot"
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="UI" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DensityAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 7, 381 )
+
+[node name="Density" type="TextureButton" parent="UI/DensityAnchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 116.0
+margin/bottom = 92.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 12 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 13 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="DensityLabel" type="Label" parent="UI/DensityAnchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 22.0
+margin/top = 9.0
+margin/right = 99.0
+margin/bottom = 23.0
+text = "Star Density"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="RacesAnchor" type="Position2D" parent="UI"]
+
+editor/display_folded = true
+transform/pos = Vector2( 131, 381 )
+
+[node name="Races" type="TextureButton" parent="UI/RacesAnchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 116.0
+margin/bottom = 92.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 14 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 15 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="RacesLabel" type="Label" parent="UI/RacesAnchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 34.0
+margin/top = 9.0
+margin/right = 83.0
+margin/bottom = 23.0
+text = "Species"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="AtmosphereAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 255, 381 )
+
+[node name="Atmosphere" type="TextureButton" parent="UI/AtmosphereAnchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 116.0
+margin/bottom = 92.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 16 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 17 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AtmosphereLabel" type="Label" parent="UI/AtmosphereAnchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 17.0
+margin/top = 9.0
+margin/right = 96.0
+margin/bottom = 23.0
+text = "Atmosphere"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="PlayerColorAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 379, 381 )
+
+[node name="PlayerColors" type="HBoxContainer" parent="UI/PlayerColorAnchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 52.0
+margin/right = 113.0
+margin/bottom = 77.0
+custom_constants/separation = 1
+alignment = 0
+script/script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Green" type="TextureButton" parent="UI/PlayerColorAnchor/PlayerColors"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 15.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 19 )
+color = Color( 0.00392157, 0.694118, 0.321569, 1 )
+
+[node name="Purple" type="TextureButton" parent="UI/PlayerColorAnchor/PlayerColors"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 16.0
+margin/top = 0.0
+margin/right = 31.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 19 )
+color = Color( 0.533333, 0, 0.564706, 1 )
+
+[node name="Yellow" type="TextureButton" parent="UI/PlayerColorAnchor/PlayerColors"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 32.0
+margin/top = 0.0
+margin/right = 47.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 19 )
+color = Color( 1, 0.984314, 0, 1 )
+
+[node name="Pink" type="TextureButton" parent="UI/PlayerColorAnchor/PlayerColors"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 48.0
+margin/top = 0.0
+margin/right = 63.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 19 )
+color = Color( 0.819608, 0.407843, 0.792157, 1 )
+
+[node name="Brown" type="TextureButton" parent="UI/PlayerColorAnchor/PlayerColors"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 64.0
+margin/top = 0.0
+margin/right = 79.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 19 )
+color = Color( 0.292969, 0.138231, 0.0709534, 1 )
+
+[node name="Blue" type="TextureButton" parent="UI/PlayerColorAnchor/PlayerColors"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 80.0
+margin/top = 0.0
+margin/right = 95.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 19 )
+color = Color( 0.0745098, 0.411765, 0.807843, 1 )
+
+[node name="Orange" type="TextureButton" parent="UI/PlayerColorAnchor/PlayerColors"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 96.0
+margin/top = 0.0
+margin/right = 111.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 19 )
+color = Color( 1, 0.584314, 0, 1 )
+
+[node name="PlayerColorLabel" type="Label" parent="UI/PlayerColorAnchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 20.0
+margin/top = 11.0
+margin/right = 96.0
+margin/bottom = 25.0
+text = "Player Color"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PlayerColorCursor" type="TextureFrame" parent="UI/PlayerColorAnchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 52.0
+margin/right = 17.0
+margin/bottom = 77.0
+texture = ExtResource( 20 )
+stretch_mode = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="NewGameAnchor" type="Position2D" parent="UI"]
+
+transform/pos = Vector2( 502, 381 )
+
+[node name="Button" type="Button" parent="UI/NewGameAnchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 49.0
+margin/top = 69.0
+margin/right = 131.0
+margin/bottom = 89.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "New Game"
+flat = false
+
+[node name="TextureButton" type="TextureButton" parent="UI/NewGameAnchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 131.0
+margin/bottom = 92.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="GalaxySettingsAnchor" type="Position2D" parent="UI"]
+
+editor/display_folded = true
+transform/pos = Vector2( 107, 324 )
+
+[node name="GalaxySettingsText" type="VBoxContainer" parent="UI/GalaxySettingsAnchor"]
+
+rect/min_size = Vector2( 250, 42 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -40.0
+margin/top = 0.0
+margin/right = 210.0
+margin/bottom = 42.0
+custom_constants/separation = 0
+alignment = 0
+script/script = ExtResource( 21 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Density" type="Label" parent="UI/GalaxySettingsAnchor/GalaxySettingsText"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 250.0
+margin/bottom = 14.0
+text = "Average Star Cluster"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Races" type="Label" parent="UI/GalaxySettingsAnchor/GalaxySettingsText"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 14.0
+margin/right = 250.0
+margin/bottom = 28.0
+text = "Five Species"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Atmosphere" type="Label" parent="UI/GalaxySettingsAnchor/GalaxySettingsText"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 28.0
+margin/right = 250.0
+margin/bottom = 42.0
+text = "Neutral Atmosphere"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+
