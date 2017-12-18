@@ -1,0 +1,323 @@
+[gd_scene load_steps=13 format=1]
+
+[ext_resource path="res://Scenes/Components/Research/ResearchScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Placeholder/ascend_002.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/Research/border.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Components/Research/ResearchViewportSprite.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Components/Research/Research3D.gd" type="Script" id=5]
+[ext_resource path="res://Images/Screens/Research/Research/restree.shp_01.png" type="Texture" id=6]
+[ext_resource path="res://Images/Screens/Research/Rings/active.png" type="Texture" id=7]
+[ext_resource path="res://Images/Screens/Research/Layout/left.png" type="Texture" id=8]
+[ext_resource path="res://Images/Screens/Research/Layout/right.png" type="Texture" id=9]
+[ext_resource path="res://Images/Screens/Research/Layout/up.png" type="Texture" id=10]
+[ext_resource path="res://Images/Screens/Research/Layout/down.png" type="Texture" id=11]
+
+[sub_resource type="FixedMaterial" id=1]
+
+flags/visible = true
+flags/double_sided = false
+flags/invert_faces = false
+flags/unshaded = true
+flags/on_top = false
+flags/lightmap_on_uv2 = true
+flags/colarray_is_srgb = true
+params/blend_mode = 0
+params/depth_draw = 1
+params/line_width = 0.0
+fixed_flags/use_alpha = false
+fixed_flags/use_color_array = false
+fixed_flags/use_point_size = false
+fixed_flags/discard_alpha = false
+fixed_flags/use_xy_normalmap = false
+params/diffuse = Color( 1, 1, 1, 1 )
+params/specular = Color( 0, 0, 0, 1 )
+params/emission = Color( 0, 0, 0, 1 )
+params/specular_exp = 40
+params/detail_mix = 1.0
+params/normal_depth = 1
+params/shader = 0
+params/shader_param = 0.5
+params/glow = 0
+params/point_size = 1.0
+uv_xform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+textures/diffuse_tc = 0
+textures/detail_tc = 0
+textures/specular_tc = 0
+textures/emission_tc = 0
+textures/specular_exp_tc = 0
+textures/glow_tc = 0
+textures/normal_tc = 0
+textures/shade_param_tc = 0
+
+[node name="ResearchScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Placeholder" type="Sprite" parent="."]
+
+visibility/opacity = 0.2
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Border" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 3 )
+centered = false
+
+[node name="ResearchTree" type="Position2D" parent="."]
+
+transform/pos = Vector2( 7, 46 )
+
+[node name="Research3D" type="Node2D" parent="ResearchTree"]
+
+transform/pos = Vector2( -7, -46 )
+
+[node name="ViewportSprite" type="ViewportSprite" parent="ResearchTree/Research3D"]
+
+transform/pos = Vector2( 7, 46 )
+viewport = NodePath("../Viewport")
+centered = false
+script/script = ExtResource( 4 )
+
+[node name="Viewport" type="Viewport" parent="ResearchTree/Research3D"]
+
+rect = Rect2( 0, 0, 470, 427 )
+own_world = false
+world = null
+transparent_bg = true
+render_target/enabled = true
+render_target/v_flip = false
+render_target/clear_on_new_frame = true
+render_target/filter = false
+render_target/gen_mipmaps = false
+render_target/update_mode = 2
+audio_listener/enable_2d = false
+audio_listener/enable_3d = false
+physics/object_picking = true
+gui/disable_input = false
+
+[node name="research_root" type="Spatial" parent="ResearchTree/Research3D/Viewport"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+script/script = ExtResource( 5 )
+
+[node name="research_center" type="Spatial" parent="ResearchTree/Research3D/Viewport/research_root"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="LineDrawer" type="ImmediateGeometry" parent="ResearchTree/Research3D/Viewport/research_root/research_center"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+layers = 1
+geometry/visible = true
+geometry/material_override = SubResource( 1 )
+geometry/cast_shadow = 0
+geometry/receive_shadows = false
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
+
+[node name="sprites_anchor" type="Spatial" parent="ResearchTree/Research3D/Viewport/research_root/research_center"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="Camera" type="Camera" parent="ResearchTree/Research3D/Viewport/research_root"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -16, 12 )
+projection = 1
+size = 50.0
+near = 0.1
+far = 100.0
+keep_aspect = 1
+current = true
+visible_layers = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+
+[node name="Title" type="Position2D" parent="."]
+
+editor/display_folded = true
+transform/pos = Vector2( 7, 7 )
+
+[node name="Flag" type="Position2D" parent="Title"]
+
+transform/pos = Vector2( 3, 3 )
+
+[node name="FlagIcon" type="TextureFrame" parent="Title/Flag"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 15.0
+margin/bottom = 25.0
+stretch_mode = 0
+
+[node name="Text" type="Position2D" parent="Title"]
+
+transform/pos = Vector2( 230, 7 )
+
+[node name="RaceKnowledge" type="Label" parent="Title/Text"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -86.0
+margin/top = 0.0
+margin/right = 95.0
+margin/bottom = 14.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="CurrentResearch" type="Position2D" parent="."]
+
+transform/pos = Vector2( 485, 7 )
+
+[node name="Current" type="Label" parent="CurrentResearch"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 2.0
+margin/top = 7.0
+margin/right = 146.0
+margin/bottom = 21.0
+text = "Current Project:"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ActiveResearch" type="Sprite" parent="CurrentResearch"]
+
+transform/pos = Vector2( 73, 57 )
+texture = ExtResource( 6 )
+
+[node name="Ring" type="Sprite" parent="CurrentResearch"]
+
+transform/pos = Vector2( 73, 57 )
+texture = ExtResource( 7 )
+
+[node name="Title" type="Label" parent="CurrentResearch"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 2.0
+margin/top = 94.0
+margin/right = 146.0
+margin/bottom = 108.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Time" type="Label" parent="CurrentResearch"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 2.0
+margin/top = 109.0
+margin/right = 146.0
+margin/bottom = 123.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ResearchEnables" type="Position2D" parent="."]
+
+transform/pos = Vector2( 485, 147 )
+
+[node name="Buttons" type="Position2D" parent="."]
+
+transform/pos = Vector2( 524, 442 )
+
+[node name="Left" type="TextureButton" parent="Buttons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 16.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 8 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Right" type="TextureButton" parent="Buttons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 16.0
+margin/top = 0.0
+margin/right = 31.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 9 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Up" type="TextureButton" parent="Buttons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 39.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 16.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 10 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Down" type="TextureButton" parent="Buttons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 39.0
+margin/top = 16.0
+margin/right = 70.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+
