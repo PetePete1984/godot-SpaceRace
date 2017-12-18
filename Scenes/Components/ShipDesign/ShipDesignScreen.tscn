@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://Scenes/Components/ShipDesign/ShipDesignScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Screens/ShipDesign/border.png" type="Texture" id=2]
+[ext_resource path="res://Images/Placeholder/ascend_019.png" type="Texture" id=3]
+
+[node name="ShipDesignScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Border" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 640.0
+margin/bottom = 480.0
+texture = ExtResource( 2 )
+stretch_mode = 0
+
+[node name="Placeholder" type="Sprite" parent="."]
+
+visibility/opacity = 0.25
+texture = ExtResource( 3 )
+centered = false
+
+[node name="Flag" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+stretch_mode = 0
+
+[node name="CategoryButtons" type="Position2D" parent="."]
+
+transform/pos = Vector2( 485, 7 )
+
+[node name="SelectedGizmoDisplay" type="Position2D" parent="."]
+
+transform/pos = Vector2( 315, 7 )
+
+[node name="TextAnchor" type="Position2D" parent="."]
+
+transform/pos = Vector2( 154, 10 )
+
+[node name="SizeButton" type="Position2D" parent="."]
+
+transform/pos = Vector2( 524, 7 )
+
+[node name="ShipPreview" type="Position2D" parent="."]
+
+transform/pos = Vector2( 7, 114 )
+
+[node name="TileMapAnchor" type="Position2D" parent="."]
+
+transform/pos = Vector2( 7, 114 )
+
+
