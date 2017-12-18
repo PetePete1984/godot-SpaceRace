@@ -1,0 +1,273 @@
+[gd_scene load_steps=11 format=1]
+
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/01_shipyard.png" type="Texture" id=1]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/02_missiles.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/03_dock.png" type="Texture" id=3]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/04_cloaker.png" type="Texture" id=4]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/05_shield.png" type="Texture" id=5]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/06_mega_shield.png" type="Texture" id=6]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/08_short_whopper.png" type="Texture" id=7]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/09_long_whopper.png" type="Texture" id=8]
+[ext_resource path="res://Images/Races/Ships/smship20/smship20.shp_4.png" type="Texture" id=9]
+
+
+
+
+
+
+
+
+
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 35, 35 )
+
+[node name="Node" type="Node"]
+
+[node name="Shipyard" type="Sprite" parent="."]
+
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="Shipyard"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="Shipyard/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Missiles" type="Sprite" parent="."]
+
+transform/pos = Vector2( 90, 0 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="Missiles"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="Missiles/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="OrbitalDock" type="Sprite" parent="."]
+
+transform/pos = Vector2( 180, 0 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="OrbitalDock"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="OrbitalDock/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Cloaker" type="Sprite" parent="."]
+
+transform/pos = Vector2( 270, 0 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="Cloaker"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="Cloaker/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Shield" type="Sprite" parent="."]
+
+transform/pos = Vector2( 360, 0 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="Shield"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="Shield/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="MegaShield" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 90 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="MegaShield"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="MegaShield/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="ShortRangeWhopper" type="Sprite" parent="."]
+
+transform/pos = Vector2( 90, 90 )
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="ShortRangeWhopper"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="ShortRangeWhopper/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="LongRangeWhopper" type="Sprite" parent="."]
+
+transform/pos = Vector2( 180, 90 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="LongRangeWhopper"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="LongRangeWhopper/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Ship" type="Sprite" parent="."]
+
+transform/pos = Vector2( 270, 90 )
+transform/scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="static" type="StaticBody2D" parent="Ship"]
+
+transform/scale = Vector2( 2, 2 )
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="collider" type="CollisionShape2D" parent="Ship/static"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+

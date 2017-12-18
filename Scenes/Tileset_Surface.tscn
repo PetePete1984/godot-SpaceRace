@@ -1,0 +1,187 @@
+[gd_scene load_steps=27 format=1]
+
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/01_factory.png" type="Texture" id=1]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/02_agriplot.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/03_laboratory.png" type="Texture" id=3]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/04_habitat.png" type="Texture" id=4]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/05_metroplex.png" type="Texture" id=5]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/06_colony_base.png" type="Texture" id=6]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/07_industrial_mega_facility.png" type="Texture" id=7]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/08_artificial_hydroponifer.png" type="Texture" id=8]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/09_research_campus.png" type="Texture" id=9]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/10_logic_factory.png" type="Texture" id=10]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/11_engineer_retreat.png" type="Texture" id=11]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/12_surface_cloaker.png" type="Texture" id=12]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/13_hyperpower_plant.png" type="Texture" id=13]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/14_fertilization_plant.png" type="Texture" id=14]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/15_internet.png" type="Texture" id=15]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/16_cloning_plant.png" type="Texture" id=16]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/17_observatory.png" type="Texture" id=17]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/18_tractor_beam.png" type="Texture" id=18]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/19_surface_shield.png" type="Texture" id=19]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/20_mega_shield.png" type="Texture" id=20]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/21_outpost.png" type="Texture" id=21]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/22_transport_tubes.png" type="Texture" id=22]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/23_broken.png" type="Texture" id=23]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/24_terraforming.png" type="Texture" id=24]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/25_xeno_dig.png" type="Texture" id=25]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Surface/26_xeno_ruins.png" type="Texture" id=26]
+
+[node name="Node" type="Node"]
+
+[node name="01Factory" type="Sprite" parent="."]
+
+texture = ExtResource( 1 )
+offset = Vector2( 0, -10 )
+
+[node name="02Agriplot" type="Sprite" parent="."]
+
+transform/pos = Vector2( 80, 0 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -10 )
+
+[node name="03Laboratory" type="Sprite" parent="."]
+
+transform/pos = Vector2( 160, 0 )
+texture = ExtResource( 3 )
+offset = Vector2( 0, -10 )
+
+[node name="04Habitat" type="Sprite" parent="."]
+
+transform/pos = Vector2( 240, 0 )
+texture = ExtResource( 4 )
+offset = Vector2( 0, -10 )
+
+[node name="05Metroplex" type="Sprite" parent="."]
+
+transform/pos = Vector2( 320, 0 )
+texture = ExtResource( 5 )
+offset = Vector2( 0, -10 )
+
+[node name="06ColonyBase" type="Sprite" parent="."]
+
+transform/pos = Vector2( 400, 0 )
+texture = ExtResource( 6 )
+offset = Vector2( 0, -10 )
+
+[node name="07IndustrialMegaFacility" type="Sprite" parent="."]
+
+transform/pos = Vector2( 480, 0 )
+texture = ExtResource( 7 )
+offset = Vector2( 0, -10 )
+
+[node name="08Hydroponifer" type="Sprite" parent="."]
+
+transform/pos = Vector2( 560, 0 )
+texture = ExtResource( 8 )
+offset = Vector2( 0, -10 )
+
+[node name="09ResearchCampus" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 55 )
+texture = ExtResource( 9 )
+offset = Vector2( 0, -10 )
+
+[node name="10LogicFactory" type="Sprite" parent="."]
+
+transform/pos = Vector2( 80, 55 )
+texture = ExtResource( 10 )
+offset = Vector2( 0, -10 )
+
+[node name="11EngineerRetreat" type="Sprite" parent="."]
+
+transform/pos = Vector2( 160, 55 )
+texture = ExtResource( 11 )
+offset = Vector2( 0, -10 )
+
+[node name="12OrbitalCloaker" type="Sprite" parent="."]
+
+transform/pos = Vector2( 240, 55 )
+texture = ExtResource( 12 )
+offset = Vector2( 0, -10 )
+
+[node name="13HyperpowerPlant" type="Sprite" parent="."]
+
+transform/pos = Vector2( 320, 55 )
+texture = ExtResource( 13 )
+offset = Vector2( 0, -10 )
+
+[node name="14FertilizationPlant" type="Sprite" parent="."]
+
+transform/pos = Vector2( 400, 55 )
+texture = ExtResource( 14 )
+offset = Vector2( 0, -10 )
+
+[node name="15Internet" type="Sprite" parent="."]
+
+transform/pos = Vector2( 480, 55 )
+texture = ExtResource( 15 )
+offset = Vector2( 0, -10 )
+
+[node name="16CloningPlant" type="Sprite" parent="."]
+
+transform/pos = Vector2( 560, 55 )
+texture = ExtResource( 16 )
+offset = Vector2( 0, -10 )
+
+[node name="17Observatory" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 110 )
+texture = ExtResource( 17 )
+offset = Vector2( 0, -10 )
+
+[node name="18TractorBeam" type="Sprite" parent="."]
+
+transform/pos = Vector2( 80, 110 )
+texture = ExtResource( 18 )
+offset = Vector2( 0, -10 )
+
+[node name="19SurfaceShield" type="Sprite" parent="."]
+
+transform/pos = Vector2( 160, 110 )
+texture = ExtResource( 19 )
+offset = Vector2( 0, -10 )
+
+[node name="20MegaShield" type="Sprite" parent="."]
+
+transform/pos = Vector2( 240, 110 )
+texture = ExtResource( 20 )
+offset = Vector2( 0, -10 )
+
+[node name="21Outpost" type="Sprite" parent="."]
+
+transform/pos = Vector2( 320, 110 )
+texture = ExtResource( 21 )
+offset = Vector2( 0, -10 )
+
+[node name="22TransportTubes" type="Sprite" parent="."]
+
+transform/pos = Vector2( 400, 110 )
+texture = ExtResource( 22 )
+offset = Vector2( 0, -10 )
+
+[node name="23Broken" type="Sprite" parent="."]
+
+transform/pos = Vector2( 480, 110 )
+texture = ExtResource( 23 )
+offset = Vector2( 0, -10 )
+
+[node name="24Terraforming" type="Sprite" parent="."]
+
+transform/pos = Vector2( 560, 110 )
+texture = ExtResource( 24 )
+offset = Vector2( 0, -10 )
+
+[node name="25XenoDig" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 165 )
+texture = ExtResource( 25 )
+offset = Vector2( 0, -10 )
+
+[node name="26XenoRuins" type="Sprite" parent="."]
+
+transform/pos = Vector2( 80, 165 )
+texture = ExtResource( 26 )
+offset = Vector2( 0, -10 )
+
+

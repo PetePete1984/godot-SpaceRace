@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Images/AscendancyPlanetTile3.png" type="Texture" id=1]
+[ext_resource path="res://Images/AscendancySmallPlanetTile.png" type="Texture" id=2]
+
+[node name="TileSetPlanetCells" type="Node"]
+
+[node name="big black" type="Sprite" parent="."]
+
+texture = ExtResource( 1 )
+offset = Vector2( 0, -1 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="big white" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 68 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -1 )
+
+[node name="big red" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 136 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -1 )
+modulate = Color( 1, 0, 0, 1 )
+
+[node name="big green" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 204 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -1 )
+modulate = Color( 0, 1, 0, 1 )
+
+[node name="big blue" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, 272 )
+texture = ExtResource( 1 )
+offset = Vector2( 0, -1 )
+modulate = Color( 0, 0, 1, 1 )
+
+[node name="small black" type="Sprite" parent="."]
+
+transform/pos = Vector2( 68, 0 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -1 )
+modulate = Color( 0, 0, 0, 1 )
+
+[node name="small white" type="Sprite" parent="."]
+
+transform/pos = Vector2( 68, 68 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -1 )
+
+[node name="small red" type="Sprite" parent="."]
+
+transform/pos = Vector2( 68, 136 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -1 )
+modulate = Color( 1, 0, 0, 1 )
+
+[node name="small green" type="Sprite" parent="."]
+
+transform/pos = Vector2( 68, 204 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -1 )
+modulate = Color( 0, 1, 0, 1 )
+
+[node name="small blue" type="Sprite" parent="."]
+
+transform/pos = Vector2( 68, 272 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, -1 )
+modulate = Color( 0, 0, 1, 1 )
+
+
