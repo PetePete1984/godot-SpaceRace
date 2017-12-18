@@ -1,0 +1,314 @@
+[gd_scene load_steps=21 format=1]
+
+[ext_resource path="res://Scenes/Components/Battle/BattleScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Screens/Battle/Layout/border.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/Battle/Layout/buttons_planet.png" type="Texture" id=3]
+[ext_resource path="res://Images/Screens/Battle/Layout/buttons_ship.png" type="Texture" id=4]
+[ext_resource path="res://Images/Screens/Battle/Layout/buttons_normal.png" type="Texture" id=5]
+[ext_resource path="res://Images/Screens/Battle/Layout/move_pass.png" type="Texture" id=6]
+[ext_resource path="res://Images/Screens/Battle/Layout/move_repeat.png" type="Texture" id=7]
+[ext_resource path="res://Images/Screens/Battle/Layout/move_auto.png" type="Texture" id=8]
+[ext_resource path="res://Images/Screens/Battle/Layout/list_own.png" type="Texture" id=9]
+[ext_resource path="res://Images/Screens/Battle/Layout/list_other.png" type="Texture" id=10]
+[ext_resource path="res://Images/Screens/Battle/Layout/left.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/Components/ControlButton.gd" type="Script" id=12]
+[ext_resource path="res://Images/Screens/Battle/Layout/right.png" type="Texture" id=13]
+[ext_resource path="res://Images/Screens/Battle/Layout/up.png" type="Texture" id=14]
+[ext_resource path="res://Images/Screens/Battle/Layout/down.png" type="Texture" id=15]
+[ext_resource path="res://Images/Screens/Battle/Layout/grid_toggle.png" type="Texture" id=16]
+[ext_resource path="res://Images/Screens/Battle/Layout/radar.png" type="Texture" id=17]
+[ext_resource path="res://Images/Screens/Battle/Layout/center.png" type="Texture" id=18]
+[ext_resource path="res://Images/Screens/Battle/Layout/abandon.png" type="Texture" id=19]
+[ext_resource path="res://Scenes/Components/Battle/BattleViewport.tscn" type="PackedScene" id=20]
+
+[node name="BattleScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Border" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+centered = false
+
+[node name="TopButtons" type="Position2D" parent="."]
+
+editor/display_folded = true
+transform/pos = Vector2( 466, 0 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Planet" type="Node2D" parent="TopButtons"]
+
+editor/display_folded = true
+visibility/visible = false
+
+[node name="Border" type="Sprite" parent="TopButtons/Planet"]
+
+texture = ExtResource( 3 )
+centered = false
+
+[node name="Ships" type="Node2D" parent="TopButtons"]
+
+visibility/visible = false
+
+[node name="Border" type="Sprite" parent="TopButtons/Ships"]
+
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Normal" type="Node2D" parent="TopButtons"]
+
+[node name="Border" type="Sprite" parent="TopButtons/Normal"]
+
+texture = ExtResource( 5 )
+centered = false
+
+[node name="Star" type="Sprite" parent="TopButtons/Normal"]
+
+transform/pos = Vector2( 28, 22 )
+transform/scale = Vector2( 0.2, 0.2 )
+
+[node name="Star Name" type="Label" parent="TopButtons/Normal"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 8.0
+margin/right = 97.0
+margin/bottom = 22.0
+text = "Gasball"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Star Type" type="Label" parent="TopButtons/Normal"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 50.0
+margin/top = 24.0
+margin/right = 136.0
+margin/bottom = 38.0
+text = "Blue Medium"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Controls" type="Node2D" parent="TopButtons/Normal"]
+
+editor/display_folded = true
+
+[node name="Pass" type="Sprite" parent="TopButtons/Normal/Controls"]
+
+transform/pos = Vector2( 13, 55 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Repeat" type="Sprite" parent="TopButtons/Normal/Controls"]
+
+transform/pos = Vector2( 65, 55 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Auto" type="Sprite" parent="TopButtons/Normal/Controls"]
+
+transform/pos = Vector2( 117, 55 )
+texture = ExtResource( 8 )
+centered = false
+
+[node name="ListOwn" type="Sprite" parent="TopButtons/Normal/Controls"]
+
+transform/pos = Vector2( 13, 103 )
+texture = ExtResource( 9 )
+centered = false
+
+[node name="ListOther" type="Sprite" parent="TopButtons/Normal/Controls"]
+
+transform/pos = Vector2( 91, 103 )
+texture = ExtResource( 10 )
+centered = false
+
+[node name="BottomButtons" type="Position2D" parent="."]
+
+transform/pos = Vector2( 479, 403 )
+
+[node name="Left" type="TextureButton" parent="BottomButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 11 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="Right" type="TextureButton" parent="BottomButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 15.0
+margin/top = 0.0
+margin/right = 31.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 13 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="Up" type="TextureButton" parent="BottomButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 39.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 16.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 14 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="Down" type="TextureButton" parent="BottomButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 39.0
+margin/top = 16.0
+margin/right = 70.0
+margin/bottom = 32.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 15 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="Grid" type="TextureButton" parent="BottomButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 78.0
+margin/top = 0.0
+margin/right = 109.0
+margin/bottom = 16.0
+toggle_mode = true
+is_pressed = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 16 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="Radar" type="TextureButton" parent="BottomButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 117.0
+margin/top = 0.0
+margin/right = 148.0
+margin/bottom = 16.0
+toggle_mode = true
+is_pressed = true
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 17 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="Reset" type="TextureButton" parent="BottomButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 117.0
+margin/top = 39.0
+margin/right = 148.0
+margin/bottom = 55.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 18 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="Panel" type="Panel" parent="BottomButtons"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 39.0
+margin/right = 70.0
+margin/bottom = 70.0
+
+[node name="Abandon" type="TextureButton" parent="BottomButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 39.0
+margin/right = 31.0
+margin/bottom = 55.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 19 )
+params/resize_mode = 0
+params/stretch_mode = 0
+script/script = ExtResource( 12 )
+
+[node name="RaceFlag" type="Position2D" parent="."]
+
+transform/pos = Vector2( 10, 10 )
+
+[node name="BattleViewport" parent="." instance=ExtResource( 20 )]
+
+transform/pos = Vector2( 7, 7 )
+
+[node name="ViewportBottomAnchor" type="Position2D" parent="."]
+
+transform/pos = Vector2( 466, 473 )
+
+[node name="ItemList" type="Position2D" parent="."]
+
+transform/pos = Vector2( 474, 142 )
+
+
