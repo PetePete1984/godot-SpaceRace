@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Scenes/Components/ShipList/ShipListScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Placeholder/ascend_003.png" type="Texture" id=2]
+
+[node name="ShipListScreen" type="Node2D"]
+
+transform/pos = Vector2( 2, 0 )
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Sprite" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+centered = false
+
+
