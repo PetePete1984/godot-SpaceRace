@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=1]
+
+[ext_resource path="res://Scenes/Components/PlanetList/PlanetListScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Placeholder/ascend_004.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/PlanetList/border.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Components/PlanetList/PlanetList.gd" type="Script" id=4]
+
+[node name="PlanetListScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Placeholder" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 2 )
+centered = false
+
+[node name="ItemList" type="ItemList" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 25.0
+margin/top = 68.0
+margin/right = 445.0
+margin/bottom = 337.0
+
+[node name="Tree" type="Tree" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 23.0
+margin/top = 280.0
+margin/right = 411.0
+margin/bottom = 441.0
+
+[node name="Flag" type="Sprite" parent="."]
+
+[node name="Border" type="Sprite" parent="."]
+
+texture = ExtResource( 3 )
+centered = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 7.0
+margin/top = 46.0
+margin/right = 633.0
+margin/bottom = 473.0
+scroll/horizontal = true
+scroll/vertical = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+alignment = 0
+script/script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+
