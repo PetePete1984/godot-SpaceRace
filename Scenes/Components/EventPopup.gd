@@ -39,16 +39,19 @@ func set_event(event):
 func spawn_button(type, target = null):
 	if type == "OK":
 		var btn = Button.new()
+		btn.set_h_size_flags(SIZE_EXPAND_FILL)
 		btn.set_text("OK")
 		buttons.add_child(btn)
 		btn.connect("pressed", self, "_on_ok_button")
 	elif type == "construction":
 		var btn = Button.new()
+		btn.set_h_size_flags(SIZE_EXPAND_FILL)
 		btn.set_text("Go to Planet")
 		buttons.add_child(btn)
 		btn.connect("pressed", self, "_on_planet_button", [target])
 	elif type == "research":
 		var btn = Button.new()
+		btn.set_h_size_flags(SIZE_EXPAND_FILL)
 		btn.set_text("Go to Research")
 		buttons.add_child(btn)
 		btn.connect("pressed", self, "_on_research_button", [target])
@@ -56,15 +59,19 @@ func spawn_button(type, target = null):
 	
 func _on_ok_button():
 	hide()
-	emit_signal("event_dismissed")
-	queue_free()
+	dismiss()
 	
 func _on_planet_button(planet):
 	hide()
 	emit_signal("planet_picked", planet)
-	queue_free()
+	dismiss()
 	
 func _on_research_button(player):
 	hide()
 	emit_signal("research", player)
+	dismiss()
+	
+func dismiss():
+	emit_signal("event_dismissed")
 	queue_free()
+	

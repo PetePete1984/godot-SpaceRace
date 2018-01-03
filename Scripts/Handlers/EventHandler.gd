@@ -20,6 +20,12 @@ func add_event(player, event):
 		events[race] = []
 	events[race].append(event)
 	pass
+	
+func count_events(player):
+	if events.has(player.race.type):
+		return events[player.race.type].size()
+	else:
+		return 0	
 
 func get_events(player):
 	if events.has(player.race.type):
@@ -43,8 +49,14 @@ func display_event(event):
 	pop.set_event(event)
 	pop.connect("planet_picked", self, "_on_planet_picked")
 	pop.connect("research", self, "_on_research")
-	pass
-	
+	return pop
+
+func has_popups():
+	return anchor_object.get_children().size() > 0
+
+func dismiss_top():
+	anchor_object.get_children()[-1].dismiss()
+
 func _on_planet_picked(planet):
 	emit_signal("planet_picked", planet)
 
