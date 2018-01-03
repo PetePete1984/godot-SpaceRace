@@ -18,6 +18,11 @@ func rand_pick_from_dict(dict):
 	var keys = dict.keys()
 	var index = randi() % keys.size()
 	return dict[keys[index]]
+	
+func rand_key_from_dict(dict):
+	var keys = dict.keys()
+	var index = randi() % keys.size()
+	return keys[index]
 
 func rand_pick_from_array(array):
 	var index = randi() % array.size()
