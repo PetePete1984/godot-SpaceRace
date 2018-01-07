@@ -4,6 +4,11 @@ var display = preload("res://Scenes/Components/PlanetList/SinglePlanetDisplay.ts
 
 func _ready():
 	pass
+	
+func update():
+	for c in get_children():
+		c.update()
+	pass
 
 func set_planets(player, parent):
 	for d in get_children():

@@ -28,8 +28,11 @@ func set_player(player):
 	pass
 
 # TODO: when returning from a planet screen, update the list because the project might be changed
+func update():
+	PlanetList.update()
 
 func _ready():
+	connect("visibility_changed", self, "update")
 	pass
 
 func _on_system_clicked(system):

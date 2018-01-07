@@ -20,8 +20,18 @@ onready var Project = get_node("Project")
 
 onready var SystemButton = get_node("SystemButton")
 onready var PlanetButton = get_node("PlanetButton")
+
+var shows_planet = null
 	
 func set_planet(planet):
+	shows_planet = planet
+	update()
+	connect_buttons(planet)
+	pass
+	
+func update():
+	# TODO: remember planet state in planets so they can be marked dirty only on change
+	var planet = shows_planet
 	Flag.set_texture(TextureHandler.get_race_flag(planet.owner))
 	SunIcon.set_texture(TextureHandler.get_star(planet.system))
 	
@@ -54,7 +64,6 @@ func set_planet(planet):
 		if planet.population.idle == 0:
 			no_proj_text += " (No free population)"
 		Project.set_text(no_proj_text)
-	connect_buttons(planet)
 	pass
 	
 func connect_buttons(planet):
