@@ -19,7 +19,9 @@ func _start_game():
 func setup_display(galaxy_settings, race_key, color):
 	var race = RaceDefinitions.race[race_key]
 	# FIXME: entry seems to be missing sometimes, probably unparsed (maybe init empty)
-	var flavor = race.race_history[galaxy_settings.atmosphere]
+	var flavor = ""
+	if race.race_history.has(galaxy_settings.atmosphere):
+		flavor = race.race_history[galaxy_settings.atmosphere]
 	
 	title.set_text("%s: %s" % [race.race_name, race.race_history.power])
 	desc.set_text("%s" % race.race_history.intro + str(flavor))
