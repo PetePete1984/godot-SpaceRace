@@ -13,8 +13,8 @@ func _ready():
 	game_state = GameStateHandler.get_most_current_game_state()
 	
 	ScreenHandler.connect_signals()
-	EventHandler.anchor_object = get_node("EventAnchor")
-	TurnHandler.connect("turn_finished", ScreenHandler, "_update_turn")
+	EventHandler.anchor_object = ScreenHandler.get_node("GalaxyScreen/EventAnchor")
+	
 	ScreenHandler.title_screen()
 	#save_game_state()
 	set_process(true)
@@ -23,7 +23,10 @@ func _ready():
 	
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		ScreenHandler.return_screen()
+		if EventHandler.has_popups():
+			EventHandler.dismiss_top()
+		else:
+			ScreenHandler.return_screen()
 	# DEBUG keys
 	if event.type == InputEvent.KEY and event.scancode == KEY_E:
 		pass

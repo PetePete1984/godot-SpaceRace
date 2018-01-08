@@ -24,27 +24,36 @@ func _ready():
 	pass
 
 func connect_signals():
+	# connect turn display
+	TurnHandler.connect("turn_finished", self, "_update_turn")
+	
+	# connect title screen buttons
 	TitleScreen.connect("new_game", self, "request_new_game")
-	TitleScreen.connect("resume_game", self, "move_to_screen", [GalaxyScreen])
-	#GalaxySettingsScreen.connect("confirm_settings", self, "move_to_screen", [RaceIntroScreen])
+	TitleScreen.connect("resume_game", self, "init_gameplay")
+	
+	# connect "new game" on settings screen
 	GalaxySettingsScreen.connect("galaxy_init", self, "use_galaxy_options_and_show_intro")
-	# FIXME: starting a new game must clear the screen stack, so that only the title & game remain
-	# FIXME: "returning" from the race intro screen also just moves to the game
+
+	# connect to finishing the race intro text
 	RaceIntroScreen.connect("start_game", self, "init_gameplay")
+
+	# connect to a click on a system
 	GalaxyScreen.connect("system_picked", self, "_system_view")
+	# connect main buttons
 	GalaxyScreen.connect("planetlist_requested", self, "_planetlist_view")
 	GalaxyScreen.connect("research_requested", self, "_research_view")
 	
+	# connect to a click on a planet
 	BattleScreen.connect("planet_picked", self, "_planet_view")
 	
+	# connect to buttons on event popups
 	EventHandler.connect("planet_picked", self, "_planet_view")
 	EventHandler.connect("research", self, "_research_view")
 	
 	PlanetListScreen.connect("system_clicked", self, "_system_view")
 	PlanetListScreen.connect("planet_clicked", self, "_planet_view")
-	
-	# TODO: connect game state handler directly? or talk with space race game?
-	# actual UI signals
+
+	# gameplay signals
 	GalaxyScreen.connect("next_requested", self, "_next_turn_requested")
 	GalaxyScreen.connect("auto_requested", self, "_auto_requested")
 	pass
@@ -90,13 +99,13 @@ func _galaxy_view(game_state):
 
 func _research_view(player = null):
 	# FIXME: find current human player
-	ResearchScreen.show_research(GameStateHandler.game_state.races["minions"])
+	ResearchScreen.show_research(GameStateHandler.game_state.human_player)
 	move_to_screen(ResearchScreen)
 	pass
 	
 func _planetlist_view(player = null):
 	# FIXME: find current human player
-	PlanetListScreen.set_player(GameStateHandler.game_state.races["minions"])
+	PlanetListScreen.set_player(GameStateHandler.game_state.human_player)
 	move_to_screen(PlanetListScreen)
 	
 func _system_view(system):

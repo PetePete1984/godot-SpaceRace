@@ -7,6 +7,8 @@ var galaxy = null
 var difficulty = "easy"
 var races = {}
 
+var human_player = null
+
 var galaxy_settings = {
 	"galaxy_size": "average",
 	"atmosphere": "peaceful", # "neutral", "hostile"
