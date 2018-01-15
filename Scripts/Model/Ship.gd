@@ -1,0 +1,1 @@
+# Ship in Space class (maybe also ship in orbit, we'll see)

@@ -11,11 +11,14 @@ func _ready():
 	pass
 
 func set_project(planet):
-	var project = planet.colony.project
+	var project
+	if planet.colony:
+		project = planet.colony.project
+
 	if project != null:
 		var type = project.type
 		var time = -1
-		# TODO: account for projects without a cost
+		# TODO: account for projects without a cost?
 		if planet.colony.adjusted_industry > 0:
 			time = ceil(project.remaining_industry / planet.colony.adjusted_industry)
 		if time > 0:

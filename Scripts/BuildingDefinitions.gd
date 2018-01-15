@@ -136,7 +136,9 @@ var building_defs = {
 	},
 	"transport_tubes": {
 		cost = 10,
-		used_pop = 0
+		used_pop = 0,
+		# TODO: tubes need an idle pop to start, but don't use it during building?
+		used_pop_during_construction = 0
 	},
 	"broken": {
 		buildable = false
