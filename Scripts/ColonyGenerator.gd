@@ -4,6 +4,7 @@ extends Reference
 var BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
 var Planetmap = preload("res://Scripts/Planetmap.gd")
 var Colony = preload("res://Scripts/Model/Colony.gd")
+var PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
 
 var buildings = {}
 
@@ -21,6 +22,14 @@ var colony_plan = {
 
 func initialize_colony(player, planet, home = false):
 	# TODO: use predefined sizes and types for home planets
+	if home == true:
+		var old_name = planet.planet_name
+		var old_system = planet.system
+		var home_size = RaceDefinitions.home_planets[player.race.type].size
+		var home_type = RaceDefinitions.home_planets[player.race.type].type
+		planet = PlanetGenerator.new().generate_planet(home_size, home_type)
+		planet.planet_name = old_name
+		planet.system = old_system
 	planet.owner = player
 	var colony = Colony.new()
 	colony.owner = player
@@ -42,6 +51,8 @@ func initialize_colony(player, planet, home = false):
 	#building_tile.tilemap_x = colony_tile.x
 	#building_tile.tilemap_y = colony_tile.y
 	colony.refresh()
+	# FIXME: meeeeh
+	return planet
 	pass
 
 func generate_colony(planet, plan):

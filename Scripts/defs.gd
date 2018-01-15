@@ -257,6 +257,7 @@ var planet_type = {
 	}
 }
 
+# how many pop slots are available on what planet type & size
 var planet_slots = {
 # tiny, small, medium, large, enormous
 # [min, max]
