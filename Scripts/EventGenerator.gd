@@ -3,7 +3,10 @@ extends Node
 
 const GameplayEvent = preload("res://Scripts/Model/Event.gd")
 const POPULATION = "%s has %d free population for additional projects."
-const RESEARCH_COMPLETE = "%s Science Report: Our researchers have discovered %s"
+const RESEARCH_AVAILABLE = "%s Scientist Report: A laboratory has been constructed and we are ready to begin researching new technologies."
+const RESEARCH_COMPLETE = "%s Science Report: Our researchers have discovered %s."
+const SPACE_EXPLORATION = "%s Scientist Report: We now have all technology needed to build our first ship to explore other stars. This includes generators, engines, and star lane drives."
+const SPACE_EXPLORATION_PAGE2 = ""
 #{CONSTRUCTION, FREE_POP, SPECIAL_ABILITY, 
 #	RESEARCH_COMPLETE, SPACE_EXPLORATION, RACE_SHIP_CONTACT}
 
@@ -35,6 +38,18 @@ func generate_free_pop(planet):
 func generate_special_ability():
 	pass
 	
+func generate_research_available(player):
+	var ev = GameplayEvent.new()
+	ev.type = GameplayEvent.RESEARCH_AVAILABLE
+	var race_image = TextureHandler.get_race_icon(player.race)
+	ev.images = [race_image]
+	var top_line = RESEARCH_AVAILABLE % [player.race.race_name]
+	var bottom_line = "Research topics are chosen in the research screen."
+	ev.text = [top_line, bottom_line]
+	ev.buttons = ["research", "OK"]
+	ev.targets = [player, null]
+	return ev
+	
 func generate_research_complete(player, research):
 	var ev = GameplayEvent.new()
 	ev.type = GameplayEvent.RESEARCH_COMPLETE
@@ -46,9 +61,21 @@ func generate_research_complete(player, research):
 	ev.targets = [player, null]
 	return ev
 	pass
-	
-func generate_space_exploration():
-	pass
 
+func generate_space_exploration(player):
+	var ev = GameplayEvent.new()
+	ev.type = GameplayEvent.SPACE_EXPLORATION
+	var race_image = TextureHandler.get_race_icon(player.race)
+	ev.images = [race_image]
+	var top_line = SPACE_EXPLORATION % [player.race.race_name]
+	ev.text = [top_line]
+	ev.buttons = ["OK"]
+	ev.targets = [null]
+	return ev
+	pass
+	
+func generate_space_exploration_info():
+	pass
+	
 func generate_race_ship_contact():
 	pass
