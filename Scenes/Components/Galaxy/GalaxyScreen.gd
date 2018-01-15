@@ -30,35 +30,52 @@ func _ready():
 	Galaxy_Root.connect("system_picked", self, "_system_picked")
 	
 	PlanetsButton.connect("pressed", self, "_planetlist_requested")
+	ShipsButton.connect("pressed", self, "_shiplist_requested")
 	ResearchButton.connect("pressed", self, "_research_requested")
+	SpecialAbilityButton.connect("pressed", self, "_special_ability_window")
+	SpeciesButton.connect("pressed", self, "_species_requested")
 
 	NextButton.connect("pressed", self, "_next_requested")
 	AutoButton.connect("toggled", self, "_auto_toggled")
-	SpecialAbilityButton.connect("pressed", self, "_special_ability_window")
 	TurnHandler.connect("auto_stopped", self, "_auto_aborted")
 	pass
 
 func _system_picked(sys):
+	_cancel_auto()
 	emit_signal("system_picked", sys)
 	
 func _next_requested():
+	_cancel_auto()
 	emit_signal("next_requested")
 	
+func _planetlist_requested():
+	_cancel_auto()
+	emit_signal("planetlist_requested")
+	
+func _shiplist_requested():
+	_cancel_auto()
+
 func _research_requested():
+	_cancel_auto()
 	emit_signal("research_requested")
 	
-func _planetlist_requested():
-	emit_signal("planetlist_requested")
-
 func _special_ability_window():
-	pass
+	_cancel_auto()
 	
+func _species_requested():
+	_cancel_auto()
+
 func _auto_toggled(pressed):
 	emit_signal("auto_requested", pressed)
-	
+
+# this is a signal handler, which is why it doesn't send auto_toggled(false)
 func _auto_aborted():
 	AutoButton.set_pressed(false)
-	
+
+func _cancel_auto():
+	_auto_toggled(false)
+	AutoButton.set_pressed(false)
+
 func update_game_state(game_state):
 	set_turn(game_state.turn)
 	pass
@@ -67,9 +84,8 @@ func set_payload(payload):
 	set_game_state(payload)
 
 func set_game_state(game_state):
-	var galaxy = game_state.galaxy
 	set_turn(game_state.turn)
-	Galaxy_Root.set_galaxy(galaxy)
+	Galaxy_Root.set_galaxy(game_state)
 	pass
 	
 func set_color(color):

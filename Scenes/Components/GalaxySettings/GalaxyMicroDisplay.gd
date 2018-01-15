@@ -8,9 +8,9 @@ func _ready():
 	set_process(true)
 	pass
 
-func repaint(galaxy):
+func repaint(game_state):
 	var interaction = false
-	galaxy_root.set_galaxy(galaxy, interaction)
+	galaxy_root.set_galaxy(game_state, interaction)
 	pass
 	
 func _process(delta):

@@ -50,7 +50,6 @@ func setup(system, signal_handler, interaction = true):
 		if planet.owner != null:
 			system_has_owner = true
 			owner = system.planets[planet_key].owner
-			print(planet.colony.home)
 			if planet.colony.home == true:
 				system_has_home = true
 	if system_has_owner:

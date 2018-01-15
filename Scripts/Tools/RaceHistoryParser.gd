@@ -39,23 +39,29 @@ static func read_history():
 				buffering = false
 				
 			elif line.begins_with("endintro"):
-				race.intro = join(buffer)
+				race.intro = join(buffer).replace("@", " ").replace("_", " ")
 				buffering = false
 				
 			elif line.begins_with("endtext"):
-				race.text = join(buffer)
+				race.text = join(buffer).replace("@", " ").replace("_", " ")
 				buffering = false
 				
 			elif line.begins_with("endpeace"):
 				race.peace = join(buffer)
+				if race.peace != null:
+					race.peace = race.peace.replace("@", " ").replace("_", " ")
 				buffering = false
 				
 			elif line.begins_with("endneutral"):
 				race.neutral = join(buffer)
+				if race.neutral != null:
+					race.neutral = race.neutral.replace("@", " ").replace("_", " ")
 				buffering = false
 				
 			elif line.begins_with("endhostile"):
 				race.hostile = join(buffer)
+				if race.hostile != null:
+					race.hostile = race.hostile.replace("@", " ").replace("_", " ")
 				buffering = false
 			else:
 				if line != "":

@@ -5,6 +5,7 @@ var project_queue = []
 
 var self_managed = false
 
+# TODO: refactor to colony_name, name is pretty global in GD3
 var name = ""
 var owner = null
 var home = false
@@ -19,6 +20,7 @@ var adjusted_industry = 0
 var adjusted_research = 0
 var adjusted_prosperity = 0
 
+# FIXME: this modifies the planet
 var growth_bombed = false
 
 var remaining_growth = 50
@@ -115,7 +117,7 @@ func refresh():
 	var extra_slots = 0
 	var working_pop = 0
 
-	var building_types = []
+	var existing_building_types = []
 	
 	for x in range(buildings.size()):
 		for y in range(buildings[x].size()):
@@ -128,8 +130,8 @@ func refresh():
 			if building.type != null:
 				var def = building.type
 				if building.active:
-					if not building.type.type in building_types:
-						building_types.append(building.type.type)
+					if not building.type.type in existing_building_types:
+						existing_building_types.append(building.type.type)
 					if def.industry > 0:
 						ind += def.industry
 						if cell.tiletype == "red":
@@ -162,19 +164,19 @@ func refresh():
 	
 	# TODO: if scientific takeover etc
 	
-	if "internet" in building_types:
+	if "internet" in existing_building_types:
 		adjusted_research = int(floor(research * 1.5))
 	else:
 		adjusted_research = research
 		
-	if "hyperpower_plant" in building_types:
+	if "hyperpower_plant" in existing_building_types:
 		adjusted_industry = int(pow(industry, 0.85) * 1.4)
 	else:
 		adjusted_industry = int(round(pow(industry, 0.85)))
 	
 	var pop = planet.population.alive
 	# TODO: Find the correct formula
-	if "fertilization_plant" in building_types:
+	if "fertilization_plant" in existing_building_types:
 		adjusted_prosperity = int(round(pow(prosperity, 0.85) * 1.4 - round(pow(0.4 * pop, 0.85)))) + 1
 	else:
 		adjusted_prosperity = int(round(pow(prosperity, 0.85) - round(pow(0.4 * pop, 0.85)))) + 1
@@ -188,4 +190,4 @@ func refresh():
 	planet.population.slots = planet.base_population + extra_slots
 	planet.population.free = planet.population.slots - planet.population.alive
 
-	unique_buildings = building_types
+	unique_buildings = existing_building_types

@@ -8,23 +8,14 @@ onready var race_desc = get_node("RaceDescription")
 
 onready var race_ring = portrait.get_node("RaceRing")
 
-var base_path = "res://Images/Races/Flags/raceflag.shp_%02d.png"
-
-# TODO: add small lower right button's race icon to race display
 func set_race(race_key):
 	var index = RaceDefinitions.races.find(race_key)
 	var race = RaceDefinitions.race[race_key]
 	
 	race_name.set_text(race.race_name)
-	
-	var portraitpath = "res://Images/Races/Icons/smrace%02d/smrace%02d.shp_1.png" % [index, index]
-	portrait.set_texture(load(portraitpath))
-	
-	var homeplanetpath = "res://Images/Races/HomePlanets/smhome.shp_%02d.png" % [index + 1]
-	homeplanet.set_texture(load(homeplanetpath))
-	
-	var flagpath = "res://Images/Races/FlagsBW/raceflag.shp_%02d.png" % [index + 1]
-	race_flag.set_texture(load(flagpath))
+	portrait.set_texture(TextureHandler.get_race_icon(race_key))
+	homeplanet.set_texture(TextureHandler.get_home_planet(race_key))
+	race_flag.set_texture(TextureHandler.get_race_flag(race_key))
 	
 	race_desc.set_text(race.race_description)
 	pass

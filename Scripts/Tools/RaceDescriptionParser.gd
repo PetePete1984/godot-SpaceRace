@@ -1,5 +1,5 @@
 extends Reference
-
+# TODO: preparse to json instead of keeping around the original
 const path = "res://Data/newgame.txt"
 
 static func read_descriptions():

@@ -29,11 +29,13 @@ func _fixed_process(delta):
 	
 func rotate(delta, direction = 1):
 	anchor.rotate_y(deg2rad(delta*SPIN_SPEED*direction))
+	# TODO: notify group instead of emitting signal
 	emit_signal("rotated")
 
-func set_galaxy(galaxy, interaction = true):
+func set_galaxy(game_state, interaction = true):
+	var galaxy = game_state.galaxy
 	generate_starsystem_display(galaxy, interaction)
-	draw_lines(galaxy)
+	draw_lines(game_state)
 	pass
 
 func _ready():
@@ -69,11 +71,10 @@ func draw_ships(galaxy):
 	pass
 
 # TODO: needs a function to draw lanes between planets
-func draw_lines(galaxy):
-	# FIXME: pick an actual player
-	if galaxy.races.has("minions"):
-		var player = galaxy.races["minions"]
-		line_drawer.draw_lanes_for_player(galaxy, player)
+func draw_lines(game_state):
+	if game_state.human_player != null:
+		var player = game_state.human_player
+		line_drawer.draw_lanes_for_player(game_state.galaxy, player)
 
 # TODO: symbol and lane visibility has options and filters
 # TODO: symbol and lane visibility has rules according to player knowledge

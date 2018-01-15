@@ -1,9 +1,9 @@
-tool
+#tool
 extends TextureButton
 
 # script for a button that loads and caches textures based on an index
 # calls TextureHandler to get its textures
-
+# TODO: I don't care about this working in editor mode anymore
 export(int) var points = 0 setget set_points
 
 export(String, "Research", "Industry", "Prosperity") var display_type = "Research" setget set_type

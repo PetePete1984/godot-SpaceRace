@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=1]
+[gd_scene load_steps=23 format=1]
 
 [ext_resource path="res://Scenes/Components/GalaxySettings/GalaxySettingsScreen.gd" type="Script" id=1]
 [ext_resource path="res://Images/Placeholder/ascend_048.png" type="Texture" id=2]
@@ -20,7 +20,8 @@
 [ext_resource path="res://Scenes/Components/GalaxySettings/PlayerColors.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Components/GalaxySettings/PlayerColorPicker.gd" type="Script" id=19]
 [ext_resource path="res://Images/Races/color_cursor.png" type="Texture" id=20]
-[ext_resource path="res://Scenes/Components/GalaxySettings/SettingsText.gd" type="Script" id=21]
+[ext_resource path="res://Scenes/Components/GalaxySettings/SmallRaceDisplay.gd" type="Script" id=21]
+[ext_resource path="res://Scenes/Components/GalaxySettings/SettingsText.gd" type="Script" id=22]
 
 [node name="GalaxySettingsScreen" type="Node2D"]
 
@@ -527,6 +528,7 @@ transform/pos = Vector2( 502, 381 )
 
 [node name="Button" type="Button" parent="UI/NewGameAnchor"]
 
+visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -540,6 +542,21 @@ enabled_focus_mode = 2
 shortcut = null
 text = "New Game"
 flat = false
+
+[node name="RacePortraitSmall" type="Sprite" parent="UI/NewGameAnchor"]
+
+transform/pos = Vector2( 99, 37 )
+transform/scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 8 )
+script/script = ExtResource( 21 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="RaceRing" type="Sprite" parent="UI/NewGameAnchor/RacePortraitSmall"]
+
+texture = ExtResource( 9 )
 
 [node name="TextureButton" type="TextureButton" parent="UI/NewGameAnchor"]
 
@@ -556,6 +573,21 @@ enabled_focus_mode = 2
 shortcut = null
 params/resize_mode = 0
 params/stretch_mode = 0
+
+[node name="Label" type="Label" parent="UI/NewGameAnchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 11.0
+margin/top = 72.0
+margin/right = 121.0
+margin/bottom = 86.0
+text = "Begin New Game"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="GalaxySettingsAnchor" type="Position2D" parent="UI"]
 
@@ -575,7 +607,7 @@ margin/right = 210.0
 margin/bottom = 42.0
 custom_constants/separation = 0
 alignment = 0
-script/script = ExtResource( 21 )
+script/script = ExtResource( 22 )
 __meta__ = {
 "_edit_group_": true
 }

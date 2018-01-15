@@ -14,6 +14,7 @@ onready var atmosphere_button = get_node("UI/AtmosphereAnchor/Atmosphere")
 onready var settings_text = get_node("UI/GalaxySettingsAnchor/GalaxySettingsText")
 
 onready var race_display = get_node("RaceDisplayAnchor/RaceDisplay")
+onready var small_race_display = get_node("UI/NewGameAnchor/RacePortraitSmall")
 onready var race_list = get_node("RaceListAnchor/RaceList")
 onready var color_picker = get_node("UI/PlayerColorAnchor/PlayerColors")
 
@@ -56,7 +57,7 @@ func init_new_galaxy():
 	emit_signal("galaxy_init", current_settings, current_race, current_color)
 	
 func repaint_galaxies(game_state):
-	Galaxy3D.repaint(game_state.galaxy)
+	Galaxy3D.repaint(game_state)
 
 func update_setting(list, setting, button):
 	var current_option = current_settings[setting]
@@ -75,11 +76,13 @@ func set_race(race_key):
 	current_race = race_key
 	color_picker.set_race(race_key)
 	race_display.set_race(race_key)
+	small_race_display.set_race(race_key)
 
 func set_color(color):
 	current_color = color
 	color_picker.set_color(color)
 	race_display.set_color(color)
+	small_race_display.set_color(color)
 
 # happens when density button is clicked
 func _on_density_button():

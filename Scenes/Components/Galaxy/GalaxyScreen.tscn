@@ -85,6 +85,7 @@ transform/pos = Vector2( 466, 473 )
 
 [node name="UI" type="Control" parent="."]
 
+editor/display_folded = true
 focus/ignore_mouse = true
 focus/stop_mouse = false
 size_flags/horizontal = 2
@@ -386,6 +387,7 @@ max_lines_visible = -1
 
 [node name="BottomControls" type="Position2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 479, 364 )
 
 [node name="Left" type="TextureButton" parent="BottomControls"]
@@ -585,5 +587,7 @@ textures/normal = ExtResource( 21 )
 params/resize_mode = 0
 params/stretch_mode = 0
 script/script = ExtResource( 11 )
+
+[node name="EventAnchor" type="Node" parent="."]
 
 

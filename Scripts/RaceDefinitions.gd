@@ -136,3 +136,15 @@ func _ready():
 		rdef.index = r_index
 		
 		race[r] = rdef
+	save_as_json()
+	
+func save_as_json():
+	var racepath = "res://Data/races.json"
+	var racefile = File.new()
+	racefile.open(racepath, File.WRITE)
+	var race_dict = {}
+	for k in race.keys():
+		race_dict[k] = race[k].race_to_dict()
+	racefile.store_string(race_dict.to_json())
+	racefile.close()
+	

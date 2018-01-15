@@ -22,8 +22,6 @@ textures/normal = ExtResource( 1 )
 params/resize_mode = 0
 params/stretch_mode = 0
 script/script = ExtResource( 2 )
-points = 0
-display_type = "Research"
 
 [node name="PointsLabel" type="Label" parent="."]
 

@@ -2,6 +2,10 @@
 # Keeps all paths to textures in one place
 # Allows for switching out entire sets of textures
 extends Node
+# reference to Player class
+var Player = preload("res://Scripts/Model/Player.gd")
+var Race = preload("res://Scripts/Model/RaceDef.gd")
+
 # texture cache
 var cache = {}
 
@@ -27,15 +31,27 @@ func get_texture(path):
 		return null
 
 func get_race_flag(player):
-	var race = player.race
+	var race = _type(player)
 	var path = "res://Images/Races/FlagsBW/raceflag.shp_%02d.png" % [race.index + 1]
 	return get_texture(path)
 	pass
 	
 func get_race_icon(player):
+	var race = _type(player)
+	var index = race.index
+	var path = "res://Images/Races/Icons/smrace%02d/smrace%02d.shp_1.png" % [index, index]
+	return get_texture(path)
 	pass
+
+func get_race_ring_neutral():
+	var path = "res://Images/Races/Rings/racering.shp_8.png"
+	return get_texture(path)
 	
 func get_home_planet(player):
+	var race = _type(player)
+	var index = race.index
+	var path = "res://Images/Races/HomePlanets/smhome.shp_%02d.png" % [index + 1]
+	return get_texture(path)
 	pass
 	
 func get_star(system, small = false):
@@ -137,3 +153,13 @@ func _flat_index(points):
 	elif points > 20:
 		index = 20
 	return index
+	
+func _type(player):
+	if typeof(player) == TYPE_STRING:
+		return RaceDefinitions.race[player]
+	elif player extends Player:
+		return player.race
+	elif player extends Race:
+		return player
+	else:
+		return RaceDefinitions.race[player]
