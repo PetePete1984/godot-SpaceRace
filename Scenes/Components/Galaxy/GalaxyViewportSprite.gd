@@ -1,6 +1,5 @@
 extends ViewportSprite
 
-onready var galaxy_root = get_node("../Viewport/galaxy_root")
 onready var vp = get_node("../Viewport")
 var offset = Vector2(0,0)
 var offset_matters = false
@@ -14,13 +13,13 @@ func _ready():
 	vp.set_render_target_update_mode(vp.RENDER_TARGET_UPDATE_ALWAYS)
 	pass
 	
-func _input(event):
+#func _input(event):
 	#if event.type == InputEvent.MOUSE_BUTTON:
 		#galaxy_root.forward_click(event.pos - get_global_transform().get_origin())
 		#print(event.pos)
 		#print(event.pos - get_global_transform().get_origin())
-	vp.input(event)
-	pass
+#	vp.input(event)
+#	pass
 
 func _unhandled_input(event):
 	# copy the event
@@ -34,7 +33,7 @@ func _unhandled_input(event):
 
 	# TODO: this probably distorts the event for all other handlers, keep an eye on it
 	if is_visible():
-		if event.type == InputEvent.MOUSE_BUTTON:
+		if event.type == InputEvent.MOUSE_BUTTON or event.type == InputEvent.MOUSE_MOTION:
 			if offset_matters:
 				event.pos -= offset
 		vp.unhandled_input(event)

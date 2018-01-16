@@ -1,6 +1,5 @@
 extends ViewportSprite
 
-onready var battle_root = get_node("../Viewport/battle_root")
 onready var vp = get_node("../Viewport")
 var offset = Vector2(0,0)
 var offset_matters = false
@@ -25,7 +24,7 @@ func _unhandled_input(event):
 
 	# TODO: this probably distorts the event for all other handlers, keep an eye on it
 	if is_visible():
-		if event.type == InputEvent.MOUSE_BUTTON:
+		if event.type == InputEvent.MOUSE_BUTTON or event.type == InputEvent.MOUSE_MOTION:
 			if offset_matters:
 				event.pos -= offset
 		vp.unhandled_input(event)

@@ -23,9 +23,8 @@ func _unhandled_input(event):
 #		ev.button_index = event.button_index
 
 	# TODO: this probably distorts the event for all other handlers, keep an eye on it
-	# FIXME: event offset is required for everything so hovering can work
 	if is_visible():
-		if event.type == InputEvent.MOUSE_BUTTON:
+		if event.type == InputEvent.MOUSE_BUTTON or event.type == InputEvent.MOUSE_MOTION:
 			if offset_matters:
 				event.pos -= offset
 		vp.unhandled_input(event)
