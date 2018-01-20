@@ -4,6 +4,8 @@ var hoverColor = Color(1.5, 1.5, 1.5, 1)
 var normalColor = Color(1, 1, 1, 1)
 var toggleColor = Color(1.5, 0.3, 0.3, 1)
 
+# FIXME: Buttons get stuck in hover state when screens are left using ESC while hovering
+
 func _ready():
 	connect("mouse_enter", self, "_on_mouse_enter")
 	connect("mouse_exit", self, "_on_mouse_exit")

@@ -274,6 +274,9 @@ var planet_slots = {
 	"cornucopia": [[7,7], [8,8], [12,12], [20,20], [29,29]]
 }
 
+# chance for xeno ruins per planet
+var planet_xeno_chance = 1.0
+
 # used for tilemap index
 var cell_types = ["black", "white", "red", "green", "blue"]
 

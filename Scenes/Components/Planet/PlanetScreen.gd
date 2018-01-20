@@ -39,12 +39,7 @@ func _ready():
 	connect("hide", self, "_on_hidden")
 	project_button.connect("pressed", self, "_on_project_pressed")
 	set_process_input(true)
-	# FIXME: temp, remove
-	popup.connect("confirmed", self, "_on_popup_confirmed")
 	pass
-	
-func _on_popup_confirmed():
-	print("clicked OK")
 
 func _on_project_pressed():
 	# FIXME: this is for the project button on the top right, not for buttons on a popup

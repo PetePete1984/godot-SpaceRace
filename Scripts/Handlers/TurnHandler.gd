@@ -94,12 +94,24 @@ func turn_maintenance():
 						var finished_project = colony.project.building
 						var labs_before_building = player.meta_info.num_laboratories
 						colony.finish_project()
+
 						if labs_before_building == 0 and finished_project == "laboratory":
 							if player.count_laboratories() > 0:
 								var ev = EventGenerator.generate_research_available(player)
 								EventHandler.add_event(player, ev)
+						
+						if finished_project == "xeno_dig":
+							var space_travel_before_project = player.meta_info.space_travel_available
+							var random_research = ResearchHandler.finish_random_research(player)
+							if space_travel_before_project != player.is_space_travel_available():
+								var ev = EventGenerator.generate_space_exploration(player)
+								EventHandler.add_event(player, ev)
+								# TODO: include event page 2
+							var ev = EventGenerator.generate_research_complete(player, random_research)
+							EventHandler.add_event(player, ev)
+
 						var ev = EventGenerator.generate_construction(finished_project, colony.planet)
-						EventHandler.add_event(player, ev)
+						EventHandler.add_event(player, ev)				
 				
 				# for all colonies: apply prosperity to upcoming growth
 				# unless slots are filled, then halt prosperity
@@ -111,7 +123,7 @@ func turn_maintenance():
 						# FIXME: since this happens after finishing a project, it's wrong
 						# Project gets finished, reports "0 free" event, then is cleared
 						# following that, this grows the pop and then reports "1 free" - FIRST
-						if (previous_pop == 0 and colony.planet.population.idle > 0 and colony.project == null):
+						if previous_pop == 0 and colony.planet.population.idle > 0 and colony.project == null:
 							var ev = EventGenerator.generate_free_pop(colony.planet)
 							EventHandler.add_event(player, ev)
 			
@@ -125,7 +137,8 @@ func turn_maintenance():
 					player.buffered_research = abs(player.research_project.remaining_research)
 					var finished_research = player.research_project.research
 					var space_travel_before_project = player.meta_info.space_travel_available
-					player.finish_research_project()
+					ResearchHandler.finish_research_project(player)
+					#player.finish_research_project()
 					if space_travel_before_project != player.is_space_travel_available():
 						var ev = EventGenerator.generate_space_exploration(player)
 						EventHandler.add_event(player, ev)

@@ -17,7 +17,13 @@ onready var research_time = get_node("CurrentResearch/Time")
 onready var flag = get_node("Title/Flag/FlagIcon")
 onready var race = get_node("Title/Text/RaceKnowledge")
 
-# TODO: get a factory to do this
+# controls
+onready var left = get_node("Buttons/Left")
+onready var right = get_node("Buttons/Right")
+onready var up = get_node("Buttons/Up")
+onready var down = get_node("Buttons/Down")
+
+# TODO: get a factory to do this - ie an autoload that preloads all imports
 var ResearchProject = preload("res://Scripts/Model/ResearchProject.gd")
 
 func _ready():
@@ -25,12 +31,22 @@ func _ready():
 	tree.connect("research_enter", self, "_on_research_enter")
 	tree.connect("research_exit", self, "_on_research_exit")
 
+	left.connect("button_down", self, "_on_rotate", [1])
+	left.connect("button_up", self, "_on_rotate", [0])
+	right.connect("button_down", self, "_on_rotate", [-1])
+	right.connect("button_up", self, "_on_rotate", [0])
+	up.connect("button_down", self, "_on_scroll", [1])
+	up.connect("button_up", self, "_on_scroll", [0])
+	down.connect("button_down", self, "_on_scroll", [-1])
+	down.connect("button_up", self, "_on_scroll", [0])
+	clear_research()
 	pass
 
 # setup for the entire screen
 func show_research(player):
 	# TODO: update UI elements
 	tree.show_research(player)
+	race.set_text("%s Knowledge" % player.race.race_name)
 	display_current_research(player)
 	pass
 
@@ -66,19 +82,17 @@ func display_current_research(player):
 		research_title.set_text(player.research_project.research)
 	pass
 
-
 func display_research(player, research, active = false):
+	pass
+	
+func display_results(player, research):
+	# collect a list of projects that require the selected research
+	# optional: attach them to research defs already in some pre-loaded manager object
+	# show them
 	pass
 
 func _on_research_selected(player, research):
-	# TODO: this probably should be in a ResearchHandler
-	if not research in player.completed_research:
-		var resDef = ResearchDefinitions.research_defs[research]
-		var proj = ResearchProject.new()
-		proj.research = research
-		proj.remaining_research = resDef.cost
-		proj.initial_cost = resDef.cost
-		player.start_research(proj)
+	if ResearchHandler.start_research(player, research):
 		display_current_research(player)
 	pass
 	
@@ -91,4 +105,11 @@ func _on_research_exit(player, research):
 		display_current_research(player)
 	else:
 		clear_research()
+	pass
+	
+func _on_rotate(direction):
+	tree.spin_direction = direction
+	pass
+func _on_scroll(direction):
+	tree.scroll_direction = direction
 	pass

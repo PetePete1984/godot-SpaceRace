@@ -100,6 +100,10 @@ func finish_project():
 		var cell = planet.grid[project.position.x][project.position.y]
 		cell.tiletype = "white"
 		building.reset()
+	# special case for xeno dig: reset the building tile and trigger a random research completion
+	# research is triggered in turnhandler
+	if project.building == "xeno_dig":
+		building.reset()
 		
 	# empty the project
 	project = null

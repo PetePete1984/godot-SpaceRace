@@ -9,7 +9,7 @@ func rand_v3_in_unit_sphere(radius):
 		var x = rand_range(-radius, radius)
 		var y = rand_range(-radius, radius)
 		var z = rand_range(-radius, radius)
-		if (x*x + y*y + z*z <= radius*radius):
+		if x*x + y*y + z*z <= radius*radius:
 			in_sphere = true
 			result = Vector3(x, y, z)
 	return result

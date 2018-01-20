@@ -39,7 +39,7 @@ func initialize_colony(player, planet, home = false):
 	# associate the objects
 	colony.planet = planet
 	planet.colony = colony
-	# TODO: disallow duplicate names or use another dictionary key system
+	# TODO: disallow duplicate names or use another dictionary key system (or just an array)
 	player.colonies[colony.name] = colony
 	
 	# give the planet a random colony base
@@ -58,15 +58,6 @@ func initialize_colony(player, planet, home = false):
 func generate_colony(planet, plan):
 	# TODO: move count_cells to a static func somewhere
 	var cell_count = Planetmap.new().count_cells(planet)
-	
-	# init empty building grid
-	# TODO: this probably is not good in this place
-	if planet.buildings.size() == 0:
-		for x in range(mapdefs.planet_max_grid):
-			planet.buildings.append([])
-			for y in range(mapdefs.planet_max_grid):
-				var building_tile = BuildingTile.new()
-				planet.buildings[x].append(building_tile)
 	
 	var colony_coords = pick_colony_spot(planet, cell_count)
 
@@ -105,11 +96,13 @@ func pick_colony_spot(planet, cell_count):
 	for x in range(mapdefs.planet_max_grid):
 		for y in range(mapdefs.planet_max_grid):
 			var tile = planet.grid[x][y]
+			var building = planet.buildings[x][y]
 			# get current tile type
 			var tile_type = tile.get_tile_type()
 
 			# null tiles aren't buildable, so they are not interesting
-			if tile_type != null:
+			# existing buildings are xeno ruins, so they are not interesting
+			if tile_type != null and building.type == null:
 				# get neighbor tile types
 				neighbors = Utils.get_tile_neighbors(x, y, planet.grid)
 				

@@ -1,12 +1,15 @@
 extends Spatial
 
-var BillboardSprite3D = preload("res://Scenes/Components/BillboardSprite3D.tscn")
-
 onready var research_center = get_node("research_center")
 onready var sprites_anchor = research_center.get_node("sprites_anchor")
 onready var line_drawer = research_center.get_node("LineDrawer")
+onready var camera = get_node("Camera")
+
+const SPIN_SPEED = 360/5
+const SCROLL_SPEED = 30.0
 
 var ResearchPick = preload("res://Scenes/Components/ClickableArea3D.gd")
+var BillboardSprite3D = preload("res://Scenes/Components/BillboardSprite3D.tscn")
 
 var rings = {
 	"active": preload("res://Images/Screens/Research/Rings/active.png"),
@@ -15,34 +18,40 @@ var rings = {
 	"red": preload("res://Images/Screens/Research/Rings/red.png")
 }
 var res_sprites = []
+var spin_direction = 0
+var scroll_direction = 0
 
 # rotation of the tree
 signal rotated
+signal scrolled
 # mouse pick
 signal research_selected(player, research)
 # mouse over
 signal research_enter(player, research)
 signal research_exit(player, research)
 
-# TODO: temp
-var dummyplayer = {
-	"research": {
-		"spectral_analysis": {
-			"progress": 0.5
-		}
-	},
-	"completed_research": ["xenobiology", "orbital_structures"]
-}
-
 func _ready():
-	#show_research(dummyplayer)
-	#set_process(true)
+	set_process(true)
 	pass
 	
 func _process(delta):
-	research_center.rotate_y(deg2rad(20*delta))
-	emit_signal("rotated")
+	# TODO: right clicks on controls keep rotating or scrolling
+	# TODO: scroll and rotate speed can be influenced using keyboard + and -
+	# TODO: limit scroll to stop at top and bottom research icons + some offset
+	if spin_direction != 0:
+		rotate(delta, spin_direction)
+	if scroll_direction != 0:
+		scroll(delta, scroll_direction)
 	
+func rotate(delta, direction = 1):
+	research_center.rotate_y(deg2rad(delta * SPIN_SPEED * direction))
+	# TODO: notify group instead of emitting signal
+	emit_signal("rotated")
+
+func scroll(delta, direction = 1):
+	camera.translate(Vector3(0, direction, 0) * delta * SCROLL_SPEED)
+	emit_signal("scrolled")
+
 func clear_screen():
 	for s in sprites_anchor.get_children():
 		s.hide()
@@ -107,10 +116,13 @@ func show_research(player):
 				research_icon.set_scale(Vector3(0,0,0))
 		
 		# TODO: find out how to set research sprite material to always on top (in front of lines)
+		# TODO: find proper positions for research icons
 		research_ring.add_child(research_icon)
-		research.position[0] = randi() % 20 - 10
-		#research.position[1] *= 
-		research.position[2] = randi() % 20 - 10
+		if research.position_set == false:
+			research.position[0] = randi() % 20 - 10
+			#research.position[1] *= 
+			research.position[2] = randi() % 20 - 10
+			research.position_set = true
 		var position = _arr_to_v3(research.position, true)
 		research_ring.set_translation(position)
 		research_ring.set_scale(Vector3(6,6,6))
@@ -132,7 +144,8 @@ func show_research(player):
 				research_ring.hide()
 		else:
 			research_ring.show()
-			
+		
+		# TODO: see above, call group instead of connecting
 		connect("rotated", research_ring, "_on_update_pos")
 		
 
@@ -179,6 +192,9 @@ func _arr_to_v3(array, invert_y = false):
 		return result
 
 func _on_research_clicked(player, research):
+	# TODO: this is the way to detect shift-clicks (or alt, ctrl..)
+	#if Input.is_key_pressed(KEY_SHIFT):
+	#	print("yoink")
 	emit_signal("research_selected", player, research)
 	
 func _on_research_enter(player, research):

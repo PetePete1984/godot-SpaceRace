@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=14 format=1]
 
 [ext_resource path="res://Scenes/Components/Research/ResearchScreen.gd" type="Script" id=1]
 [ext_resource path="res://Images/Placeholder/ascend_002.png" type="Texture" id=2]
@@ -8,9 +8,10 @@
 [ext_resource path="res://Images/Screens/Research/Research/restree.shp_01.png" type="Texture" id=6]
 [ext_resource path="res://Images/Screens/Research/Rings/active.png" type="Texture" id=7]
 [ext_resource path="res://Images/Screens/Research/Layout/left.png" type="Texture" id=8]
-[ext_resource path="res://Images/Screens/Research/Layout/right.png" type="Texture" id=9]
-[ext_resource path="res://Images/Screens/Research/Layout/up.png" type="Texture" id=10]
-[ext_resource path="res://Images/Screens/Research/Layout/down.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/Components/ControlButton.gd" type="Script" id=9]
+[ext_resource path="res://Images/Screens/Research/Layout/right.png" type="Texture" id=10]
+[ext_resource path="res://Images/Screens/Research/Layout/up.png" type="Texture" id=11]
+[ext_resource path="res://Images/Screens/Research/Layout/down.png" type="Texture" id=12]
 
 [sub_resource type="FixedMaterial" id=1]
 
@@ -62,7 +63,6 @@ centered = false
 
 [node name="Border" type="Sprite" parent="."]
 
-visibility/visible = false
 texture = ExtResource( 3 )
 centered = false
 
@@ -146,7 +146,6 @@ v_offset = 0.0
 
 [node name="Title" type="Position2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 7, 7 )
 
 [node name="Flag" type="Position2D" parent="Title"]
@@ -268,6 +267,7 @@ shortcut = null
 textures/normal = ExtResource( 8 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = ExtResource( 9 )
 
 [node name="Right" type="TextureButton" parent="Buttons"]
 
@@ -282,9 +282,10 @@ margin/bottom = 31.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 9 )
+textures/normal = ExtResource( 10 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = ExtResource( 9 )
 
 [node name="Up" type="TextureButton" parent="Buttons"]
 
@@ -299,9 +300,10 @@ margin/bottom = 16.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 10 )
+textures/normal = ExtResource( 11 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = ExtResource( 9 )
 
 [node name="Down" type="TextureButton" parent="Buttons"]
 
@@ -316,8 +318,9 @@ margin/bottom = 31.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 11 )
+textures/normal = ExtResource( 12 )
 params/resize_mode = 0
 params/stretch_mode = 0
+script/script = ExtResource( 9 )
 
 

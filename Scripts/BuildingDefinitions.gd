@@ -150,10 +150,13 @@ var building_defs = {
 	"xeno_dig": {
 		cost = 50,
 		building_name = "Xenoarchaeological Dig",
-		requires_research = "xenobiology"
+		requires_research = "xenobiology",
+		replaces = ["xeno_ruins"]
 	},
 	"xeno_ruins": {
-		buildable = false
+		buildable = false,
+		used_pop = 0,
+		replaced_by = ["xeno_dig"]
 	}
 }
 

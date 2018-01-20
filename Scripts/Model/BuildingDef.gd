@@ -9,8 +9,14 @@ var prosperity = 0
 var research = 0
 # can this be built at all
 var buildable = true
+
 # can this be abandoned and / or replaced
 var replaceable = true
+# list of buildings that can be replaced by this (exclusive)
+var replaces = null
+# list of buildings that can replace this (exclusive)
+var replaced_by = null
+
 # can this be automated
 var automatable = true
 

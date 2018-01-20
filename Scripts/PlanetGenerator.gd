@@ -20,7 +20,7 @@ func generate_planet(size = null, type = null):
 	generate_planet_grid(planet)
 	
 	#initialize_building_grid(planet)
-	#spawn_xeno_ruins(planet)
+	spawn_xeno_ruins(planet)
 	
 	# define population size
 	var size_index = mapdefs.planet_sizes.find(planet.size)
@@ -95,4 +95,23 @@ func generate_planet_grid(planet):
 					planet.grid[x+shift_x][y+shift_y].tiletype = tile
 			pass
 		pass
+	pass
+
+func spawn_xeno_ruins(planet):
+	# decide if xeno ruins should be spawned on this planet
+	var pick = randf()
+	if pick <= mapdefs.planet_xeno_chance:
+		# pick a random tile
+		var planet_max_grid = mapdefs.planet_max_grid
+		var cells = []
+		for x in range(planet_max_grid):
+			for y in range(planet_max_grid):
+				var tile = planet.grid[x][y]
+				if tile.tiletype != null:
+					cells.append(Vector2(x, y))
+		
+		if cells.size() > 0:
+			var xeno_cell = Utils.rand_pick_from_array(cells)
+			planet.buildings[xeno_cell.x][xeno_cell.y].set("xeno_ruins")
+		# spawn xeno ruins
 	pass

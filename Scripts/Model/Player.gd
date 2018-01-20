@@ -10,6 +10,7 @@ var ships = {}
 var research = {}
 var completed_research = []
 
+# TODO: reset project on new game
 var research_project = null
 var buffered_research = 0
 var total_research = 0
@@ -27,18 +28,6 @@ var meta_info = {
 }
 
 var knowledge = null
-
-# TODO: reset project on new game
-func start_research(project):
-	research_project = project
-	research[project.research] = project
-
-func finish_research_project():
-	var project = research_project.research
-	completed_research.append(project)
-	research[project].remaining_research = 0
-	research_project = null
-	pass
 	
 func count_laboratories():
 	var result = 0

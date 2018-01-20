@@ -26,6 +26,7 @@ func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
 	
 	# buildings first
 	# FIXME: keep an eye on black squares next to colony bases, might be broken
+	# FIXME: keep an eye on empty tiles next to xeno ruins, might also be broken
 	for x in range(planet.grid.size()):
 		for y in range(planet.grid[x].size()):
 			var building = planet.buildings[x][y]
@@ -34,11 +35,12 @@ func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
 				var building_index = buildings.find(building_type)
 				
 				if building_index != -1:
-					if building.active and building_type != "xeno_ruins":
-						var neighbors = Utils.get_tile_neighbors(x, y, planet.grid)
-						for n in neighbors:
-							if neighbors[n] != null:
-								neighbors[n].buildable = true
+					if building.active:
+						if building_type != "xeno_ruins":
+							var neighbors = Utils.get_tile_neighbors(x, y, planet.grid)
+							for n in neighbors:
+								if neighbors[n] != null:
+									neighbors[n].buildable = true
 						tilemap_buildings.set_cell(x, y, building_index)
 	
 	# tiles second
