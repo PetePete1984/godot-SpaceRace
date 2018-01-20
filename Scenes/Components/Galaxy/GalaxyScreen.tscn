@@ -387,7 +387,6 @@ max_lines_visible = -1
 
 [node name="BottomControls" type="Position2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 479, 364 )
 
 [node name="Left" type="TextureButton" parent="BottomControls"]

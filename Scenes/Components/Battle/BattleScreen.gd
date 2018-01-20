@@ -12,6 +12,11 @@ onready var star_sprite = get_node("TopButtons/Normal/Star")
 # UI controls
 onready var left = get_node("BottomButtons/Left")
 onready var right = get_node("BottomButtons/Right")
+
+# FIXME: these are technically zoom in and out controls
+onready var up = get_node("BottomButtons/Up")
+onready var down = get_node("BottomButtons/Down")
+
 onready var radar = get_node("BottomButtons/Radar")
 onready var grid = get_node("BottomButtons/Grid")
 
@@ -20,16 +25,19 @@ signal planet_picked(planet)
 signal ship_picked(ship)
 signal repainted
 
-# interaction variables
-var holding_dir = 0
-
 var current_system = null
 
 func _ready():
-	left.connect("button_down", self, "set_rotate", [-1])
-	left.connect("button_up", self, "set_rotate", [0])
-	right.connect("button_down", self, "set_rotate", [1])
-	right.connect("button_up", self, "set_rotate", [0])
+	# TODO: unify rotation directions
+	left.connect("button_down", self, "_on_rotate", [-1])
+	left.connect("button_up", self, "_on_rotate", [0])
+	right.connect("button_down", self, "_on_rotate", [1])
+	right.connect("button_up", self, "_on_rotate", [0])
+
+	up.connect("button_down", self, "_on_zoom", [-1])
+	up.connect("button_up", self, "_on_zoom", [0])
+	down.connect("button_down", self, "_on_zoom", [1])
+	down.connect("button_up", self, "_on_zoom", [0])
 	
 	radar.connect("toggled", battle_root, "display_lines")
 	grid.connect("toggled", battle_root, "display_grid")
@@ -37,12 +45,10 @@ func _ready():
 	# this will break when I drill down to the planet
 	#connect("visibility_changed", self, "_maybe_refresh")
 	battle_root.connect("battle_object_clicked", self, "_on_battle_object_picked")
-	set_process(true)
+#	set_process(true)
 	pass
 
 func _process(delta):
-	if holding_dir != 0:
-		battle_center.rotate_y(deg2rad(battle_root.SPIN_SPEED * holding_dir * delta))
 	pass
 	
 func set_payload(payload):
@@ -72,9 +78,11 @@ func update_ui(system):
 	star_type.set_text(system.star_type.capitalize())
 	star_sprite.set_texture(TextureHandler.get_star(system))
 	
-func set_rotate(arg):
-	holding_dir = arg
-	pass
+func _on_rotate(direction):
+	battle_root.spin_direction = direction
+
+func _on_zoom(direction):
+	battle_root.zoom_direction = direction
 	
 func _on_battle_object_picked(object):
 	if "planet_name" in object:

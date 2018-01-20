@@ -7,6 +7,7 @@ onready var gizmo_anchor = get_node("galaxy_center/star_anchor")
 
 
 const SPIN_SPEED = 360/5
+const ZOOM_SPEED = 2
 const SYSTEMS = 100
 
 var DepthCue = preload("res://Scenes/Components/DepthCueSprite3D.gd")
@@ -18,8 +19,13 @@ onready var camera = get_node("camera")
 var sprites = []
 var textures = {}
 
+var spin_h_direction = 0
+var spin_v_direction = 0
+var zoom_direction = 0
+
 signal system_picked(system)
 signal rotated
+signal zoomed
 
 func _fixed_process(delta):
 	# this also rotates the collision shapes because they don't billboard
@@ -28,7 +34,8 @@ func _fixed_process(delta):
 	pass
 	
 func rotate(delta, direction = 1):
-	anchor.rotate_y(deg2rad(delta*SPIN_SPEED*direction))
+	#anchor.rotate_y(deg2rad(delta*SPIN_SPEED*direction))
+	anchor.global_rotate(Vector3(0,1,0), deg2rad(delta*SPIN_SPEED*direction))
 	# TODO: notify group instead of emitting signal
 	emit_signal("rotated")
 
@@ -44,8 +51,33 @@ func _ready():
 	pass
 	
 func _process(delta):
+	if spin_h_direction != 0:
+		rotate_h(delta, spin_h_direction)
+	if spin_v_direction != 0:
+		rotate_v(delta, spin_v_direction)
+	if zoom_direction != 0:
+		zoom(delta, zoom_direction)
 	pass
-	
+
+
+func rotate_h(delta, direction):
+	rotate(delta, direction)
+	pass
+
+func rotate_v(delta, direction):
+	anchor.global_rotate(Vector3(1,0,0), deg2rad(delta*SPIN_SPEED*direction))
+	emit_signal("rotated")
+	pass
+
+func zoom(delta, direction):
+	camera.size += delta*ZOOM_SPEED*direction
+	emit_signal("zoomed")
+	pass
+
+func reset_camera():
+	emit_signal("rotated")
+	emit_signal("zoomed")
+
 func get_clickable_sprite3D_for_system(sys, interaction = true):
 	var star_sprite = StarSprite.instance()
 	anchor.add_child(star_sprite)

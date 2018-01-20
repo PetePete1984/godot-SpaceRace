@@ -33,7 +33,6 @@ centered = false
 
 [node name="TopButtons" type="Position2D" parent="."]
 
-editor/display_folded = true
 transform/pos = Vector2( 466, 0 )
 __meta__ = {
 "_edit_lock_": true
@@ -51,6 +50,7 @@ centered = false
 
 [node name="Ships" type="Node2D" parent="TopButtons"]
 
+editor/display_folded = true
 visibility/visible = false
 
 [node name="Border" type="Sprite" parent="TopButtons/Ships"]
@@ -102,13 +102,27 @@ max_lines_visible = -1
 
 [node name="Controls" type="Node2D" parent="TopButtons/Normal"]
 
-editor/display_folded = true
-
 [node name="Pass" type="Sprite" parent="TopButtons/Normal/Controls"]
 
 transform/pos = Vector2( 13, 55 )
 texture = ExtResource( 6 )
 centered = false
+
+[node name="Pass1" type="TextureButton" parent="TopButtons/Normal/Controls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="Repeat" type="Sprite" parent="TopButtons/Normal/Controls"]
 
@@ -116,11 +130,43 @@ transform/pos = Vector2( 65, 55 )
 texture = ExtResource( 7 )
 centered = false
 
+[node name="Repeat1" type="TextureButton" parent="TopButtons/Normal/Controls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
 [node name="Auto" type="Sprite" parent="TopButtons/Normal/Controls"]
 
 transform/pos = Vector2( 117, 55 )
 texture = ExtResource( 8 )
 centered = false
+
+[node name="Auto1" type="TextureButton" parent="TopButtons/Normal/Controls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="ListOwn" type="Sprite" parent="TopButtons/Normal/Controls"]
 
@@ -128,14 +174,47 @@ transform/pos = Vector2( 13, 103 )
 texture = ExtResource( 9 )
 centered = false
 
+[node name="ListOwn1" type="TextureButton" parent="TopButtons/Normal/Controls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
 [node name="ListOther" type="Sprite" parent="TopButtons/Normal/Controls"]
 
 transform/pos = Vector2( 91, 103 )
 texture = ExtResource( 10 )
 centered = false
 
+[node name="ListOther1" type="TextureButton" parent="TopButtons/Normal/Controls"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
 [node name="BottomButtons" type="Position2D" parent="."]
 
+editor/display_folded = true
 transform/pos = Vector2( 479, 403 )
 
 [node name="Left" type="TextureButton" parent="BottomButtons"]

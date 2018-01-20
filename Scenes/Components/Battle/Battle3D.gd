@@ -3,8 +3,10 @@ extends Spatial
 onready var anchor = get_node("battle_center")
 onready var line_drawer = anchor.get_node("line_drawer")
 onready var grid = anchor.get_node("Grid")
+onready var camera = get_node("camera")
 
 const SPIN_SPEED = 360/5
+const ZOOM_SPEED = 2
 const SCALE_FACTOR = 1
 var DISPLAY_SCALE = Vector3(SCALE_FACTOR,SCALE_FACTOR,SCALE_FACTOR) #Vector3(0.2, 0.2, 0.2)
 
@@ -20,9 +22,16 @@ var sprites = []
 var star_textures = {}
 var planet_textures = {}
 
+var spin_direction = 0
+var zoom_direction = 0
+
 signal battle_object_clicked(object)
 signal sprites_cleared
 signal sprites_repainted
+signal rotated
+signal zoomed
+signal reset
+signal pivot_changed
 
 func _ready():
 	#randomize()
@@ -31,8 +40,19 @@ func _ready():
 	pass
 	
 func _process(delta):
-	#anchor.rotate_y(deg2rad(delta*SPIN_SPEED))
+	if spin_direction != 0:
+		rotate(delta, spin_direction)
+	if zoom_direction != 0:
+		zoom(delta, zoom_direction)
 	pass
+
+func rotate(delta, direction):
+	anchor.rotate_y(deg2rad(SPIN_SPEED*delta*direction))
+	emit_signal("rotated")
+
+func zoom(delta, direction):
+	camera.size += ZOOM_SPEED*delta*direction
+	emit_signal("zoomed")
 	
 func display_grid(display = true):
 	grid.set("geometry/visible", display)
@@ -163,9 +183,6 @@ func generate_starsystem_display(system):
 
 func _on_battle_object_clicked(object):
 	emit_signal("battle_object_clicked", object)
-	if "planet_name" in object:
-		#print(object.planet_name)
-		pass
 
 func _create_random_system():
 	var sys = StarSystemGenerator.new().generate_system()
