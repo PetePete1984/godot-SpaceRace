@@ -120,6 +120,7 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			while random_system in occupied_systems:
 				random_system = Utils.rand_key_from_dict(new_game_state.galaxy.systems)
 
+			occupied_systems.append(random_system)
 			var random_planet = Utils.rand_key_from_dict(new_game_state.galaxy.systems[random_system].planets)
 			var planet = new_game_state.galaxy.systems[random_system].planets[random_planet]
 
