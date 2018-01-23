@@ -46,7 +46,7 @@ func start_new_game():
 	# TODO: immediately resuming on boot leaves galaxy in a half-finished state
 	#randomize()
 	game_state = make_game_state(mapdefs.default_galaxy_settings)
-	game_state.galaxy = GalaxyGenerator.new().generate_galaxy(null)
+	game_state.galaxy = GalaxyGenerator.generate_galaxy(null)
 	# get a default human player
 	var player = RaceGenerator.generate_player(game_state, "minions")
 	game_state.races["minions"] = player
@@ -57,8 +57,7 @@ func start_new_game():
 	var planet = Utils.rand_pick_from_dict(random_system.planets)
 
 	# give the planet a colony base
-	var col_gen = ColonyGenerator.new()
-	col_gen.initialize_colony(player, planet, true)
+	ColonyGenerator.initialize_colony(player, planet, true)
 	
 	return game_state
 	pass
@@ -75,7 +74,7 @@ func make_game_state(settings):
 # and keeps it in new_game_state
 func generate_stars(size = null):
 	new_game_state = make_game_state(mapdefs.default_galaxy_settings)
-	new_game_state.galaxy = GalaxyGenerator.new().generate_stars(size)
+	new_game_state.galaxy = GalaxyGenerator.generate_stars(size)
 	emit_signal("new_stars_generated", new_game_state)
 	pass
 	
@@ -85,9 +84,8 @@ func generate_stars(size = null):
 func initialize_galaxy(galaxy_options, race_key, color):
 	if new_game_state:
 		# fill temp galaxy with planets
-		var gg = GalaxyGenerator.new()
-		gg.generate_star_systems(new_game_state.galaxy)
-		gg.connect_star_systems(new_game_state.galaxy)
+		GalaxyGenerator.generate_star_systems(new_game_state.galaxy)
+		GalaxyGenerator.connect_star_systems(new_game_state.galaxy)
 		#print(new_game_state.galaxy.lanes)
 		
 		# initialize player race
@@ -111,7 +109,6 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			alien.type = "ai"
 			new_game_state.races[other_race] = alien
 			
-		var col_gen = ColonyGenerator.new()
 		for r_key in new_game_state.races:
 			var participant = new_game_state.races[r_key]
 			# scatter the starter colonies
@@ -127,12 +124,13 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			# give the planet a colony base
 			# FIXME: meeeeeeeeh?
 			# home = true
-			new_game_state.galaxy.systems[random_system].planets[random_planet] = col_gen.initialize_colony(participant, planet, true)
+			new_game_state.galaxy.systems[random_system].planets[random_planet] = ColonyGenerator.initialize_colony(participant, planet, true)
 			new_game_state.galaxy.races = new_game_state.races
 		
 		# move everything into the normal game state
 		game_state = null
 		game_state = new_game_state
+		new_game_state = null
 	pass
 
 func save_game_state():

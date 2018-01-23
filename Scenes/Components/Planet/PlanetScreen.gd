@@ -67,7 +67,7 @@ func _on_project_picked(key, tile, type):
 	currentPlanet.colony.refresh()
 	# TODO: may be obsolete
 	project_grid.clear_buttons()
-	PlanetMap.new().get_tilemap_from_planet(currentPlanet, tilemap_cells, tilemap_buildings)
+	PlanetMap.get_tilemap_from_planet(currentPlanet, tilemap_cells, tilemap_buildings)
 	_notify_displays()
 	popup.hide()
 
@@ -97,7 +97,7 @@ func set_planet(planet):
 
 func generate_planet_display(planet):
 	planet_sprite.set_planet(planet)
-	PlanetMap.new().get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings)
+	PlanetMap.get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings)
 	_notify_displays()
 	pass
 

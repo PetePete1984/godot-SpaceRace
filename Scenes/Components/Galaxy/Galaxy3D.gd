@@ -140,12 +140,12 @@ func generate_starsystem_display(galaxy, interaction = true):
 
 func generate_debug_display(interaction = true):
 	clear_display()
+	var used_star_names = []
 	for i in range(SYSTEMS):
-		_create_random_starsystem(i, interaction)
+		_create_random_starsystem(used_star_names, i, interaction)
 
-func _create_random_starsystem(i, interaction = true):
-	var sys_gen = StarSystemGenerator.new()
-	var sys = sys_gen.generate_system(i)
+func _create_random_starsystem(used_star_names, i, interaction = true):
+	var sys = StarSystemGenerator.generate_system(used_star_names, i)
 	var space_pos = Utils.rand_v3_in_unit_sphere(1)
 	var spr3d = get_clickable_sprite3D_for_system(sys, interaction)
 	spr3d.set_translation(space_pos)

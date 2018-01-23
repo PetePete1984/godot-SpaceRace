@@ -1,6 +1,6 @@
 extends Node
 
-onready var EventGenerator = preload("res://Scripts/EventGenerator.gd").new()
+onready var EventGenerator = preload("res://Scripts/EventGenerator.gd")
 var TurnTimer
 
 signal turn_finished

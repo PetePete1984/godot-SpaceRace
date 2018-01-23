@@ -1,14 +1,14 @@
-extends Node
+extends Reference
 # Planet Map responsible for creating and refreshing the correct tilemap for a planet
 
 const TILE_WIDTH = 68
 const TILE_HEIGHT = 34
 const BUILDABLE_OFFSET = 5
 
-var Planet = preload("res://Scripts/Model/Planet.gd")
-var PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
+const Planet = preload("res://Scripts/Model/Planet.gd")
+const PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
 
-func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
+static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
 	tilemap_cells.clear()
 	tilemap_buildings.clear()
 	#tilemap_orbitals.clear()
@@ -57,7 +57,7 @@ func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
 				
 	pass
 	
-func count_cells(planet):
+static func count_cells(planet):
 	var cells = mapdefs.cell_types
 	var cellcount = {"all": 0, "usable": 0}
 	for c in range(cells.size()):
@@ -77,7 +77,6 @@ func count_cells(planet):
 	return cellcount
 	pass
 	
-func generate_planet():
-	var generator = PlanetGenerator.new()
-	randomize()
-	return generator.generate_planet()
+static func generate_planet():
+	#randomize()
+	return PlanetGenerator.generate_planet()

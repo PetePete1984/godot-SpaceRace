@@ -1,5 +1,5 @@
 # class EventGenerator
-extends Node
+extends Reference
 
 const GameplayEvent = preload("res://Scripts/Model/Event.gd")
 const POPULATION = "%s has %d free population for additional projects."
@@ -23,7 +23,7 @@ static func generate_construction(project, planet):
 	ev.targets = [planet, null]
 	return ev
 
-func generate_free_pop(planet):
+static func generate_free_pop(planet):
 	var ev = GameplayEvent.new()
 	ev.type = GameplayEvent.FREE_POP
 	var planet_image = TextureHandler.get_planet(planet, true)
@@ -35,10 +35,10 @@ func generate_free_pop(planet):
 	ev.targets = [planet, null]
 	return ev
 	
-func generate_special_ability():
+static func generate_special_ability():
 	pass
 	
-func generate_research_available(player):
+static func generate_research_available(player):
 	var ev = GameplayEvent.new()
 	ev.type = GameplayEvent.RESEARCH_AVAILABLE
 	var race_image = TextureHandler.get_race_icon(player.race)
@@ -50,7 +50,7 @@ func generate_research_available(player):
 	ev.targets = [player, null]
 	return ev
 	
-func generate_research_complete(player, research):
+static func generate_research_complete(player, research):
 	var ev = GameplayEvent.new()
 	ev.type = GameplayEvent.RESEARCH_COMPLETE
 	var research_image = TextureHandler.get_research_icon(research)
@@ -62,7 +62,7 @@ func generate_research_complete(player, research):
 	return ev
 	pass
 
-func generate_space_exploration(player):
+static func generate_space_exploration(player):
 	var ev = GameplayEvent.new()
 	ev.type = GameplayEvent.SPACE_EXPLORATION
 	var race_image = TextureHandler.get_race_icon(player.race)
@@ -74,8 +74,8 @@ func generate_space_exploration(player):
 	return ev
 	pass
 	
-func generate_space_exploration_info():
+static func generate_space_exploration_info():
 	pass
 	
-func generate_race_ship_contact():
+static func generate_race_ship_contact():
 	pass

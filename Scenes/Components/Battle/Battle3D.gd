@@ -10,7 +10,7 @@ const ZOOM_SPEED = 2
 const SCALE_FACTOR = 1
 var DISPLAY_SCALE = Vector3(SCALE_FACTOR,SCALE_FACTOR,SCALE_FACTOR) #Vector3(0.2, 0.2, 0.2)
 
-var StarSystemGenerator = preload("res://Scripts/StarSystemGenerator.gd")
+#var StarSystemGenerator = preload("res://Scripts/StarSystemGenerator.gd")
 
 var Planet = preload("res://Scripts/Model/Planet.gd")
 var Planetmap = preload("res://Scripts/Planetmap.gd")
@@ -184,7 +184,7 @@ func generate_starsystem_display(system):
 func _on_battle_object_clicked(object):
 	emit_signal("battle_object_clicked", object)
 
-func _create_random_system():
-	var sys = StarSystemGenerator.new().generate_system()
-	generate_starsystem_display(sys)
-	pass
+#func _create_random_system():
+#	var sys = StarSystemGenerator.generate_system()
+#	generate_starsystem_display(sys)
+#	pass

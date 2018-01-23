@@ -1,11 +1,11 @@
 # Planet Data Generator / Factory
 extends Reference
 
-var Planet = preload("res://Scripts/Model/Planet.gd")
-var PlanetTile = preload("res://Scripts/Model/PlanetTile.gd")
-var BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
+const Planet = preload("res://Scripts/Model/Planet.gd")
+const PlanetTile = preload("res://Scripts/Model/PlanetTile.gd")
+const BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
 
-func generate_planet(size = null, type = null):
+static func generate_planet(size = null, type = null):
 	#randomize()
 	var planet = Planet.new()
 	if size == null:
@@ -31,16 +31,14 @@ func generate_planet(size = null, type = null):
 	var actual_slots = Utils.rand_pick_from_array(possible_slots)
 	planet.base_population = actual_slots
 	return planet
-	pass
 	
-func randomize_planet_size(planet):
+static func randomize_planet_size(planet):
 	planet.size = Utils.rand_pick_from_array(mapdefs.planet_sizes)
 
-func randomize_planet_type(planet):
+static func randomize_planet_type(planet):
 	planet.type = Utils.rand_pick_from_array(mapdefs.planet_types)
-	pass
 
-func generate_planet_grid(planet):
+static func generate_planet_grid(planet):
 	var template = mapdefs.planet_size[planet.size].map
 	var weights = mapdefs.planet_type[planet.type].weights
 	
@@ -97,7 +95,7 @@ func generate_planet_grid(planet):
 		pass
 	pass
 
-func spawn_xeno_ruins(planet):
+static func spawn_xeno_ruins(planet):
 	# decide if xeno ruins should be spawned on this planet
 	var pick = randf()
 	if pick <= mapdefs.planet_xeno_chance:
@@ -110,8 +108,7 @@ func spawn_xeno_ruins(planet):
 				if tile.tiletype != null:
 					cells.append(Vector2(x, y))
 		
+		# spawn xeno ruins
 		if cells.size() > 0:
 			var xeno_cell = Utils.rand_pick_from_array(cells)
 			planet.buildings[xeno_cell.x][xeno_cell.y].set("xeno_ruins")
-		# spawn xeno ruins
-	pass

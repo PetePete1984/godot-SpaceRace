@@ -1,12 +1,10 @@
 # Star System Generator
 extends Reference
 
-var StarSystem = preload("res://Scripts/Model/StarSystem.gd")
-var PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
+const StarSystem = preload("res://Scripts/Model/StarSystem.gd")
+const PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
 
-var used_star_names
-
-func generate_star(i = 0):
+static func generate_star(used_star_names, i = 0):
 	var sys = StarSystem.new()
 	var star = Utils.rand_pick_from_array(mapdefs.stars)
 	sys.star_type = star
@@ -18,12 +16,11 @@ func generate_star(i = 0):
 	return sys
 	pass
 
-func generate_planets(system):
-	var plan_gen = PlanetGenerator.new()
+static func generate_planets(system):
 	var num_planets = (randi() % mapdefs.max_planets) + mapdefs.min_planets
 	#print("planets: %02d" % num_planets)
 	for p in range(num_planets):
-		var planet = plan_gen.generate_planet()
+		var planet = PlanetGenerator.generate_planet()
 		planet.planet_name = "%s %02d" % [system.system_name, p]
 		planet.system = system
 		var plan_pos = Utils.rand_v3_in_unit_sphere(10)
@@ -33,7 +30,7 @@ func generate_planets(system):
 			system.planets[plan_pos] = planet
 	pass
 
-func generate_system(i = 0):
+static func generate_system(used_star_names, i = 0):
 	var sys = StarSystem.new()
 	var star = Utils.rand_pick_from_array(mapdefs.stars)
 	sys.star_type = star

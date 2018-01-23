@@ -1,32 +1,30 @@
 # Galaxy Generator
 extends Reference
 
-var Galaxy = preload("res://Scripts/Model/Galaxy.gd")
-var StarLane = preload("res://Scripts/Model/StarLane.gd")
-var StarSystemGenerator = preload("res://Scripts/StarSystemGenerator.gd")
+const Galaxy = preload("res://Scripts/Model/Galaxy.gd")
+const StarLane = preload("res://Scripts/Model/StarLane.gd")
+const StarSystemGenerator = preload("res://Scripts/StarSystemGenerator.gd")
 
-func random_size():
+static func random_size():
 	return Utils.rand_pick_from_array(mapdefs.galaxy_sizes)
 	pass
 
 # TODO: Split into init, stars and star system phases
-func generate_galaxy(size):
+static func generate_galaxy(size):
 	var galaxy = generate_stars(size)
 	generate_star_systems(galaxy)
 	return galaxy
 
 # only generate stars
-func generate_stars(size):
+static func generate_stars(size):
 	if size == null or size == "":
 		size = random_size()
 		
 	var galaxy = Galaxy.new()
-	var sys_gen = StarSystemGenerator.new()
 	var used_star_names = []
-	sys_gen.used_star_names = used_star_names
 	for s in range(mapdefs.galaxy_size[size]):
 		# generate star without planets
-		var sys = sys_gen.generate_star(s)
+		var sys = StarSystemGenerator.generate_star(used_star_names, s)
 		# generate system position
 		var sys_pos = Utils.rand_v3_in_unit_sphere(1)
 		# store system
@@ -35,14 +33,13 @@ func generate_stars(size):
 	return galaxy
 
 # only generate systems when stars are done
-func generate_star_systems(galaxy):
-	var sys_gen = StarSystemGenerator.new()
+static func generate_star_systems(galaxy):
 	for sys in galaxy.systems:
 		var system = galaxy.systems[sys]
-		sys_gen.generate_planets(system)
+		StarSystemGenerator.generate_planets(system)
 	pass
 	
-func connect_star_systems(galaxy):
+static func connect_star_systems(galaxy):
 	var first = true
 	# TODO: walk through the systems and spawn connections
 	for sys in galaxy.systems:
@@ -79,5 +76,5 @@ func connect_star_systems(galaxy):
 	pass
 
 # plunk races into random systems
-func distribute_races(galaxy):
+static func distribute_races(galaxy):
 	pass

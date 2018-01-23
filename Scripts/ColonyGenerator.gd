@@ -1,18 +1,18 @@
 extends Reference
 
 # creates a sensible colony based on a planet grid
-var BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
-var Planetmap = preload("res://Scripts/Planetmap.gd")
-var Colony = preload("res://Scripts/Model/Colony.gd")
-var PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
+const BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
+const Planetmap = preload("res://Scripts/Planetmap.gd")
+const Colony = preload("res://Scripts/Model/Colony.gd")
+const PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
 
-var buildings = {}
+#var buildings = {}
 
-var colony_base_neighbor_scores = ["black", "blue", "white", "green", "red"]
-var colony_base_tile_scores = ["blue", "white", "green", "red", "black"]
-var colony_plans = ["initial", "industry", "research", "debug"]
+const colony_base_neighbor_scores = ["black", "blue", "white", "green", "red"]
+const colony_base_tile_scores = ["blue", "white", "green", "red", "black"]
+const colony_plans = ["initial", "industry", "research", "debug"]
 
-var colony_plan = {
+const colony_plan = {
 	"initial": {
 		"colony_base": 1,
 		"factory": 12,
@@ -20,14 +20,14 @@ var colony_plan = {
 	}
 }
 
-func initialize_colony(player, planet, home = false):
+static func initialize_colony(player, planet, home = false):
 	# TODO: use predefined sizes and types for home planets
 	if home == true:
 		var old_name = planet.planet_name
 		var old_system = planet.system
 		var home_size = RaceDefinitions.home_planets[player.race.type].size
 		var home_type = RaceDefinitions.home_planets[player.race.type].type
-		planet = PlanetGenerator.new().generate_planet(home_size, home_type)
+		planet = PlanetGenerator.generate_planet(home_size, home_type)
 		planet.planet_name = old_name
 		planet.system = old_system
 	planet.owner = player
@@ -55,16 +55,16 @@ func initialize_colony(player, planet, home = false):
 	return planet
 	pass
 
-func generate_colony(planet, plan):
+static func generate_colony(planet, plan):
 	# TODO: move count_cells to a static func somewhere
-	var cell_count = Planetmap.new().count_cells(planet)
+	var cell_count = Planetmap.count_cells(planet)
 	
 	var colony_coords = pick_colony_spot(planet, cell_count)
 
 	return colony_coords
 	pass
 	
-func pick_colony_spot(planet, cell_count):
+static func pick_colony_spot(planet, cell_count):
 	var best_tile = null
 	var best_score = null
 	var all_tiles = []
@@ -129,7 +129,7 @@ func pick_colony_spot(planet, cell_count):
 	return best_tile
 	pass
 	
-func _get_tile_score(tile, neighbors):
+static func _get_tile_score(tile, neighbors):
 	var sum = 0
 	var tile_index = colony_base_tile_scores.find(tile.get_tile_type())
 	# TODO: this is dirty, but it works.. still dirty
