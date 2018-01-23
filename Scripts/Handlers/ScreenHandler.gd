@@ -62,7 +62,7 @@ func return_screen():
 	# New Game selected & confirmed: move forward
 	if current_screen == RaceIntroScreen:
 		init_gameplay()
-	if screens.size() > 1:
+	elif screens.size() > 1:
 		screens.back().hide()
 		screens.pop_back()
 		# TODO: if multiple are visible (galaxy + species < intelligence), find something else
@@ -82,7 +82,6 @@ func use_galaxy_options_and_show_intro(galaxy_options, race_key, color):
 	GameStateHandler.initialize_galaxy(galaxy_options, race_key, color)
 	GalaxyScreen.set_color(color)
 	move_to_screen(RaceIntroScreen)
-	pass
 	
 func _next_turn_requested():
 	TurnHandler.game_turn()
@@ -98,25 +97,20 @@ func _galaxy_view(game_state):
 	move_to_screen(GalaxyScreen)
 
 func _research_view(player = null):
-	# FIXME: find current human player
 	ResearchScreen.show_research(GameStateHandler.game_state.human_player)
 	move_to_screen(ResearchScreen)
-	pass
 	
 func _planetlist_view(player = null):
-	# FIXME: find current human player
 	PlanetListScreen.set_player(GameStateHandler.game_state.human_player)
 	move_to_screen(PlanetListScreen)
 	
 func _system_view(system):
 	set_payload(BattleScreen, system)
 	move_to_screen(BattleScreen)
-	pass
 	
 func _planet_view(planet):
 	set_payload(PlanetScreen, planet)
 	move_to_screen(PlanetScreen)
-	pass
 
 func request_new_game():
 	GalaxySettingsScreen.reset()
@@ -147,6 +141,7 @@ func move_to_screen(screen):
 	#screen.set_payload(payload)
 	screen.show()
 	screens.append(screen)
+	current_screen = screen
 #	var children = get_children()
 #	for c in range(children.size()):
 #		var child = children[c]
