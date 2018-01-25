@@ -14,4 +14,5 @@ func repaint(game_state):
 	pass
 	
 func _process(delta):
-	galaxy_root.rotate(delta, 1)
+	if is_visible():
+		galaxy_root.rotate(delta, 1)

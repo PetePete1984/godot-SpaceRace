@@ -34,10 +34,11 @@ func _fixed_process(delta):
 	pass
 	
 func rotate(delta, direction = 1):
-	#anchor.rotate_y(deg2rad(delta*SPIN_SPEED*direction))
-	anchor.global_rotate(Vector3(0,1,0), deg2rad(delta*SPIN_SPEED*direction))
-	# TODO: notify group instead of emitting signal
-	emit_signal("rotated")
+	if is_visible() and direction != 0:
+		#anchor.rotate_y(deg2rad(delta*SPIN_SPEED*direction))
+		anchor.global_rotate(Vector3(0,1,0), deg2rad(delta*SPIN_SPEED*direction))
+		# TODO: notify group instead of emitting signal
+		emit_signal("rotated")
 
 func set_galaxy(game_state, interaction = true):
 	var galaxy = game_state.galaxy
@@ -65,13 +66,15 @@ func rotate_h(delta, direction):
 	pass
 
 func rotate_v(delta, direction):
-	anchor.global_rotate(Vector3(1,0,0), deg2rad(delta*SPIN_SPEED*direction))
-	emit_signal("rotated")
+	if direction != 0:
+		anchor.global_rotate(Vector3(1,0,0), deg2rad(delta*SPIN_SPEED*direction))
+		emit_signal("rotated")
 	pass
 
 func zoom(delta, direction):
-	camera.size += delta*ZOOM_SPEED*direction
-	emit_signal("zoomed")
+	if direction != 0:
+		camera.size += delta*ZOOM_SPEED*direction
+		emit_signal("zoomed")
 	pass
 
 func reset_camera():

@@ -44,13 +44,15 @@ func _process(delta):
 		scroll(delta, scroll_direction)
 	
 func rotate(delta, direction = 1):
-	research_center.rotate_y(deg2rad(delta * SPIN_SPEED * direction))
-	# TODO: notify group instead of emitting signal
-	emit_signal("rotated")
+	if direction != 0:
+		research_center.rotate_y(deg2rad(delta * SPIN_SPEED * direction))
+		# TODO: notify group instead of emitting signal
+		emit_signal("rotated")
 
 func scroll(delta, direction = 1):
-	camera.translate(Vector3(0, direction, 0) * delta * SCROLL_SPEED)
-	emit_signal("scrolled")
+	if direction != 0:
+		camera.translate(Vector3(0, direction, 0) * delta * SCROLL_SPEED)
+		emit_signal("scrolled")
 
 func clear_screen():
 	for s in sprites_anchor.get_children():

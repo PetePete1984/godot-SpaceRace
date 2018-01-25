@@ -47,12 +47,14 @@ func _process(delta):
 	pass
 
 func rotate(delta, direction):
-	anchor.rotate_y(deg2rad(SPIN_SPEED*delta*direction))
-	emit_signal("rotated")
+	if direction != 0:
+		anchor.rotate_y(deg2rad(SPIN_SPEED*delta*direction))
+		emit_signal("rotated")
 
 func zoom(delta, direction):
-	camera.size += ZOOM_SPEED*delta*direction
-	emit_signal("zoomed")
+	if direction != 0:
+		camera.size += ZOOM_SPEED*delta*direction
+		emit_signal("zoomed")
 	
 func display_grid(display = true):
 	grid.set("geometry/visible", display)
