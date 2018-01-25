@@ -15,6 +15,7 @@ onready var PlanetScreen = get_node("PlanetScreen")
 onready var ShipDesignScreen = get_node("ShipDesignScreen")
 
 signal leaving_screen
+signal quit_requested
 
 # screen stack
 var screens = []
@@ -70,7 +71,7 @@ func return_screen():
 		screens.back().show()
 		emit_signal("leaving_screen")
 	else:
-		get_tree().quit()
+		emit_signal("quit_requested")
 	pass
 
 func title_screen():

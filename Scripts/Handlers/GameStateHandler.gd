@@ -13,6 +13,7 @@ var GalaxyGenerator = preload("res://Scripts/GalaxyGenerator.gd")
 var RaceGenerator = preload("res://Scripts/RaceGenerator.gd")
 var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
 
+var GameStatePurger = preload("res://Scripts/Tools/GameStatePurger.gd")
 # temporary game state for the "new game" screen
 var new_game_state
 
@@ -45,6 +46,7 @@ func load_old_game(path):
 func start_new_game():
 	# TODO: immediately resuming on boot leaves galaxy in a half-finished state
 	#randomize()
+	#purge_game_state(game_state)
 	game_state = make_game_state(mapdefs.default_galaxy_settings)
 	game_state.galaxy = GalaxyGenerator.generate_galaxy(null)
 	# get a default human player
@@ -73,6 +75,8 @@ func make_game_state(settings):
 # this creates a galaxy that can be displayed on the "new game" screen
 # and keeps it in new_game_state
 func generate_stars(size = null):
+	if new_game_state != null:
+		GameStatePurger.purge_game_state(new_game_state)
 	new_game_state = make_game_state(mapdefs.default_galaxy_settings)
 	new_game_state.galaxy = GalaxyGenerator.generate_stars(size)
 	emit_signal("new_stars_generated", new_game_state)
@@ -128,8 +132,10 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			new_game_state.galaxy.races = new_game_state.races
 		
 		# move everything into the normal game state
+		GameStatePurger.purge_game_state(game_state)
 		game_state = null
 		game_state = new_game_state
+		#GameStatePurger.purge_game_state(new_game_state)
 		new_game_state = null
 	pass
 

@@ -1,4 +1,4 @@
-extends Object
+extends Reference
 
 func get_json_from_galaxy(galaxy):
 	var result = {}

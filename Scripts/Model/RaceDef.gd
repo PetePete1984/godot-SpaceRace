@@ -1,5 +1,5 @@
 # race def
-extends Object
+extends Reference
 
 var type = ""
 var race_name = ""
