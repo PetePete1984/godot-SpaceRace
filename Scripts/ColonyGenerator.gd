@@ -51,6 +51,7 @@ static func initialize_colony(player, planet, home = false):
 	#building_tile.tilemap_x = colony_tile.x
 	#building_tile.tilemap_y = colony_tile.y
 	colony.refresh()
+	Planetmap.refresh_grids(planet)
 	# FIXME: meeeeh
 	return planet
 	pass

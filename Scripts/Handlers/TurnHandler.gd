@@ -1,6 +1,7 @@
 extends Node
 
 onready var EventGenerator = preload("res://Scripts/EventGenerator.gd")
+var AlienRaceHandler = preload("res://Scripts/Handlers/AlienRaceHandler.gd")
 var TurnTimer
 
 signal turn_finished
@@ -48,6 +49,7 @@ func game_turn():
 				
 			if player.type == "ai":
 				# TODO: magic dragons
+				AlienRaceHandler.handle(player)
 				pass
 	# if player initiates battle in any battle screen, split that into sub-turns for that system
 	#   this is handled outside the normal turn!

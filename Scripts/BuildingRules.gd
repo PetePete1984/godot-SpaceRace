@@ -1,7 +1,17 @@
 # BuildingRules
-extends Node
+extends Reference
 
-func get_projects_for_surface(planet, cell, building_tile):
+static func project_available(player, project):
+	var definition = BuildingDefinitions.building_defs[project]
+	if definition.requires_research != null:
+		if player != null:
+			return definition.requires_research in player.completed_research
+		else:
+			return false
+	else:
+		return true
+
+static func get_projects_for_surface(planet, cell, building_tile):
 	var player = planet.owner
 	var cell_grid = planet.grid
 	var building_grid = planet.buildings
@@ -25,6 +35,7 @@ func get_projects_for_surface(planet, cell, building_tile):
 		var allowed = true
 		
 		# check for research
+		# TODO: use project_available
 		if building.requires_research != null:
 			if player != null:
 				if not building.requires_research in player.completed_research:

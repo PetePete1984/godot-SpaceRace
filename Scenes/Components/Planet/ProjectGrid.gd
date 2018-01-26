@@ -9,8 +9,7 @@ func _ready():
 
 # TODO: this belongs into more detached game rules and planet management classes because the AI doesn't see screens
 func get_projects_for_surface(planet, cell, building_tile):
-	var br = BuildingRules.new()
-	return br.get_projects_for_surface(planet, cell, building_tile)
+	return BuildingRules.get_projects_for_surface(planet, cell, building_tile)
 
 func get_sprites_for_projects(projects, tile, type = "Surface"):
 	var texturebuttons = []

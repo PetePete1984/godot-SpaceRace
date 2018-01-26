@@ -225,6 +225,24 @@ var cell_preference = {
 	"blue": ["research_campus", "metroplex", "laboratory"]
 }
 
+var tile_preference = {
+	"industry": "red",
+	"research": "blue",
+	"prosperity": "green",
+	"terraforming": "black",
+	"transport_tubes": "black"
+}
+
+var building_preference = {
+	"industry": ["industrial_mega_facility", "metroplex", "engineer_retreat", "factory"],
+	"research": ["research_campus", "metroplex", "laboratory"],
+	"prosperity": ["artificial_hydroponifer", "agriplot", "metroplex", "logic_factory"],
+	"habitation": ["metroplex", "habitat", "outpost"],
+	"weapons_orbital": [],
+	"shields_surface": [],
+	"shields_orbital": []
+}
+
 func _ready():
 	var real_defs = {}
 	for bkey in building_defs:

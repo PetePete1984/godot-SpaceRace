@@ -21,6 +21,8 @@ var type = "cornucopia"
 # initial max population
 var base_population = 0
 
+# 
+var growth_bombed = false
 # both cell and building grids could just as well be dictionaries
 # initial cell grid
 var grid = []

@@ -8,6 +8,7 @@ var currentPlanet = null
 var current_control_mode = control_mode.NORMAL
 
 var PlanetMap = preload("res://Scripts/Planetmap.gd")
+var ColonyManager = preload("res://Scripts/ColonyManager.gd")
 var BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 
 onready var tilemap_cells = get_node("TileMapAnchor/TileMapCells")
@@ -50,23 +51,10 @@ func _on_project_picked(key, tile, type):
 	# - end all old projects (unless queue is working)
 	# - start the new project at the specified position, setting the proper building tile
 	# afterwards, the tilemap refresh should happen
-	var project = BuildingProject.new()
-	project.building = key
-	var project_def = BuildingDefinitions.building_defs[key]
-	var building_index = BuildingDefinitions.building_types.find(key)
-	var grid_tile = tile
-	
-	#tilemap_buildings.set_cell(grid_tile.tilemap_x, grid_tile.tilemap_y, building_index)
-	project.remaining_industry = project_def.cost
-	project.position = Vector2(grid_tile.tilemap_x, grid_tile.tilemap_y)
-	project.type = type
-	
-	currentPlanet.colony.start_surface_building(project)
-	project_display.set_project(currentPlanet)
-	surface_project_sprite.set_project(tilemap_buildings, currentPlanet.colony.project)
-	currentPlanet.colony.refresh()
-	# TODO: may be obsolete
+	ColonyManager.start_colony_project(currentPlanet.colony, key, type, Vector2(tile.tilemap_x, tile.tilemap_y))
 	project_grid.clear_buttons()
+	
+	# TODO: may be obsolete
 	PlanetMap.get_tilemap_from_planet(currentPlanet, tilemap_cells, tilemap_buildings)
 	_notify_displays()
 	popup.hide()
@@ -109,7 +97,9 @@ func _notify_displays():
 		prosperity_display.set_points(currentPlanet.colony.adjusted_prosperity)
 		worker_display.set_population(currentPlanet)
 		project_display.set_project(currentPlanet)
-		surface_project_sprite.update_progress(currentPlanet.colony.project)
+		#surface_project_sprite.update_progress(currentPlanet.colony.project)
+		#project_display.set_project(currentPlanet)
+		surface_project_sprite.set_project(tilemap_buildings, currentPlanet.colony.project)
 	else:
 		# TODO: reset display for empty planets
 		research_display.set_points(0)

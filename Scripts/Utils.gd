@@ -25,8 +25,7 @@ func rand_key_from_dict(dict):
 	return keys[index]
 
 func rand_pick_from_array(array):
-	var index = randi() % array.size()
-	return array[index]
+	return array[randi() % array.size()]
 	
 func rand_pick_from_array_no_dupes(array, picked):
 	var iterations = 0

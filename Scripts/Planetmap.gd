@@ -8,22 +8,19 @@ const BUILDABLE_OFFSET = 5
 const Planet = preload("res://Scripts/Model/Planet.gd")
 const PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
 
-static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
-	tilemap_cells.clear()
-	tilemap_buildings.clear()
-	#tilemap_orbitals.clear()
-	
+static func refresh_grids(planet):
 	var cells = mapdefs.cell_types
 	var buildings = BuildingDefinitions.building_types
 	
 	if planet.grid.size() != planet.buildings.size():
 		print("Grid size doesn't match building grid size")
 	
+	# FIXME: this should happen on init, before the planet is viewed, otherwise it'll never work
 	# reset buildable state
 	for x in range(planet.grid.size()):
 		for y in range(planet.grid[x].size()):
 			planet.grid[x][y].buildable = false
-	
+
 	# buildings first
 	# FIXME: keep an eye on black squares next to colony bases, might be broken
 	# FIXME: keep an eye on empty tiles next to xeno ruins, might also be broken
@@ -41,6 +38,43 @@ static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
 							for n in neighbors:
 								if neighbors[n] != null:
 									neighbors[n].buildable = true
+						#tilemap_buildings.set_cell(x, y, building_index)
+	
+	# tiles second
+	for x in range(planet.grid.size()):
+		for y in range(planet.grid[x].size()):
+			var tile = planet.grid[x][y]
+			var tile_type = tile.get_tile_type()
+			var cell_index = cells.find(tile_type)
+			
+			if cell_index != -1:
+				if tile.buildable == false:
+					cell_index += BUILDABLE_OFFSET
+				#tilemap_cells.set_cell(x, y, cell_index)
+				
+	pass
+
+
+static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
+	tilemap_cells.clear()
+	tilemap_buildings.clear()
+	#tilemap_orbitals.clear()
+	
+	var cells = mapdefs.cell_types
+	var buildings = BuildingDefinitions.building_types
+	
+	# buildings first
+	# FIXME: keep an eye on black squares next to colony bases, might be broken
+	# FIXME: keep an eye on empty tiles next to xeno ruins, might also be broken
+	for x in range(planet.grid.size()):
+		for y in range(planet.grid[x].size()):
+			var building = planet.buildings[x][y]
+			if building.type != null:
+				var building_type = building.type.type
+				var building_index = buildings.find(building_type)
+				
+				if building_index != -1:
+					if building.active:
 						tilemap_buildings.set_cell(x, y, building_index)
 	
 	# tiles second
@@ -55,7 +89,6 @@ static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
 					cell_index += BUILDABLE_OFFSET
 				tilemap_cells.set_cell(x, y, cell_index)
 				
-	pass
 	
 static func count_cells(planet):
 	var cells = mapdefs.cell_types
