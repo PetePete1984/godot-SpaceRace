@@ -45,11 +45,11 @@ func get_tile_neighbors(x, y, grid, diagonals = false):
 		"east": null
 	}
 	
-	if y-1 > 0:
+	if y-1 >= 0:
 		neighbors.north = grid[x][y-1]
 	if y+1 < grid[0].size():
 		neighbors.south = grid[x][y+1]
-	if x-1 > 0:
+	if x-1 >= 0:
 		neighbors.west = grid[x-1][y]
 	if x+1 < grid.size():
 		neighbors.east = grid[x+1][y]
@@ -59,13 +59,13 @@ func get_tile_neighbors(x, y, grid, diagonals = false):
 		neighbors.nw = null
 		neighbors.se = null
 		neighbors.sw = null
-		if y-1 > 0 and x+1 < grid.size():
+		if y-1 >= 0 and x+1 < grid.size():
 			neighbors.ne = grid[x+1][y-1]
 		if y+1 < grid[0].size() and x+1 < grid.size():
 			neighbors.se = grid[x+1][y+1]
-		if y-1 > 0 and x-1 > 0:
+		if y-1 >= 0 and x-1 >= 0:
 			neighbors.nw = grid[x-1][y-1]
-		if x-1 > 0 and y+1 < grid[0].size():
+		if x-1 >= 0 and y+1 < grid[0].size():
 			neighbors.sw = grid[x-1][y+1]
 			
 	return neighbors
