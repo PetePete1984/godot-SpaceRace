@@ -37,20 +37,23 @@ static func refresh_grids(planet):
 							var neighbors = Utils.get_tile_neighbors(x, y, planet.grid)
 							for n in neighbors:
 								if neighbors[n] != null:
-									neighbors[n].buildable = true
+									if neighbors[n].tiletype != null:
+										neighbors[n].buildable = true
 						#tilemap_buildings.set_cell(x, y, building_index)
 	
 	# tiles second
 	for x in range(planet.grid.size()):
 		for y in range(planet.grid[x].size()):
 			var tile = planet.grid[x][y]
-			var tile_type = tile.get_tile_type()
-			var cell_index = cells.find(tile_type)
+			var cell_index = cells.find(tile.tiletype)
 			
 			if cell_index != -1:
 				if tile.buildable == false:
 					cell_index += BUILDABLE_OFFSET
 				#tilemap_cells.set_cell(x, y, cell_index)
+			else:
+				#print("found weird tile")
+				pass
 				
 	pass
 
@@ -81,8 +84,7 @@ static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
 	for x in range(planet.grid.size()):
 		for y in range(planet.grid[x].size()):
 			var tile = planet.grid[x][y]
-			var tile_type = tile.get_tile_type()
-			var cell_index = cells.find(tile_type)
+			var cell_index = cells.find(tile.tiletype)
 			
 			if cell_index != -1:
 				if tile.buildable == false:
@@ -99,7 +101,7 @@ static func count_cells(planet):
 	for x in range(planet.grid.size()):
 		for y in range(planet.grid[x].size()):
 			var tile = planet.grid[x][y]
-			var tile_type = tile.get_tile_type()
+			var tile_type = tile.tiletype
 			if tile_type != null:
 				cellcount["all"] += 1
 				cellcount[tile_type] += 1
