@@ -99,6 +99,12 @@ func get_surface_building(building):
 		var path = "res://Images/Screens/Planet/Buildings/Surface/%02d_%s.png" % [building_index + 1, building]
 		return get_texture(path)
 	pass
+
+func get_orbital_building(project):
+	var project_index = OrbitalDefinitions.orbital_types.find(project)
+	if project_index != -1:
+		var path = "res://Images/Screens/Planet/Buildings/Orbital/%02d_%s.png" % [project_index + 1, project]
+		return get_texture(path)
 	
 func get_research_icon(research):
 	var resDef = ResearchDefinitions.research_defs[research]

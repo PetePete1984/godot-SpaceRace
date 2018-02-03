@@ -4,6 +4,7 @@ extends Reference
 const Planet = preload("res://Scripts/Model/Planet.gd")
 const PlanetTile = preload("res://Scripts/Model/PlanetTile.gd")
 const BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
+const OrbitalTile = preload("res://Scripts/Model/OrbitalTile.gd")
 
 static func generate_planet(size = null, type = null):
 	#randomize()
@@ -18,6 +19,7 @@ static func generate_planet(size = null, type = null):
 		planet.type = type
 		
 	generate_planet_grid(planet)
+	generate_orbital_grid(planet)
 	
 	#initialize_building_grid(planet)
 	spawn_xeno_ruins(planet)
@@ -86,7 +88,6 @@ static func generate_planet_grid(planet):
 					pick -= weights[w]
 					if pick < 0: # can't do <= because 0 chances exist, maybe have to offset total_weight by 1
 						tile = w
-						# TODO: generate proper planet tiles
 						break
 				if tile != null:
 					# account for shift and set tile
@@ -94,6 +95,15 @@ static func generate_planet_grid(planet):
 			pass
 		pass
 	pass
+
+static func generate_orbital_grid(planet):
+	for x in range(2):
+		planet.orbitals.append([])
+		for y in range(5):
+			var orbital_tile = OrbitalTile.new()
+			orbital_tile.tilemap_x = x
+			orbital_tile.tilemap_y = y
+			planet.orbitals[x].append(orbital_tile)
 
 static func spawn_xeno_ruins(planet):
 	# decide if xeno ruins should be spawned on this planet

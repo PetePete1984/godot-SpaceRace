@@ -55,7 +55,7 @@ func _on_project_picked(key, tile, type):
 	project_grid.clear_buttons()
 	
 	# TODO: may be obsolete
-	PlanetMap.get_tilemap_from_planet(currentPlanet, tilemap_cells, tilemap_buildings)
+	PlanetMap.get_tilemap_from_planet(currentPlanet, tilemap_cells, tilemap_buildings, tilemap_orbitals)
 	_notify_displays()
 	popup.hide()
 
@@ -85,7 +85,7 @@ func set_planet(planet):
 
 func generate_planet_display(planet):
 	planet_sprite.set_planet(planet)
-	PlanetMap.get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings)
+	PlanetMap.get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings, tilemap_orbitals)
 	_notify_displays()
 	pass
 
@@ -165,6 +165,22 @@ func _input(event):
 			var tilemap_orbitals_pos = tilemap_orbitals.world_to_map(relative_mouse_pos_orbital)
 			var orbital_cell = tilemap_orbitals.get_cellv(tilemap_orbitals_pos)
 			if tilemap_orbitals_pos.x in range(0,2) and tilemap_orbitals_pos.y in range(0,5):
+				# mouse was clicked above an orbital cell
+				var orbital_under_mouse = currentPlanet.orbitals[tilemap_orbitals_pos.x][tilemap_orbitals_pos.y]
+				if orbital_under_mouse.type != null:
+					# occupied tile
+					var text = "%s, %s %s" % [orbital_under_mouse.type.orbital_name, tilemap_orbitals_pos.x, tilemap_orbitals_pos.y]
+				else:
+					# free tile
+					var text = "Orbital squares can be used to anchor orbital structures"
+					var orbitals = project_grid.get_projects_for_orbit(currentPlanet, orbital_under_mouse)
+					var textbut = project_grid.get_sprites_for_projects(orbitals, orbital_under_mouse, "Orbital")
+					for tb in textbut:
+						tb.connect("project_picked", self, "_on_project_picked")
+					project_grid.set_buttons_on_container(textbut)
+					popup.set_text(text)
+					popup.call_deferred("popup_centered_ratio")
+
 				pass
 			else:
 				pass
@@ -181,9 +197,10 @@ func _input(event):
 			if cell != -1:
 				var tile_under_mouse = currentPlanet.grid[tilemap_cells_pos.x][tilemap_cells_pos.y]
 				var building_under_mouse = currentPlanet.buildings[tilemap_cells_pos.x][tilemap_cells_pos.y]
-				if tile_under_mouse.get_tile_type() != null or building_under_mouse.type != null:
+				if tile_under_mouse.tiletype != null or building_under_mouse.type != null:
 					if building_under_mouse.type != null:
-						var text = "%s on %s square" % [building_under_mouse.building_name, tile_under_mouse.get_tile_type().capitalize()]
+						# TODO: use type's name
+						var text = "%s on %s square, %s %s" % [building_under_mouse.building_name, tile_under_mouse.tiletype.capitalize(), tilemap_cells_pos.x, tilemap_cells_pos.y]
 						# TODO: Normal behaviour is a popup that allows abandon or automate
 						var buildings = project_grid.get_projects_for_surface(currentPlanet, tile_under_mouse, building_under_mouse)
 						var textbut = project_grid.get_sprites_for_projects(buildings, tile_under_mouse)
@@ -195,7 +212,7 @@ func _input(event):
 						popup.call_deferred("popup_centered_ratio")
 						#print(text)
 					else:
-						var text = "%s square, score: %02d" % [tile_under_mouse.get_tile_type().capitalize(), tile_under_mouse.score]
+						var text = "%s square, score: %02d, %s %s" % [tile_under_mouse.tiletype.capitalize(), tile_under_mouse.score, tilemap_cells_pos.x, tilemap_cells_pos.y]
 						if tile_under_mouse.buildable and current_control_mode == control_mode.NORMAL:
 							var buildings = project_grid.get_projects_for_surface(currentPlanet, tile_under_mouse, building_under_mouse)
 							var textbut = project_grid.get_sprites_for_projects(buildings, tile_under_mouse)

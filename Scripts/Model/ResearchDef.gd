@@ -12,3 +12,10 @@ var cost = 0
 # maybe
 var index = 0
 var requires = []
+
+var allows = {
+	"surface": [],
+	"orbital": [],
+	"tech": [],
+	"ship_module": []
+}

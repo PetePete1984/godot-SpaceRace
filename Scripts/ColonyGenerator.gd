@@ -30,6 +30,7 @@ static func initialize_colony(player, planet, home = false):
 		planet = PlanetGenerator.generate_planet(home_size, home_type)
 		planet.planet_name = old_name
 		planet.system = old_system
+		Planetmap.refresh_grids(planet)
 	planet.owner = player
 	var colony = Colony.new()
 	colony.owner = player
@@ -98,12 +99,10 @@ static func pick_colony_spot(planet, cell_count):
 		for y in range(mapdefs.planet_max_grid):
 			var tile = planet.grid[x][y]
 			var building = planet.buildings[x][y]
-			# get current tile type
-			var tile_type = tile.get_tile_type()
 
-			# null tiles aren't buildable, so they are not interesting
+			# null tiles aren't buildable because they're outside the grid, so they are not interesting
 			# existing buildings are xeno ruins, so they are not interesting
-			if tile_type != null and building.type == null:
+			if tile.tiletype != null and building.type == null:
 				# get neighbor tile types
 				neighbors = Utils.get_tile_neighbors(x, y, planet.grid)
 				
@@ -132,15 +131,15 @@ static func pick_colony_spot(planet, cell_count):
 	
 static func _get_tile_score(tile, neighbors):
 	var sum = 0
-	var tile_index = colony_base_tile_scores.find(tile.get_tile_type())
+	var tile_index = colony_base_tile_scores.find(tile.tiletype)
 	# TODO: this is dirty, but it works.. still dirty
-	if tile.get_tile_type() == "blue":
+	if tile.tiletype == "blue":
 		tile_index = -50
 	sum += tile_index
 	for n in neighbors:
 		var n_type = null
 		if neighbors[n] != null:
-			n_type = neighbors[n].get_tile_type()
+			n_type = neighbors[n].tiletype
 		var n_index = colony_base_neighbor_scores.find(n_type)
 		sum += n_index
 	return sum

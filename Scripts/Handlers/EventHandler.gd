@@ -52,7 +52,7 @@ func display_event(event):
 	return pop
 
 func has_popups():
-	return anchor_object.get_children().size() > 0
+	return anchor_object.is_visible() and anchor_object.get_children().size() > 0
 
 func dismiss_top():
 	anchor_object.get_children()[-1].dismiss()

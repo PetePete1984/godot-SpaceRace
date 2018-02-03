@@ -52,6 +52,7 @@ func grow_population():
 func start_surface_building(new_project):
 	# cancel old project
 	# TODO: check for memory leaks, probably can't just null this
+	# TODO: somehow I blocked myself elsewhere and can't switch projects unless it's on the same tile
 	if project != null:
 		# remove building in progress if applicable
 		var old_x = project.position.x
@@ -61,7 +62,7 @@ func start_surface_building(new_project):
 		if old_building.type != null:
 			old_building.reset()
 			
-		# TODO: free the old worker?
+		# TODO: free the old worker? should be done by update stats?
 		
 		project = null
 	
@@ -70,6 +71,7 @@ func start_surface_building(new_project):
 	# get the building tile
 	var building = planet.buildings[x][y]
 	# check if there's an active building on the tile
+	# TODO: maybe null check building tile first
 	if building.active:
 	# if yes, deactivate it
 		# if the project isn't automation, replace the building
@@ -80,6 +82,7 @@ func start_surface_building(new_project):
 	# then just reconfigure the building tile
 	building.automated = false
 	building.type = BuildingDefinitions.building_defs[new_project.building]
+	# TODO: see if this can be made obsolete
 	building.building_name = building.type.building_name
 	project = new_project
 	pass
@@ -108,7 +111,7 @@ func finish_project():
 	# empty the project
 	project = null
 	# TODO: use the next in queue
-	refresh()
+	#refresh()
 	pass
 	
 func refresh():

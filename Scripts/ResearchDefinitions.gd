@@ -413,5 +413,20 @@ func _ready():
 		var cost_factor = max(1, (rDef.index-10)*2)
 		rDef.cost = rDef.cost * cost_factor
 		real_defs[rkey] = rDef
+
+	for bkey in BuildingDefinitions.building_defs:
+		var bdef = BuildingDefinitions.building_defs[bkey]
+		if bdef.requires_research != null:
+			real_defs[bdef.requires_research].allows.surface.append(bkey)
+			pass
+	
+	for okey in OrbitalDefinitions.orbital_defs:
+		var odef = OrbitalDefinitions.orbital_defs[okey]
+		if odef.requires_research != null:
+			real_defs[odef.requires_research].allows.orbital.append(okey)
+
+
+	#for rkey in real_defs:
+	#	printt(rkey, real_defs[rkey].allows)
 	research_defs = real_defs
 	pass

@@ -61,6 +61,12 @@ static func get_projects_for_surface(planet, cell, building_tile):
 			#if BuildingDefinitions.building_restriction.has(bdef_key):
 			#	continue
 
+			# TODO: idle population restriction only applies if there is no project running that uses pop, otherwise the new project is allowed to replace the old one
+			# TODO: check if this can be moved outside because all buildings need pop
+			# TODO: if building queues get implemented, queued buildings don't obey this restriction
+			if planet.population.idle < building.used_pop_during_construction and planet.colony.project == null:
+				continue
+
 			# the color of the tile decides what can be built
 			# special rule: orfa can build everything on black
 			# special rule 2: nobody can build tubes or terraforming on normal squares
@@ -85,6 +91,7 @@ static func get_projects_for_surface(planet, cell, building_tile):
 			# the very special case here are xeno ruins, which can only take a xeno dig, and only if they're next to a built tile already
 			# the "normal" special cases are tubes, which can be replaced by terraforming (that deletes the tubes!)
 			# ergo, if the building is replaceable, then the color underneath dictates by what
+			# TODO: distinguish between active and inactive?
 			var existing_building = BuildingDefinitions.building_defs[existing_building_type]
 
 			if not existing_building.replaceable:
@@ -144,3 +151,38 @@ static func get_projects_for_surface(planet, cell, building_tile):
 	# TODO: sort by cell preference or whatever
 	return projects
 
+static func get_projects_for_orbit(planet, orbital_tile):
+	var player = planet.owner
+	var orbital_grid = planet.orbitals
+	var projects = []
+
+	var existing_orbital_type = null
+
+	if orbital_tile.type != null:
+		# orbital exists already
+		existing_orbital_type = orbital_tile.type.type
+	
+	for odef_key in OrbitalDefinitions.orbital_defs:
+		var orbital = OrbitalDefinitions.orbital_defs[odef_key]
+
+		var allowed = true
+		if orbital.requires_research != null:
+			if player != null:
+				if not orbital.requires_research in player.completed_research:
+					continue
+
+		# 4 things can be on a tile
+		# a) nothing
+		# b) a finished orbital building
+		# c) an orbital in progress
+		# d) a ship (friend or foe)
+
+		if existing_orbital_type == null:
+			# nothing is on the tile
+			if planet.population.idle < orbital.used_pop_during_construction:
+				continue
+		else:
+			pass
+		if allowed:
+			projects.append(odef_key)
+	return projects

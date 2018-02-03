@@ -54,17 +54,17 @@ static func refresh_grids(planet):
 			else:
 				#print("found weird tile")
 				pass
-				
 	pass
 
 
-static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
+static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings, tilemap_orbitals):
 	tilemap_cells.clear()
 	tilemap_buildings.clear()
 	#tilemap_orbitals.clear()
 	
 	var cells = mapdefs.cell_types
 	var buildings = BuildingDefinitions.building_types
+	var orbital_tiles = OrbitalDefinitions.orbital_types
 	
 	# buildings first
 	# FIXME: keep an eye on black squares next to colony bases, might be broken
@@ -90,6 +90,17 @@ static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings):
 				if tile.buildable == false:
 					cell_index += BUILDABLE_OFFSET
 				tilemap_cells.set_cell(x, y, cell_index)
+	
+	# orbitals last, they don't influence the other buildings
+	for x in range(planet.orbitals.size()):
+		for y in range(planet.orbitals[x].size()):
+			var orbital = planet.orbitals[x][y]
+			if orbital.type != null:
+				var orbital_index = orbital_tiles.find(orbital.type.type)
+
+				if orbital_index != -1:
+					if orbital.active:
+						tilemap_orbitals.set_cell(x, y, orbital_index)
 				
 	
 static func count_cells(planet):

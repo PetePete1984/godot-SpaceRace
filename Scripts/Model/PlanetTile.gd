@@ -12,9 +12,3 @@ var tilemap_y = 0
 var score = 0
 # tile score for finding the best possible colony spot
 var colony_score = 0
-
-func get_tile_type():
-	return tiletype
-	
-func get_building():
-	return building

@@ -11,6 +11,9 @@ func _ready():
 func get_projects_for_surface(planet, cell, building_tile):
 	return BuildingRules.get_projects_for_surface(planet, cell, building_tile)
 
+func get_projects_for_orbit(planet, orbital_tile):
+	return BuildingRules.get_projects_for_orbit(planet, orbital_tile)
+
 func get_sprites_for_projects(projects, tile, type = "Surface"):
 	var texturebuttons = []
 	if not type in ["Surface", "Orbital", "Tech"]:
