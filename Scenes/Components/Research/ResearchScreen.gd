@@ -13,6 +13,10 @@ onready var research_ring = get_node("CurrentResearch/Ring")
 onready var research_title = get_node("CurrentResearch/Title")
 onready var research_time = get_node("CurrentResearch/Time")
 
+# list of allowed items
+# make it a scrollcontainer, then preload a scene with a vbox container that contains a (centered) label and a (centered) textureframe
+onready var research_enables = get_node("ResearchEnables/ScrollContainer/VBoxContainer")
+
 # title bar elements
 onready var flag = get_node("Title/Flag/FlagIcon")
 onready var race = get_node("Title/Text/RaceKnowledge")
@@ -25,6 +29,7 @@ onready var down = get_node("Buttons/Down")
 
 # TODO: get a factory to do this - ie an autoload that preloads all imports
 var ResearchProject = preload("res://Scripts/Model/ResearchProject.gd")
+var ResearchEnablesDisplay = preload("res://Scenes/Components/Research/ResearchEnablesDisplay.tscn")
 
 func _ready():
 	tree.connect("research_selected", self, "_on_research_selected")
@@ -57,6 +62,9 @@ func clear_research():
 	research_ring.hide()
 	research_title.hide()
 	research_time.hide()
+	for c in research_enables.get_children():
+		c.hide()
+		c.queue_free()
 	pass
 	
 func show_default():
@@ -70,22 +78,63 @@ func preview_research(player, research):
 	show_default()
 	current_title.hide()
 	active_research.set_texture(TextureHandler.get_research_icon(research))
-	research_title.set_text(research)
+	var research_def = ResearchDefinitions.research_defs[research]
+	research_title.set_text(research_def.research_name)
+	display_research_time(player, research)
+	display_results(player, research)
 	pass
 
 # displays active research
 func display_current_research(player):
 	if player.research_project:
+		var research = player.research_project.research
 		show_default()
 		current_title.show()
-		active_research.set_texture(TextureHandler.get_research_icon(player.research_project.research))
-		research_title.set_text(player.research_project.research)
+		active_research.set_texture(TextureHandler.get_research_icon(research))
+		var research_def = ResearchDefinitions.research_defs[research]
+		research_title.set_text(research_def.research_name)
+		display_research_time(player, research)
+		display_results(player, research)
+	pass
+
+func display_research_time(player, research):
+	if not research in player.completed_research and player.total_research > 0:
+		var time = null
+		if player.research.has(research):
+			time = int(ceil(float(player.research[research].remaining_research) / player.total_research))
+		else:
+			var research_def = ResearchDefinitions.research_defs[research]
+			time = int(ceil(float(research_def.cost) / player.total_research))
+		research_time.set_text("(%d days)" % time)
+		research_time.show()
+	else:
+		research_time.hide()
 	pass
 
 func display_research(player, research, active = false):
 	pass
 	
 func display_results(player, research):
+	for c in research_enables.get_children():
+		c.hide()
+		c.queue_free()
+	var research_def = ResearchDefinitions.research_defs[research]
+	var allows = research_def.allows
+
+	if allows.surface.size() > 0:
+		for s in allows.surface:
+			var display = ResearchEnablesDisplay.instance()
+			research_enables.add_child(display)
+			display.set_project(s, "Surface")
+	if allows.orbital.size() > 0:
+		for s in allows.orbital:
+			var display = ResearchEnablesDisplay.instance()
+			research_enables.add_child(display)
+			display.set_project(s, "Orbital")
+	if allows.tech.size() > 0:
+		pass
+	if allows.ship_module.size() > 0:
+		pass
 	# collect a list of projects that require the selected research
 	# optional: attach them to research defs already in some pre-loaded manager object
 	# show them
