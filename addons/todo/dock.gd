@@ -227,7 +227,7 @@ func find_files(directory, extensions, recur = false):
 	var file = dir.get_next()
 	
 	# While we have files
-	while(file != ""):
+	while file != "":
 		# Location
 		var location = ""
 		
@@ -382,7 +382,7 @@ func todos_in_string(string):
 	var line_count = 0
 	
 	# While our string array is not empty
-	while (string.size()):
+	while string.size():
 		# Get line
 		var line = string[0]
 		
