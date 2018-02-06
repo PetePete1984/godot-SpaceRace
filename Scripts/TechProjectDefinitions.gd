@@ -11,16 +11,16 @@ var project_types = ["alien_hospitality",
 	
 var project_defs = {
 	"alien_hospitality": {
-		"converts": "adjusted_industry",
-		"to": "global_diplomacy"
+		"converts_from": "adjusted_industry",
+		"converts_to": "diplomacy"
 	}, 
-	"endless party": {
-		"converts": "adjusted_industry",
-		"to": "prosperity"
+	"endless_party": {
+		"converts_from": "adjusted_industry",
+		"converts_to": "prosperity"
 	}, 
-	"scientist takeover": {
-		"converts": "adjusted_industry",
-		"to": "research"
+	"scientist_takeover": {
+		"converts_from": "adjusted_industry",
+		"converts_to": "research"
 	}, 
 	"automation": {
 		# TODO: cost == -1 => use the existing project's cost

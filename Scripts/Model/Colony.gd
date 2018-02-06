@@ -1,5 +1,8 @@
 extends Reference
 
+# TODO: move to colonymanager
+var TechProject = preload("res://Scripts/Model/TechProject.gd")
+
 var project = null
 var project_queue = []
 
@@ -168,25 +171,44 @@ func refresh():
 	industry = total_ind
 	research = total_res
 	prosperity = total_prosp
+
+	var internet = "internet" in existing_building_types
+	var hyperpower = "hyperpower_plant" in existing_building_types
+	var fertilized = "fertilization_plant" in existing_building_types
 	
-	# TODO: if scientific takeover etc
-	
-	if "internet" in existing_building_types:
+	if internet:
 		adjusted_research = int(floor(research * 1.5))
 	else:
 		adjusted_research = research
 		
-	if "hyperpower_plant" in existing_building_types:
+	if hyperpower:
 		adjusted_industry = int(pow(industry, 0.85) * 1.4)
 	else:
 		adjusted_industry = int(round(pow(industry, 0.85)))
 	
+	var endless_party = false
+
+	if project != null:
+		if project extends TechProject:
+			if project.project == "scientist_takeover":
+				if hyperpower:
+					adjusted_research += int(float(industry) * 1.5 / 4)
+				else:
+					adjusted_research += int(float(industry / 4))
+			elif project.project == "endless_party":
+				endless_party = true
+
+
 	var pop = planet.population.alive
 	# TODO: Find the correct formula
-	if "fertilization_plant" in existing_building_types:
-		adjusted_prosperity = int(round(pow(prosperity, 0.85) * 1.4 - round(pow(0.4 * pop, 0.85)))) + 1
+	var additional_prosperity = 0
+	if endless_party:
+		additional_prosperity = int(float(adjusted_industry)/3)
+
+	if fertilized:
+		adjusted_prosperity = int(round(pow(prosperity, 0.85) * 1.4 + additional_prosperity - round(pow(0.4 * pop, 0.85)))) + 1
 	else:
-		adjusted_prosperity = int(round(pow(prosperity, 0.85) - round(pow(0.4 * pop, 0.85)))) + 1
+		adjusted_prosperity = int(round(pow(prosperity, 0.85) + additional_prosperity - round(pow(0.4 * pop, 0.85)))) + 1
 	pass
 	
 	if growth_bombed == true:

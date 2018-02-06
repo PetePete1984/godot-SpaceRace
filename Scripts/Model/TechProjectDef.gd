@@ -12,3 +12,6 @@ var provided_pop = 0
 
 var requires_research = null
 var completion_function = null
+
+var converts_from = null
+var converts_to = null

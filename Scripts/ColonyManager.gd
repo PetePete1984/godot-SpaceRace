@@ -42,7 +42,6 @@ static func manage(colony):
 	var project_running = colony.project
 	var party_project = false
 	var keep_waiting = true
-	var buildable_squares = null
 	
 	if project_running != null:
 		# converter projects are run because nothing was available before
@@ -55,7 +54,7 @@ static func manage(colony):
 	
 	if keep_waiting == false:
 		# count planet slots
-		buildable_squares = get_buildable_squares(colony)
+		var buildable_squares = get_buildable_squares(colony)
 		var all_squares = get_all_unused_squares(colony)
 		var num_buildable_squares = buildable_squares.keys().size()
 		var num_all_squares = all_squares.keys().size()
@@ -106,13 +105,18 @@ static func manage(colony):
 								else:
 									if all_unused_are_black:
 										# wait for terraforming
+										printt(colony.planet.planet_name, "waiting for terraforming")
 										keep_waiting = true
 									else:
 										# TODO: pathfind to better squares?
 										project_candidate = "transport_tubes"
 						else:
 							# non-black squares available
-							if free_pop > 0:
+							# FIXME: this gets stuck in either 0 free / 1 idle (without the or) or 0 free / 0 idle (with the or)
+							if free_pop > 0 or num_all_squares > free_pop:
+								if free_pop < 2:
+									#printt(colony.planet.planet_name, num_all_squares)
+									pass
 								if free_pop < 2 and num_all_squares > free_pop:
 									if growth_bomb_available:
 										if growth_bomb_used:
@@ -148,8 +152,10 @@ static func manage(colony):
 									
 									if prosperity < 2:
 										project_candidate = "prosperity"
+									elif industry < 4:
+										project_candidate = "industry"
 									elif free_red_square:
-										if global_research < 5 and free_blue_square:
+										if industry >= 4 and global_research < 5 and free_blue_square:
 											project_candidate = "research"
 										else:
 											project_candidate = "industry"
@@ -161,7 +167,7 @@ static func manage(colony):
 										# FIXME: apply some kind of global tech level
 										# TODO: can this look more readable?
 										# TODO: extract as "pick a white square" func
-										if global_research >= 5:
+										if industry >= 4 and global_research >= 5:
 											if industry >= 10:
 												if hyperpower_available:
 													if hyperpower_exists:
@@ -197,12 +203,15 @@ static func manage(colony):
 											else:
 												if all_unused_are_black:
 													# wait for terraforming
+													printt(colony.planet.planet_name, "waiting for terraforming")
 													keep_waiting = true
 												else:
 													# TODO: pathfind to better squares?
 													project_candidate = "transport_tubes"
 									pass
-									
+							else:
+								print("free_pop is = 0 on %s" % colony.planet.planet_name)
+								print("idle: %d" % idle_pop)	
 									
 						pass
 					else:
@@ -220,27 +229,36 @@ static func manage(colony):
 						pass
 					else:
 						# TODO: population can't grow and no idle people, need to demolish something
+						print("prosperity 0 and no idlers on %s" % colony.planet.planet_name)
 						pass
 				pass
 			else:
 				# TODO: shift colony focus
+				print("no buildable squares on %s" % colony.planet.planet_name)
 				pass
 		else:
 			# TODO: shift colony focus
+			#print("absolutely no free squares on %s" % colony.planet.planet_name)
 			pass
 		pass
 
 	if project_candidate != null:
 		var building = pick_building(project_candidate, colony.owner)
-		var square = pick_square(colony, building)
+		if building == null:
+			print(project_candidate)
+		var square = pick_square(colony, project_candidate, building)
 		var result = {
 			"square": square,
 			"type": "Surface",
 			"project": building
 		}
 		return result
+	else:
+		#print("no project candidate on %s" % colony.planet.planet_name)
+		pass
+
 	
-static func pick_square(colony, project):
+static func pick_square(colony, project, building):
 	var result = null
 	# TODO: account for projects that don't need a square
 	var places = get_buildable_squares(colony)
@@ -249,6 +267,7 @@ static func pick_square(colony, project):
 	# if the picked project has a preference, find it
 	if prefs.has(project):
 		target = prefs[project]
+
 	if target != null:
 		# check all tiles for the preferred tile
 		for coord in places:
@@ -256,9 +275,9 @@ static func pick_square(colony, project):
 				result = coord
 				break
 		# if the tile is not available, pick any other (if possible)
-		if result == null:
-			print("couldn't find a tile while target needed")
-	else:
+		#if result == null:
+			#print("couldn't find a tile while target needed for %s" % project)
+	if target == null or result == null:
 		# otherwise, pick an unspecific tile, preferring black(orfa) > white > green > blue > red
 		var tile_priority = ["black", "white", "green", "blue", "red"]
 		if colony.owner != null:
@@ -272,7 +291,14 @@ static func pick_square(colony, project):
 						result = coord
 						break
 		if result == null:
-			print("couldn't find a tile")
+			TurnHandler.auto(false)
+			print("couldn't find a tile for %s on %s" % [project, colony.planet.planet_name])
+			for p in places:
+				if places[p].tiletype == null:
+					print("found an empty tile at %s" % p)
+				else: printt(places[p].tiletype, p)
+			print("")
+			print("target: %s" % target)
 	return result
 
 static func pick_building(project_candidate, player):
@@ -283,6 +309,8 @@ static func pick_building(project_candidate, player):
 			if BuildingRules.project_available(player, project):
 				result = project
 				break
+	else:
+		result = project_candidate
 	return result
 
 static func get_buildable_squares(colony):
@@ -292,7 +320,7 @@ static func get_buildable_squares(colony):
 	var result = {}
 	for x in range(grid.size()):
 		for y in range(grid[x].size()):
-			if buildings[x][y].type == null and grid[x][y].buildable == true:
+			if buildings[x][y].type == null and grid[x][y].tiletype != null and grid[x][y].buildable == true:
 				result[Vector2(x, y)] = grid[x][y] # Maybe "true" would be enough, or an array of v2
 	return result
 			
@@ -313,7 +341,7 @@ static func get_all_unused_squares(colony):
 	var result = {}
 	for x in range(grid.size()):
 		for y in range(grid[x].size()):
-			if buildings[x][y].type == null:
+			if buildings[x][y].type == null and grid[x][y].tiletype != null:
 				result[Vector2(x, y)] = grid[x][y]
 	return result
 
@@ -330,6 +358,7 @@ static func start_colony_project(colony, project_key, type, position):
 	var player = planet.owner
 	var grid = planet.grid
 	var buildings = planet.buildings
+	var orbitals = planet.orbitals
 
 	if type == "Surface":
 		var project = BuildingProject.new()
@@ -342,12 +371,94 @@ static func start_colony_project(colony, project_key, type, position):
 
 		start_surface_building(colony, project)
 		update_colony_stats(colony)
+	elif type == "Orbital":
+		var project = OrbitalProject.new()
+		var project_definition = OrbitalDefinitions.orbital_defs[project_key]
+		project.project = project_key
+		project.remaining_industry = project_definition.cost
+		project.position = position
+		project.type = type
 
+		start_orbital_building(colony, project)
+		update_colony_stats(colony)
+	pass
 
+static func cancel_any_project(colony):
+	if colony.project != null:
+		if colony.project extends BuildingProject:
+			var old_x = colony.project.position.x
+			var old_y = colony.project.position.y
+
+			var old_building = colony.planet.buildings[old_x][old_y]
+			if old_building.type != null:
+				old_building.reset()
+		elif colony.project extends OrbitalProject:
+			var old_x = colony.project.position.x
+			var old_y = colony.project.position.y
+
+			var old_orbital = colony.planet.orbitals[old_x][old_y]
+			# TODO: reset
+		elif colony.project extends TechProject:
+			# TODO: finish techproject cancel (should be simple)
+			pass
+		pass
 	pass
 
 static func start_surface_building(colony, new_project):
 	colony.start_surface_building(new_project)
+
+static func start_orbital_building(colony, new_project):
+	cancel_any_project(colony)
+	var x = new_project.position.x
+	var y = new_project.position.y
+	var orbital = colony.planet.orbitals[x][y]
+	# TODO: maybe null check building tile first
+	if orbital.active:
+		if not new_project.project == "automation":
+			orbital.active = false
+
+	orbital.automated = false
+	orbital.type = OrbitalDefinitions.orbital_defs[new_project.project]
+	#orbital.orbital_name = orbital.type.orbital_name
+	colony.project = new_project
+	pass
+
+static func finish_project(colony):
+	var project = colony.project
+	if project != null:
+		var x = -1
+		var y = -1
+		if project.position != null:
+			x = project.position.x
+			y = project.position.y
+		if project extends BuildingProject:
+			var building = colony.planet.buildings[x][y]
+			# TODO: actually a techproject, but how will those know what tile they're working on? I don't want to make an orbital_automation..
+			if project.building == "automation":
+				pass
+			building.active = true
+
+			# special case for terraforming: reset the building
+			if project.building == "terraforming":
+				var cell = colony.planet.grid[x][y]
+				cell.tiletype = "white"
+				building.reset()
+
+			# special case for xeno dig: reset the building tile and trigger a random research completion
+			# research is triggered in turnhandler
+			if project.building == "xeno_dig":
+				building.reset()
+			pass
+		elif project extends OrbitalProject:
+			var orbital = colony.planet.orbitals[x][y]
+			pass
+		elif project extends TechProject:
+			pass
+		else:
+			print("Unknown project type")
+	project = null
+	colony.project = null
+	pass
 
 static func update_colony_stats(colony):
 	colony.refresh()
