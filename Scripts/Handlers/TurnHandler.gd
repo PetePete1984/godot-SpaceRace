@@ -136,7 +136,7 @@ func turn_maintenance():
 						ColonyManager.update_colony_stats(colony)
 
 						if labs_before_building == 0 and finished_project == "laboratory":
-							if player.count_laboratories() > 0:
+							if player.count_laboratories() > 0 and player.research_project == null:
 								var ev = EventGenerator.generate_research_available(player)
 								EventHandler.add_event(player, ev)
 						
