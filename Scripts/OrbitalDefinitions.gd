@@ -42,8 +42,10 @@ var orbital_defs = {
     },
     "missiles_dummy": {
         # probably used for ships..
+        orbital_name = "Ship",
         cost = 20,
-        requires_research = "interplanetary_exploration"
+        requires_research = "interplanetary_exploration",
+        hidden_research_result = true
     },
     "short_whopper": {
         orbital_name = "Short Range Orbital Whopper",
@@ -54,6 +56,27 @@ var orbital_defs = {
         orbital_name = "Long Range Orbital Whopper",
         cost = 180,
         requires_research = "advanced_planetary_armaments"
+    },
+    "small_medium_hulls": {
+        research_name = "Ships: Small and Medium Hulls",
+        buildable = false,
+        requires_research = "interplanetary_exploration",
+        research_ship_size = "small",
+        research_ship_scale = 0.5
+    },
+    "large_hulls": {
+        "research_name": "Ships: Large Hulls",
+        "buildable": false,
+        "requires_research": "advanced_exploration",
+        "research_ship_size": "large",
+        research_ship_scale = 0.5
+    },
+    "enormous_hulls": {
+        "research_name": "Ships: Enormous Hulls",
+        "buildable": false,
+        "requires_research": "large_scale_construction",
+        "research_ship_size": "enormous",
+        research_ship_scale = 0.5
     }
 }
 
@@ -66,7 +89,7 @@ func _ready():
 		for key in data:
 			orbital_def[key] = data[key]
 		if orbital_def.orbital_name == "":
-			orbital_def.orbital_name = orbital_key.capitalize()
+            orbital_def.orbital_name = orbital_key.capitalize()
 		real_defs[orbital_key] = orbital_def
 	orbital_defs = real_defs
 	pass

@@ -252,13 +252,13 @@ transform/pos = Vector2( 485, 147 )
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
+size_flags/horizontal = 0
+size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 148.0
 margin/bottom = 287.0
-scroll/horizontal = true
+scroll/horizontal = false
 scroll/vertical = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ResearchEnables/ScrollContainer"]
@@ -270,8 +270,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 135.0
-margin/bottom = 270.0
+margin/right = 148.0
+margin/bottom = 287.0
 alignment = 0
 
 [node name="Buttons" type="Position2D" parent="."]

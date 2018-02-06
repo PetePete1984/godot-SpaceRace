@@ -422,8 +422,13 @@ func _ready():
 	
 	for okey in OrbitalDefinitions.orbital_defs:
 		var odef = OrbitalDefinitions.orbital_defs[okey]
-		if odef.requires_research != null:
+		if odef.requires_research != null and odef.hidden_research_result == false:
 			real_defs[odef.requires_research].allows.orbital.append(okey)
+
+	for smkey in ShipModuleDefinitions.ship_module_defs:
+		var smdef = ShipModuleDefinitions.ship_module_defs[smkey]
+		if smdef.requires_research != null:
+			real_defs[smdef.requires_research].allows.ship_module.append(smkey)
 
 
 	#for rkey in real_defs:

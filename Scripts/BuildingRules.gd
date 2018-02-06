@@ -170,6 +170,9 @@ static func get_projects_for_orbit(planet, orbital_tile):
 			if player != null:
 				if not orbital.requires_research in player.completed_research:
 					continue
+		
+		if orbital.buildable == false:
+			continue
 
 		# 4 things can be on a tile
 		# a) nothing

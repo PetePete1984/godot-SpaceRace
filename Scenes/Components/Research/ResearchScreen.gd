@@ -128,12 +128,17 @@ func display_results(player, research):
 			display.set_project(s, "Surface")
 	if allows.orbital.size() > 0:
 		for s in allows.orbital:
+			# TODO: special handling for ship hulls required, small and medium are lumped together, too
 			var display = ResearchEnablesDisplay.instance()
 			research_enables.add_child(display)
-			display.set_project(s, "Orbital")
+			display.set_project(s, "Orbital", player)
 	if allows.tech.size() > 0:
 		pass
 	if allows.ship_module.size() > 0:
+		for s in allows.ship_module:
+			var display = ResearchEnablesDisplay.instance()
+			research_enables.add_child(display)
+			display.set_project(s, "Ship_Module")
 		pass
 	# collect a list of projects that require the selected research
 	# optional: attach them to research defs already in some pre-loaded manager object

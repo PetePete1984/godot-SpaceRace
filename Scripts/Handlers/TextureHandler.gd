@@ -92,7 +92,33 @@ func get_planet(planet, small = false):
 		print("TextureHandler: Normal Planet Texture not found for %s, %s" % [type, size])
 		return null
 	pass
-	
+
+# TODO: could also do a more clever function that just derives everything from a ship and a docked var
+func get_ship(player, ship_size = "small", docked = false):
+	var race = _type(player)
+	var race_index = race.index
+	# TODO: move elsewhere
+	var sizes = ["small", "medium", "large", "enormous"]
+	var ship_index = sizes.find(ship_size)
+	if ship_index != -1:
+		var path = null
+		if docked == true:
+			path = "res://Images//Screens//ShipDesign//Ships//dkship%02d//dkship%02d.shp_%d.png" % [race_index, race_index, ship_index + 1]
+		else:
+			path = "res://Images//Races//Ships//smship%02d//smship%02d.shp_%d.png" % [race_index, race_index, ship_index + 1]
+		if path != null:
+			return get_texture(path)
+	else:
+		print("TextureHander: Ship Texture not found for %s, %s, docked = %s") % [race, ship_size, str(docked)]
+
+func get_ship_module(ship_module):
+	var index = ShipModuleDefinitions.ship_module_defs[ship_module].index
+	if index > 0:
+		var path = "res://Images/Ship/Equipment/gizmos.shp_%02d.png" % [index]
+		printt(ship_module, path)
+		return get_texture(path)
+
+
 func get_surface_building(building):
 	var building_index = BuildingDefinitions.building_types.find(building)
 	if building_index != -1:
@@ -100,11 +126,16 @@ func get_surface_building(building):
 		return get_texture(path)
 	pass
 
-func get_orbital_building(project):
-	var project_index = OrbitalDefinitions.orbital_types.find(project)
-	if project_index != -1:
-		var path = "res://Images/Screens/Planet/Buildings/Orbital/%02d_%s.png" % [project_index + 1, project]
-		return get_texture(path)
+func get_orbital_building(project, player = null):
+	var def = OrbitalDefinitions.orbital_defs[project]
+	if player != null and def.research_ship_size != null:
+		# get medium ship texture for player
+		return get_ship(player, def.research_ship_size)
+	else:
+		var project_index = OrbitalDefinitions.orbital_types.find(project)
+		if project_index != -1:
+			var path = "res://Images/Screens/Planet/Buildings/Orbital/%02d_%s.png" % [project_index + 1, project]
+			return get_texture(path)
 	
 func get_research_icon(research):
 	var resDef = ResearchDefinitions.research_defs[research]
@@ -130,9 +161,9 @@ func get_person(type, small = false):
 	
 func get_indexed_display(type, points):
 	var index = -1
-	if (type == "Research" or type == "Industry"):
+	if type == "Research" or type == "Industry":
 		index = _lookup_index(points)
-	elif (type == "Prosperity"):
+	elif type == "Prosperity":
 		index = _flat_index(points)
 	else:
 		index = 0

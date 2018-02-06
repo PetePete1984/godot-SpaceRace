@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://Scenes/Components/Research/ResearchEnablesDisplay.gd" type="Script" id=1]
-[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/01_shipyard.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Components/ResizeLabel.gd" type="Script" id=2]
 
 [node name="VBoxContainer" type="VBoxContainer"]
 
@@ -20,20 +20,20 @@ script/script = ExtResource( 1 )
 
 [node name="Label" type="Label" parent="."]
 
-rect/min_size = Vector2( 0, 18 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
+size_flags/horizontal = 3
+size_flags/vertical = 3
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 141.0
-margin/bottom = 18.0
-text = "Xenoarcheological Dig"
+margin/right = 70.0
+margin/bottom = 88.0
 align = 1
+autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+script/script = ExtResource( 2 )
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 
@@ -42,8 +42,8 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
-margin/top = 18.0
-margin/right = 141.0
+margin/top = 88.0
+margin/right = 70.0
 margin/bottom = 88.0
 use_top_left = false
 
@@ -55,9 +55,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 35.0
 margin/top = 0.0
-margin/right = 105.0
-margin/bottom = 70.0
-texture = ExtResource( 2 )
+margin/right = 35.0
+margin/bottom = 0.0
 stretch_mode = 0
 
 
