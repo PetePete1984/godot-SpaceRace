@@ -4,13 +4,18 @@ var ResearchProject = preload("res://Scripts/Model/ResearchProject.gd")
 func start_research(player, technology):
     var started = false
     if not technology in player.completed_research:
-        var resDef = ResearchDefinitions.research_defs[technology]
-        var project = ResearchProject.new()
-        project.research = technology
-        project.remaining_research = resDef.cost
-        project.initial_cost = resDef.cost
-        player.research_project = project
-        player.research[technology] = project
+        if player.research.has(technology):
+            var existing_project = player.research[technology]
+            if existing_project.remaining_research > 0:
+                player.research_project = existing_project
+        else:
+            var resDef = ResearchDefinitions.research_defs[technology]
+            var project = ResearchProject.new()
+            project.research = technology
+            project.remaining_research = resDef.cost
+            project.initial_cost = resDef.cost
+            player.research_project = project
+            player.research[technology] = project
         started = true
     return started
 

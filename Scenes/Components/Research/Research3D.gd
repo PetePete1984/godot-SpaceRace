@@ -111,12 +111,6 @@ func show_research(player):
 		if File.new().file_exists(path):
 			research_icon.set_texture(load(path))
 		
-		if not research.type in player.completed_research:
-			if player.research.has(research.type):
-				research_icon.set_scale(Vector3(1,1,1) * player.research[research.type].progress())
-			else:
-				research_icon.set_scale(Vector3(0,0,0))
-		
 		# TODO: find out how to set research sprite material to always on top (in front of lines)
 		# TODO: find proper positions for research icons
 		research_ring.add_child(research_icon)
@@ -129,7 +123,16 @@ func show_research(player):
 		research_ring.set_translation(position)
 		research_ring.set_scale(Vector3(6,6,6))
 		sprites_anchor.add_child(research_ring)
-		
+
+		# TODO: clamp min size to 0.1 maybe, looks like that in the original
+		if not research.type in player.completed_research:
+			if player.research.has(research.type):
+				research_icon.set_scale(Vector3(1,1,1) * player.research[research.type].progress())
+			else:
+				research_icon.set_scale(Vector3(0,0,0))
+		else:
+			research_icon.set_scale(Vector3(1,1,1))
+
 		# TODO: research that has been completed needs to be shown, always
 		if research.type in player.completed_research:
 			research_ring.show()
