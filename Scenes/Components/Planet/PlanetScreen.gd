@@ -129,8 +129,12 @@ func _input(event):
 	
 	# DEBUG
 	if event.is_action_pressed("ui_down"):
-		var ColonyManager = preload("res://Scripts/ColonyManager.gd")
 		print(ColonyManager.manage(currentPlanet.colony))
+	if event.is_action_pressed("ui_up"):
+		if currentPlanet.colony == null:
+			var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
+			ColonyGenerator.initialize_colony(GameStateHandler.game_state.human_player, currentPlanet)
+			set_planet(currentPlanet)
 	
 	# hover display
 	if event.type == InputEvent.MOUSE_MOTION and currentPlanet != null:

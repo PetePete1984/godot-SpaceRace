@@ -1,8 +1,5 @@
 extends "res://Scripts/Model/Screen.gd"
 
-onready var tree = get_node("Tree")
-onready var list = get_node("ItemList")
-
 onready var Border = get_node("Border")
 onready var Flag = get_node("Flag")
 
@@ -23,17 +20,18 @@ signal planet_clicked(planet)
 
 func set_player(player):
 	Flag.set_texture(TextureHandler.get_race_flag(player))
-	# pass in self to connect signals to handlers
-	PlanetList.set_planets(player, self)
+	PlanetList.set_planets(player)
 	pass
 
-# TODO: when returning from a planet screen, update the list because the project might be changed
 func update():
-	PlanetList.update()
+	if is_visible():
+		PlanetList.update()
 
 func _ready():
+	# TODO: use parameter to only update on show (minor minor minor change)
 	connect("visibility_changed", self, "update")
-	pass
+	PlanetList.connect("system_clicked", self, "_on_system_clicked")
+	PlanetList.connect("planet_clicked", self, "_on_planet_clicked")
 
 func _on_system_clicked(system):
 	emit_signal("system_clicked", system)
