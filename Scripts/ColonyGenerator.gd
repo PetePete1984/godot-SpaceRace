@@ -35,19 +35,21 @@ static func initialize_colony(player, planet, home = false):
 	var colony = Colony.new()
 	colony.owner = player
 	# TODO: allow the player to rename planets (on colonize and later)
-	colony.name = planet.planet_name
+	colony.colony_name = planet.planet_name
 	colony.home = home
 	# associate the objects
 	colony.planet = planet
 	planet.colony = colony
 	# TODO: disallow duplicate names or use another dictionary key system (or just an array)
-	player.colonies[colony.name] = colony
+	player.colonies[colony.colony_name] = colony
 	
 	# give the planet a random colony base
 	# TODO: allow picking the colony position
 	var colony_tile = generate_colony(planet, "initial")
 	var building_tile = planet.buildings[colony_tile.x][colony_tile.y]
 	building_tile.set("colony_base")
+	# FIXME: datafy this so it can be correctly refreshed
+	# FIXME: colonies increase planetary spaces by 2!
 	planet.population.alive = 2
 	#building_tile.tilemap_x = colony_tile.x
 	#building_tile.tilemap_y = colony_tile.y

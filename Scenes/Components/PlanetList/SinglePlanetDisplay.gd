@@ -31,6 +31,8 @@ func set_planet(planet):
 	
 func update():
 	# TODO: remember planet state in planets so they can be marked dirty only on change
+	# TODO: orbitals are shown as icons (shipyard, orbital dock)
+	# TODO: worker display
 	var planet = shows_planet
 	Flag.set_texture(TextureHandler.get_race_flag(planet.owner))
 	SunIcon.set_texture(TextureHandler.get_star(planet.system))
@@ -45,11 +47,12 @@ func update():
 	set_workers(planet)
 	
 	SystemName.set_text(planet.system.system_name)
-	PlanetName.set_text(planet.colony.name)
+	PlanetName.set_text(planet.colony.colony_name)
 	PlanetDesc.set_text("(%s %s Planet)" % [planet.size.capitalize(), planet.type.capitalize()])
 	if planet.colony.project != null:
 		var project = planet.colony.project
-		var proj_text = project.building.capitalize()
+		# FIXME: use proper definition and distinguish between project types
+		var proj_text = project.project.capitalize()
 		var remaining = project.remaining_industry
 		var planet_industry = planet.colony.adjusted_industry
 		if planet_industry == 0:

@@ -7,7 +7,7 @@ func set_project(tilemap, project):
 		update_progress(project)
 		var cell = tilemap.get_cell(project.position.x, project.position.y)
 		set_pos(tilemap.map_to_world(project.position))
-		var index = BuildingDefinitions.building_types.find(project.building)
+		var index = BuildingDefinitions.building_types.find(project.project)
 		var texture = tilemap.get_tileset().tile_get_texture(index)
 		var alpha_height = Utils.get_alpha_height(texture)
 		sprite.get_material().set_shader_param("alpha_height", float(alpha_height))
@@ -19,7 +19,7 @@ func set_project(tilemap, project):
 	
 func update_progress(project):
 	if project != null:
-		var cost = BuildingDefinitions.building_defs[project.building].cost
+		var cost = BuildingDefinitions.building_defs[project.project].cost
 		var remaining = project.remaining_industry
 		var progress = float(cost-remaining) / float(cost)
 		sprite.get_material().set_shader_param("progress", progress)

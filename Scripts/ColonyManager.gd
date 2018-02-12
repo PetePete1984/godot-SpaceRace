@@ -363,7 +363,7 @@ static func start_colony_project(colony, project_key, type, position):
 	if type == "Surface":
 		var project = BuildingProject.new()
 		var project_definition = BuildingDefinitions.building_defs[project_key]
-		project.building = project_key
+		project.project = project_key
 
 		project.remaining_industry = project_definition.cost
 		project.position = position # Vector2
@@ -434,19 +434,19 @@ static func finish_project(colony):
 		if project extends BuildingProject:
 			var building = colony.planet.buildings[x][y]
 			# TODO: actually a techproject, but how will those know what tile they're working on? I don't want to make an orbital_automation..
-			if project.building == "automation":
+			if project.project == "automation":
 				pass
 			building.active = true
 
 			# special case for terraforming: reset the building
-			if project.building == "terraforming":
+			if project.project == "terraforming":
 				var cell = colony.planet.grid[x][y]
 				cell.tiletype = "white"
 				building.reset()
 
 			# special case for xeno dig: reset the building tile and trigger a random research completion
 			# research is triggered in turnhandler
-			if project.building == "xeno_dig":
+			if project.project == "xeno_dig":
 				building.reset()
 			pass
 		elif project extends OrbitalProject:

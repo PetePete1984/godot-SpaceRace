@@ -125,7 +125,6 @@ static func purge_grid(grid):
 		for y in range(grid[x].size()):
 			var tile = grid[x][y]
 			tile.tiletype = null
-			tile.building = null
 			tile = null
 			grid[x][y] = null
 		grid[x] = null

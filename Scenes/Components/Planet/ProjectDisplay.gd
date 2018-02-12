@@ -27,9 +27,9 @@ func set_project(planet):
 		else:
 			days.hide()
 		
-		title.set_text(BuildingDefinitions.building_defs[project.building].building_name)
-		var building_index = BuildingDefinitions.building_types.find(project.building)
-		var path = "%s/%s/%02d_%s.png" % [image_base_path, type, building_index+1, project.building]
+		title.set_text(BuildingDefinitions.building_defs[project.project].building_name)
+		var building_index = BuildingDefinitions.building_types.find(project.project)
+		var path = "%s/%s/%02d_%s.png" % [image_base_path, type, building_index+1, project.project]
 		icon.set_texture(load(path))
 	else:
 		days.hide()

@@ -16,8 +16,8 @@ static func generate_construction(project, planet):
 	var project_image = TextureHandler.get_surface_building(project)
 	var planet_image = TextureHandler.get_planet(planet, true)
 	ev.images = [project_image, planet_image]
-	var top_line = "Construction of %s is complete on %s." % [BuildingDefinitions.building_defs[project].building_name, planet.colony.name]
-	var bottom_line = POPULATION % [planet.colony.name, planet.population.idle]
+	var top_line = "Construction of %s is complete on %s." % [BuildingDefinitions.building_defs[project].building_name, planet.colony.colony_name]
+	var bottom_line = POPULATION % [planet.colony.colony_name, planet.population.idle]
 	ev.text = [top_line, bottom_line]
 	ev.buttons = ["construction", "OK"]
 	ev.targets = [planet, null]
@@ -29,7 +29,7 @@ static func generate_free_pop(planet):
 	var planet_image = TextureHandler.get_planet(planet, true)
 	var free_pop_image = TextureHandler.get_person("idle")
 	ev.images = [planet_image, free_pop_image]
-	var top_line = POPULATION % [planet.colony.name, planet.population.idle]
+	var top_line = POPULATION % [planet.colony.colony_name, planet.population.idle]
 	ev.text = [top_line]
 	ev.buttons = ["construction", "OK"]
 	ev.targets = [planet, null]

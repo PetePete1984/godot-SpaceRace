@@ -25,7 +25,7 @@ static func read_history():
 					races_in_order.append(race.type)
 				race = {
 					"type": line.replace("// ", "").to_lower(),
-					"name": line.replace("// ", "")
+					"race_name": line.replace("// ", "")
 				}
 			elif line.begins_with("specnum"):
 				race.index = line.replace("specnum ", "").to_int()

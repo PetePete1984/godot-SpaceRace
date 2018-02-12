@@ -118,7 +118,7 @@ func _ready():
 		var rdef = RaceDef.new()
 		var r_hist = race_history.races[r]
 		rdef.type = r
-		rdef.race_name = r_hist.name
+		rdef.race_name = r_hist.race_name
 		rdef.race_description = "The %s %s" % [rdef.race_name, race_descriptions[r_index]]
 		
 		rdef.race_history = {

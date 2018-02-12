@@ -8,8 +8,7 @@ var project_queue = []
 
 var self_managed = false
 
-# TODO: refactor to colony_name, name is pretty global in GD3
-var name = ""
+var colony_name = ""
 var owner = null
 var home = false
 
@@ -22,9 +21,6 @@ var prosperity = 0
 var adjusted_industry = 0
 var adjusted_research = 0
 var adjusted_prosperity = 0
-
-# FIXME: this modifies the planet
-var growth_bombed = false
 
 var remaining_growth = 50
 
@@ -78,13 +74,13 @@ func start_surface_building(new_project):
 	if building.active:
 	# if yes, deactivate it
 		# if the project isn't automation, replace the building
-		if not new_project.building == "automation":
+		if not new_project.project == "automation":
 			building.active = false
 	# (but if the project is automation, keep it active)
 	
 	# then just reconfigure the building tile
 	building.automated = false
-	building.type = BuildingDefinitions.building_defs[new_project.building]
+	building.type = BuildingDefinitions.building_defs[new_project.project]
 	# TODO: see if this can be made obsolete
 	building.building_name = building.type.building_name
 	project = new_project
@@ -93,7 +89,7 @@ func start_surface_building(new_project):
 func finish_project():
 	var building = planet.buildings[project.position.x][project.position.y]
 	# finish the project by activating or automating the building
-	if project.building == "automation":
+	if project.project == "automation":
 		# zero out actually used pop
 		# TODO: might be unnecessary because refresh uses the definition
 		building.used_pop = 0
@@ -102,13 +98,13 @@ func finish_project():
 		building.active = true
 		
 	# special case for terraforming: reset the building
-	if project.building == "terraforming":
+	if project.project == "terraforming":
 		var cell = planet.grid[project.position.x][project.position.y]
 		cell.tiletype = "white"
 		building.reset()
 	# special case for xeno dig: reset the building tile and trigger a random research completion
 	# research is triggered in turnhandler
-	if project.building == "xeno_dig":
+	if project.project == "xeno_dig":
 		building.reset()
 		
 	# empty the project
@@ -120,6 +116,7 @@ func finish_project():
 func refresh():
 	var buildings = planet.buildings
 	var grid = planet.grid
+	var orbitals = planet.orbitals
 	
 	var total_ind = 0
 	var total_res = 0
@@ -211,7 +208,7 @@ func refresh():
 		adjusted_prosperity = int(round(pow(prosperity, 0.85) + additional_prosperity - round(pow(0.4 * pop, 0.85)))) + 1
 	pass
 	
-	if growth_bombed == true:
+	if planet.growth_bombed == true:
 		extra_slots += 10
 	
 	planet.population.work = working_pop

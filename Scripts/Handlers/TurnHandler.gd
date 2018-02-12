@@ -130,7 +130,7 @@ func turn_maintenance():
 				if colony.project != null:
 					colony.project.remaining_industry -= colony.adjusted_industry
 					if colony.project.remaining_industry <= 0:
-						var finished_project = colony.project.building
+						var finished_project = colony.project.project
 						var labs_before_building = player.meta_info.num_laboratories
 						#colony.finish_project()
 						ColonyManager.finish_project(colony)

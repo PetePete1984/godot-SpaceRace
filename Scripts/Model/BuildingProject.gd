@@ -1,4 +1,4 @@
 var remaining_industry = 0
-var building = ""
+var project = ""
 var position = Vector2(0,0)
 var type = "Surface"
