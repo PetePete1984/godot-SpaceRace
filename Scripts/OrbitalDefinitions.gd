@@ -4,7 +4,7 @@ extends Node
 var OrbitalDef = preload("res://Scripts/Model/OrbitalDef.gd")
 
 var orbital_types = [
-    "shipyard", "missiles", "dock", "cloaker", "shield", "mega_shield", "missiles_dummy", "short_whopper", "long_whopper"
+    "shipyard", "missiles", "dock", "cloaker", "orbital_shield", "orbital_mega_shield", "missiles_dummy", "short_whopper", "long_whopper"
 ]
 
 var ship_types = ["small", "medium", "large", "enormous"]
@@ -31,12 +31,12 @@ var orbital_defs = {
         cost = 40,
         requires_research = "cloaking"
     },
-    "shield": {
+    "orbital_shield": {
         orbital_name = "Orbital Shield",
         cost = 60,
         requires_research = "orbital_structures"
     },
-    "mega_shield": {
+    "orbital_mega_shield": {
         cost = 120,
         requires_research = "hyperwave_technology"
     },

@@ -6,7 +6,7 @@ var BuildingDef = preload("res://Scripts/Model/BuildingDef.gd")
 var building_types = ["factory", "agriplot", "laboratory", "habitat", "metroplex",
 	  "colony_base", "industrial_mega_facility", "artificial_hydroponifer", "research_campus",
 	  "logic_factory", "engineer_retreat", "surface_cloaker", "hyperpower_plant", "fertilization_plant",
-	  "internet", "cloning_plant", "observatory", "tractor_beam", "surface_shield", "mega_shield",
+	  "internet", "cloning_plant", "observatory", "tractor_beam", "surface_shield", "surface_mega_shield",
 	  "outpost", "transport_tubes", "broken", "terraforming", "xeno_dig", "xeno_ruins"]
 #	
 #  Flags=special stuff about this item (I'm making some educated guesses here)
@@ -125,7 +125,7 @@ var building_defs = {
 		cost = 100,
 		requires_research = "superconductivity"
 	},
-	"mega_shield": {
+	"surface_mega_shield": {
 		cost = 180,
 		building_name = "Surface Mega Shield",
 		requires_research = "advanced_planetary_armaments"
@@ -160,11 +160,11 @@ var building_defs = {
 	}
 }
 
-var orbital_types = ["shipyard", "missiles", "dock", "cloaker", "shield", "mega_shield", "missiles_dummy", "short_whopper", "long_whopper"]
-var orbital_def = {}
+#var orbital_types = ["shipyard", "missiles", "dock", "cloaker", "shield", "mega_shield", "missiles_dummy", "short_whopper", "long_whopper"]
+#var orbital_def = {}
 
-var planetwide_project_types = ["hospitality", "party", "science", "automation", "growth_bomb"]
-var planetwide_project_def = {}
+#var planetwide_project_types = ["hospitality", "party", "science", "automation", "growth_bomb"]
+#var planetwide_project_def = {}
 
 # TODO: incorporate ships somehow
 

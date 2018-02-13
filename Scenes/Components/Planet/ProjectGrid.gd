@@ -7,7 +7,6 @@ onready var container = get_node("GridContainer")
 func _ready():
 	pass
 
-# TODO: this belongs into more detached game rules and planet management classes because the AI doesn't see screens
 func get_projects_for_surface(planet, cell, building_tile):
 	return BuildingRules.get_projects_for_surface(planet, cell, building_tile)
 

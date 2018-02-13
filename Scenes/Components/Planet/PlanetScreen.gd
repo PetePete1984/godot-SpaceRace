@@ -25,6 +25,7 @@ onready var worker_display = get_node("Workers")
 onready var project_display = get_node("PlanetUI/ProjectDisplay")
 
 onready var surface_project_sprite = get_node("TileMapAnchor/TileMapBuildings/SurfaceProjectSprite")
+onready var orbital_project_sprite = get_node("OrbitalAnchor/TileMapOrbitals/OrbitalProjectSprite")
 
 onready var surface_cursor = get_node("TileMapAnchor/surface_cursor")
 onready var orbital_cursor = get_node("OrbitalAnchor/orbital_cursor")
@@ -99,7 +100,10 @@ func _notify_displays():
 		project_display.set_project(currentPlanet)
 		#surface_project_sprite.update_progress(currentPlanet.colony.project)
 		#project_display.set_project(currentPlanet)
+		# TODO: add sprites for orbital display
+		# TODO: find out how to handle automation (overlay?)
 		surface_project_sprite.set_project(tilemap_buildings, currentPlanet.colony.project)
+		orbital_project_sprite.set_project(tilemap_orbitals, currentPlanet.colony.project, currentPlanet.colony.owner)
 	else:
 		# TODO: reset display for empty planets
 		research_display.set_points(0)
@@ -108,6 +112,7 @@ func _notify_displays():
 		worker_display.set_population(currentPlanet)
 		project_display.set_project(currentPlanet)
 		surface_project_sprite.update_progress(null)
+		orbital_project_sprite.update_progress(null)
 	pass
 	
 func _on_hidden():

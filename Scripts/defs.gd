@@ -70,13 +70,13 @@ var max_races = 7
 var race_range = range(min_races, max_races+1)
 
 var galaxy_colors = {
-	"GREEN": Utils.color255(0,142,69),
-	"PURPLE": Utils.color255(130,69,142),
-	"YELLOW": Utils.color255(227,190,65),
-	"PINK": Utils.color255(219,125,146),
-	"BROWN": Utils.color255(121,105,69),
-	"BLUE": Utils.color255(36,117,207),
-	"ORANGE": Utils.color255(195,97,4),
+	"GREEN": Color8(0,142,69),
+	"PURPLE": Color8(130,69,142),
+	"YELLOW": Color8(227,190,65),
+	"PINK": Color8(219,125,146),
+	"BROWN": Color8(121,105,69),
+	"BLUE": Color8(36,117,207),
+	"ORANGE": Color8(195,97,4),
 }
 var default_race = "minions"
 var default_color = galaxy_colors["GREEN"]

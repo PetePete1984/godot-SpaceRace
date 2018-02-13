@@ -12,7 +12,6 @@ var completed_research = []
 
 # TODO: reset project on new game
 var research_project = null
-var buffered_research = 0
 var total_research = 0
 
 # initialized from mapdefs colors

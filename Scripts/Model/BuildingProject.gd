@@ -1,4 +1,4 @@
-var remaining_industry = 0
-var project = ""
-var position = Vector2(0,0)
-var type = "Surface"
+# Planetary Surface Building Project
+extends "res://Scripts/Model/Project.gd"
+func _init():
+	type = "Surface"

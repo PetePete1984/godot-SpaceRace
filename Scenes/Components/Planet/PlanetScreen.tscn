@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=1]
+[gd_scene load_steps=26 format=1]
 
 [ext_resource path="res://Scenes/Components/Planet/PlanetScreen.gd" type="Script" id=1]
 [ext_resource path="res://Images/Screens/Planet/Layout/stars.png" type="Texture" id=2]
@@ -6,33 +6,40 @@
 [ext_resource path="res://Scenes/Components/Planet/PlanetSprite.gd" type="Script" id=4]
 [ext_resource path="res://Images/17np.shp_1.png" type="Texture" id=5]
 [ext_resource path="res://tileset_orbitals.tres" type="TileSet" id=6]
-[ext_resource path="res://Images/AscendancyOrbitalCursor.png" type="Texture" id=7]
-[ext_resource path="res://tileset_cells.tres" type="TileSet" id=8]
-[ext_resource path="res://tileset_buildings.tres" type="TileSet" id=9]
-[ext_resource path="res://Scenes/Components/Planet/SurfaceProjectOverlaySprite.gd" type="Script" id=10]
-[ext_resource path="res://Materials/ConstructionHoverMaterial.tres" type="CanvasItemMaterial" id=11]
-[ext_resource path="res://Images/planitem.shp_01.png" type="Texture" id=12]
-[ext_resource path="res://Images/AscendancyPlanetTile3.png" type="Texture" id=13]
-[ext_resource path="res://Scenes/Components/Planet/Workers.gd" type="Script" id=14]
-[ext_resource path="res://Scenes/Components/Planet/ProjectDisplay.gd" type="Script" id=15]
-[ext_resource path="res://Scenes/Components/Planet/IndexedPointDisplay.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Images/Screens/Planet/Industry/00.png" type="Texture" id=17]
-[ext_resource path="res://Images/Screens/Planet/Prosperity/00.png" type="Texture" id=18]
-[ext_resource path="res://Scenes/Components/Planet/ProjectGrid.gd" type="Script" id=19]
-[ext_resource path="res://Images/Screens/Planet/Layout/popup.png" type="Texture" id=20]
+[ext_resource path="res://Scenes/Components/Planet/OrbitalProjectOverlaySprite.gd" type="Script" id=7]
+[ext_resource path="res://Materials/ConstructionHoverMaterial.tres" type="CanvasItemMaterial" id=8]
+[ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/01_shipyard.png" type="Texture" id=9]
+[ext_resource path="res://Images/AscendancyOrbitalCursor.png" type="Texture" id=10]
+[ext_resource path="res://tileset_cells.tres" type="TileSet" id=11]
+[ext_resource path="res://tileset_buildings.tres" type="TileSet" id=12]
+[ext_resource path="res://Scenes/Components/Planet/SurfaceProjectOverlaySprite.gd" type="Script" id=13]
+[ext_resource path="res://Images/planitem.shp_01.png" type="Texture" id=14]
+[ext_resource path="res://Images/AscendancyPlanetTile3.png" type="Texture" id=15]
+[ext_resource path="res://Scenes/Components/Planet/Workers.gd" type="Script" id=16]
+[ext_resource path="res://Scenes/Components/Planet/ProjectDisplay.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/Components/Planet/IndexedPointDisplay.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Images/Screens/Planet/Industry/00.png" type="Texture" id=19]
+[ext_resource path="res://Images/Screens/Planet/Prosperity/00.png" type="Texture" id=20]
+[ext_resource path="res://Scenes/Components/Planet/ProjectGrid.gd" type="Script" id=21]
+[ext_resource path="res://Images/Screens/Planet/Layout/popup.png" type="Texture" id=22]
 
-[sub_resource type="ConvexPolygonShape2D" id=1]
+[sub_resource type="ConvexPolygonShape2D" id=4]
+
+custom_solver_bias = 0.0
+points = Vector2Array( 0, 0, 72, 0, 72, 72, 0, 72 )
+
+[sub_resource type="ConvexPolygonShape2D" id=2]
 
 custom_solver_bias = 0.0
 points = Vector2Array( -34, -1, 0, -19, 34, -1, 0, 16 )
 
-[sub_resource type="StyleBoxTexture" id=2]
+[sub_resource type="StyleBoxTexture" id=3]
 
 content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-texture = ExtResource( 20 )
+texture = ExtResource( 22 )
 margin/left = 0.0
 margin/right = 0.0
 margin/top = 0.0
@@ -61,7 +68,7 @@ script/script = ExtResource( 4 )
 
 [node name="border" type="Sprite" parent="."]
 
-transform/pos = Vector2( 320, 240 )
+transform/pos = Vector2( 320, 240.397 )
 texture = ExtResource( 5 )
 
 [node name="OrbitalAnchor" type="Node2D" parent="."]
@@ -86,10 +93,45 @@ collision/mask = 1
 occluder/light_mask = 1
 tile_data = IntArray(  )
 
+[node name="OrbitalProjectSprite" type="Area2D" parent="OrbitalAnchor/TileMapOrbitals"]
+
+visibility/visible = false
+input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+script/script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="OrbitalAnchor/TileMapOrbitals/OrbitalProjectSprite"]
+
+material/material = ExtResource( 8 )
+texture = ExtResource( 9 )
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="OrbitalAnchor/TileMapOrbitals/OrbitalProjectSprite"]
+
+build_mode = 0
+polygon = Vector2Array( 0, 0, 72, 0, 72, 72, 0, 72 )
+shape_range = Vector2( 0, 0 )
+trigger = false
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="orbital_cursor" type="Sprite" parent="OrbitalAnchor"]
 
 visibility/visible = false
-texture = ExtResource( 7 )
+texture = ExtResource( 10 )
 centered = false
 
 [node name="TileMapAnchor" type="Node2D" parent="."]
@@ -99,7 +141,7 @@ transform/pos = Vector2( 411, 111 )
 [node name="TileMapCells" type="TileMap" parent="TileMapAnchor"]
 
 mode = 1
-tile_set = ExtResource( 8 )
+tile_set = ExtResource( 11 )
 cell/size = Vector2( 68, 34 )
 cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -117,7 +159,7 @@ tile_data = IntArray(  )
 [node name="TileMapBuildings" type="TileMap" parent="TileMapAnchor"]
 
 mode = 1
-tile_set = ExtResource( 9 )
+tile_set = ExtResource( 12 )
 cell/size = Vector2( 68, 34 )
 cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -136,22 +178,22 @@ tile_data = IntArray(  )
 
 visibility/visible = false
 input/pickable = true
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 17 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-script/script = ExtResource( 10 )
+script/script = ExtResource( 13 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Sprite" type="Sprite" parent="TileMapAnchor/TileMapBuildings/SurfaceProjectSprite"]
 
-material/material = ExtResource( 11 )
-texture = ExtResource( 12 )
+material/material = ExtResource( 8 )
+texture = ExtResource( 14 )
 offset = Vector2( 0, 7 )
 __meta__ = {
 "_edit_lock_": true
@@ -170,14 +212,14 @@ __meta__ = {
 
 [node name="surface_cursor" type="Sprite" parent="TileMapAnchor"]
 
-texture = ExtResource( 13 )
+texture = ExtResource( 15 )
 offset = Vector2( 0, 16 )
 modulate = Color( 0, 99.48, 136.56, 0.46 )
 
 [node name="Workers" type="Node2D" parent="."]
 
 transform/pos = Vector2( 360, 12 )
-script/script = ExtResource( 14 )
+script/script = ExtResource( 16 )
 
 [node name="PlanetUI" type="Control" parent="."]
 
@@ -207,7 +249,7 @@ margin/top = 7.0
 margin/right = 7.0
 margin/bottom = 373.0
 use_top_left = false
-script/script = ExtResource( 15 )
+script/script = ExtResource( 17 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true
@@ -273,7 +315,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="ResearchDisplay" parent="PlanetUI" instance=ExtResource( 16 )]
+[node name="ResearchDisplay" parent="PlanetUI" instance=ExtResource( 18 )]
 
 margin/left = 7.0
 margin/top = 7.0
@@ -282,23 +324,23 @@ margin/bottom = 107.0
 points = 0
 display_type = "Research"
 
-[node name="IndustryDisplay" parent="PlanetUI" instance=ExtResource( 16 )]
+[node name="IndustryDisplay" parent="PlanetUI" instance=ExtResource( 18 )]
 
 margin/left = 123.0
 margin/top = 7.0
 margin/right = 231.0
 margin/bottom = 107.0
-textures/normal = ExtResource( 17 )
+textures/normal = ExtResource( 19 )
 points = 0
 display_type = "Industry"
 
-[node name="ProsperityDisplay" parent="PlanetUI" instance=ExtResource( 16 )]
+[node name="ProsperityDisplay" parent="PlanetUI" instance=ExtResource( 18 )]
 
 margin/left = 239.0
 margin/top = 7.0
 margin/right = 347.0
 margin/bottom = 107.0
-textures/normal = ExtResource( 18 )
+textures/normal = ExtResource( 20 )
 points = 0
 display_type = "Prosperity"
 
@@ -320,7 +362,7 @@ dialog/hide_on_ok = true
 [node name="ProjectGrid" type="Position2D" parent="PlanetUI/AcceptDialog"]
 
 transform/pos = Vector2( 0, 35 )
-script/script = ExtResource( 19 )
+script/script = ExtResource( 21 )
 
 [node name="GridContainer" type="GridContainer" parent="PlanetUI/AcceptDialog/ProjectGrid"]
 
@@ -345,7 +387,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 3 )
 popup/exclusive = false
 
 [node name="ProjectButton" type="TextureButton" parent="PlanetUI"]

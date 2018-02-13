@@ -6,15 +6,16 @@ var type
 
 signal project_picked(project, tile, type)
 
-const image_base_path = "res://Images/Screens/Planet/Buildings"
-
-func _init(project, tile, type = "Surface"):
+func _init(project, tile, type = "Surface", player = null):
 	if type == "Surface":
 		init_surface(project, tile)
 	elif type == "Orbital":
-		init_orbital(project, tile)
+		init_orbital(project, tile, player)
+	elif type == "Tech":
+		init_tech(project, tile)
 
 	# TODO: make texturebutton and add to result list
+	# FIXME: use real def
 	set_tooltip(project.capitalize())
 	# FIXME: formalize this into a variable, don't use the name
 	set_name(project)
@@ -22,26 +23,16 @@ func _init(project, tile, type = "Surface"):
 	self.tile = tile
 	self.type = type
 	connect("pressed", self, "_emit_project")
-	self.type = type
 	pass
-
-func load_texture(index, type, project):
-	var path = "%s/%s/%02d_%s.png" % [image_base_path, type, index+1, project]
-	if File.new().file_exists(path):
-		return load(path)
-	else:
-		print("File not found: %s" % path)
 
 func init_surface(project, tile):
-	var index = BuildingDefinitions.building_types.find(project)
-	set_normal_texture(load_texture(index, "Surface", project))
+	set_normal_texture(TextureHandler.get_surface_building(project))
 
-func init_orbital(project, tile):
-	var index = OrbitalDefinitions.orbital_types.find(project)
-	set_normal_texture(load_texture(index, "Orbital", project))
+func init_orbital(project, tile, player = null):
+	set_normal_texture(TextureHandler.get_orbital_building(project, player))
 
 func init_tech(project):
-	pass
+	set_normal_texture(TextureHandler.get_tech_project(project))
 
 func _emit_project():
 	#print("%s %s %s" % [project, str(tile), type])

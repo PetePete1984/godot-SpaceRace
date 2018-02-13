@@ -115,9 +115,8 @@ func get_ship_module(ship_module):
 	var index = ShipModuleDefinitions.ship_module_defs[ship_module].index
 	if index > 0:
 		var path = "res://Images/Ship/Equipment/gizmos.shp_%02d.png" % [index]
-		printt(ship_module, path)
+		#printt(ship_module, path)
 		return get_texture(path)
-
 
 func get_surface_building(building):
 	var building_index = BuildingDefinitions.building_types.find(building)
@@ -126,6 +125,7 @@ func get_surface_building(building):
 		return get_texture(path)
 	pass
 
+# TODO: implement ship graphics for ship building / refit / orbiting here or elsewhere
 func get_orbital_building(project, player = null):
 	var def = OrbitalDefinitions.orbital_defs[project]
 	if player != null and def.research_ship_size != null:
@@ -136,7 +136,12 @@ func get_orbital_building(project, player = null):
 		if project_index != -1:
 			var path = "res://Images/Screens/Planet/Buildings/Orbital/%02d_%s.png" % [project_index + 1, project]
 			return get_texture(path)
-	
+
+func get_tech_project(project):
+	var index = TechProjectDefinitions.project_types.find(project)
+	if index != -1:
+		var path = "res://Images/Screens/Planet/Buildings/Tech/%02d_%s.png" % [index + 1, project]
+
 func get_research_icon(research):
 	var resDef = ResearchDefinitions.research_defs[research]
 	var path = "res://Images/Screens/Research/Research/restree.shp_%02d.png" % (resDef.index+1)

@@ -3,6 +3,7 @@ extends Reference
 
 const GameplayEvent = preload("res://Scripts/Model/Event.gd")
 const POPULATION = "%s has %d free population for additional projects."
+const CONSTRUCTION = "Construction of %s is complete on %s."
 const RESEARCH_AVAILABLE = "%s Scientist Report: A laboratory has been constructed and we are ready to begin researching new technologies."
 const RESEARCH_COMPLETE = "%s Science Report: Our researchers have discovered %s."
 const SPACE_EXPLORATION = "%s Scientist Report: We now have all technology needed to build our first ship to explore other stars. This includes generators, engines, and star lane drives."
@@ -10,13 +11,24 @@ const SPACE_EXPLORATION_PAGE2 = ""
 #{CONSTRUCTION, FREE_POP, SPECIAL_ABILITY, 
 #	RESEARCH_COMPLETE, SPACE_EXPLORATION, RACE_SHIP_CONTACT}
 
+# FIXME: distinguish between project types
 static func generate_construction(project, planet):
 	var ev = GameplayEvent.new()
 	ev.type = GameplayEvent.CONSTRUCTION
-	var project_image = TextureHandler.get_surface_building(project)
+	var project_image
+	var project_text
+	if project.type == "Surface":
+		project_image = TextureHandler.get_surface_building(project.project)
+		project_text = CONSTRUCTION % [BuildingDefinitions.building_defs[project.project].building_name, planet.colony.colony_name]
+	elif project.type == "Orbital":
+		project_image = TextureHandler.get_orbital_building(project.project, planet.colony.owner)
+		project_text = CONSTRUCTION % [OrbitalDefinitions.orbital_defs[project.project].orbital_name, planet.colony.colony_name]
+	elif project.type == "Tech":
+		project_image = TextureHandler.get_tech_project(project.project)
+		project_text = CONSTRUCTION % [TechProjectDefinitions.project_defs[project.project].project_name, planet.colony.colony_name]
 	var planet_image = TextureHandler.get_planet(planet, true)
 	ev.images = [project_image, planet_image]
-	var top_line = "Construction of %s is complete on %s." % [BuildingDefinitions.building_defs[project].building_name, planet.colony.colony_name]
+	var top_line = project_text
 	var bottom_line = POPULATION % [planet.colony.colony_name, planet.population.idle]
 	ev.text = [top_line, bottom_line]
 	ev.buttons = ["construction", "OK"]

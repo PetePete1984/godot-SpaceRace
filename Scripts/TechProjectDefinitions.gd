@@ -25,13 +25,15 @@ var project_defs = {
 	"automation": {
 		# TODO: cost == -1 => use the existing project's cost
 		"cost": -1,
-		"completion_function": "automate_building"
+		"completion_function": "automate_building",
+		"continuous": false
 	}, 
 	"lush_growth_bomb": {
 		"cost": 200,
 		# probably won't use this bit
 		"provided_pop": 10,
-		"completion_function": "growth_bomb_planet"
+		"completion_function": "growth_bomb_planet",
+		"continuous": false
 	}
 }
 

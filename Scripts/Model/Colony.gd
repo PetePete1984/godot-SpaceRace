@@ -25,6 +25,7 @@ var adjusted_prosperity = 0
 var remaining_growth = 50
 
 var unique_buildings = []
+var unique_orbitals = []
 
 func get_population():
 	return planet.population
@@ -125,7 +126,9 @@ func refresh():
 	var working_pop = 0
 
 	var existing_building_types = []
-	
+	var existing_orbital_types = []
+
+	# check buildings first
 	for x in range(buildings.size()):
 		for y in range(buildings[x].size()):
 			var cell = grid[x][y]
@@ -139,6 +142,7 @@ func refresh():
 				if building.active:
 					if not building.type.type in existing_building_types:
 						existing_building_types.append(building.type.type)
+
 					if def.industry > 0:
 						ind += def.industry
 						if cell.tiletype == "red":
@@ -164,6 +168,25 @@ func refresh():
 			total_ind += ind
 			total_res += res
 			total_prosp += prosp
+
+	for x in range(orbitals.size()):
+		for y in range(orbitals[x].size()):
+			var orbital = orbitals[x][y]
+			var ind = 0
+
+			if orbital.type != null:
+				var def = orbital.type
+				if orbital.active:
+					if not orbital.type.type in existing_orbital_types:
+						existing_orbital_types.append(orbital.type.type)
+					if def.industry > 0:
+						ind += def.industry
+				
+				if def.used_pop > 0:
+					if not orbital.automated:
+						working_pop += def.used_pop
+			
+			total_ind += ind
 	
 	industry = total_ind
 	research = total_res
@@ -217,3 +240,4 @@ func refresh():
 	planet.population.free = planet.population.slots - planet.population.alive
 
 	unique_buildings = existing_building_types
+	unique_orbitals = existing_orbital_types

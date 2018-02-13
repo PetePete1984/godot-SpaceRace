@@ -451,8 +451,14 @@ static func finish_project(colony):
 			pass
 		elif project extends OrbitalProject:
 			var orbital = colony.planet.orbitals[x][y]
+			# TODO: handle ships
+			orbital.active = true
 			pass
 		elif project extends TechProject:
+			if project.project == "automation":
+				# find target type
+				# apply automation to target on correct grid
+				pass
 			pass
 		else:
 			print("Unknown project type")

@@ -23,8 +23,8 @@ func set_project(project, type, player = null):
 			scale = OrbitalDefinitions.orbital_defs[project].research_ship_scale
 			image.set_scale(Vector2(scale, scale))
 	elif type == "Tech":
-		# TODO: implement tech project display
-		pass
+		label.set_text(TechProjectDefinitions.project_defs[project].project_name)
+		image.set_texture(TextureHandler.get_tech_project(project))
 	elif type == "Ship_Module":
 		label.set_text(ShipModuleDefinitions.ship_module_defs[project].ship_module_name)
 		image.set_texture(TextureHandler.get_ship_module(project))

@@ -30,6 +30,11 @@ func auto(enable):
 func game_turn():
 	turn_maintenance()
 	var game_state = GameStateHandler.game_state
+	# advance turn
+	game_state.turn += 1
+	# TODO: probably will have to rename this to "previous_turn_finished"
+	emit_signal("turn_finished")
+
 	for race in game_state.races:
 		var player = game_state.races[race]
 		if not player.extinct:
@@ -74,12 +79,8 @@ func game_turn():
 	# for all ships with unfinished orders: finish orders (movement); ships in auto mode fire on last target or any target in range
 	# start AI control in order
 	
-	# finally, advance turn
-	# FIXME: too late for this
-	game_state.turn += 1
 	# discard all remaining events
 	EventHandler.clear()
-	emit_signal("turn_finished")
 	pass
 
 # performs all tasks that need to happen before the player gains control
@@ -90,15 +91,11 @@ func turn_maintenance():
 
 		if not player.extinct:
 			# research first
-			# TODO: maybe refresh this elsewhere
-			player.total_research = player.get_total_research()
-			
+			# total research is calculated after projects are finished in the previous turn
 			# apply total research to current research project
-			# TODO: buffered research doesn't exist in the original
 			if player.research_project != null:
-				player.research_project.remaining_research -= player.total_research + player.buffered_research
+				player.research_project.remaining_research -= player.total_research
 				if player.research_project.remaining_research <= 0:
-					player.buffered_research = abs(player.research_project.remaining_research)
 					var finished_research = player.research_project.research
 					var space_travel_before_project = player.meta_info.space_travel_available
 					ResearchHandler.finish_research_project(player)
@@ -109,9 +106,6 @@ func turn_maintenance():
 						# TODO: include event page 2
 					var ev = EventGenerator.generate_research_complete(player, finished_research)
 					EventHandler.add_event(player, ev)
-			else:
-				player.buffered_research += player.total_research
-			pass
 			
 			for colony_key in player.colonies:
 				var colony = player.colonies[colony_key]
@@ -128,20 +122,21 @@ func turn_maintenance():
 				
 				# for all colonies: apply industry to projects
 				if colony.project != null:
-					colony.project.remaining_industry -= colony.adjusted_industry
-					if colony.project.remaining_industry <= 0:
-						var finished_project = colony.project.project
+					if not colony.project.continuous:
+						colony.project.remaining_industry -= colony.adjusted_industry
+					if not colony.project.continuous and colony.project.remaining_industry <= 0:
+						var finished_project = colony.project
 						var labs_before_building = player.meta_info.num_laboratories
 						#colony.finish_project()
 						ColonyManager.finish_project(colony)
 						ColonyManager.update_colony_stats(colony)
 
-						if labs_before_building == 0 and finished_project == "laboratory":
+						if labs_before_building == 0 and finished_project.project == "laboratory":
 							if player.count_laboratories() > 0 and player.research_project == null:
 								var ev = EventGenerator.generate_research_available(player)
 								EventHandler.add_event(player, ev)
 						
-						if finished_project == "xeno_dig":
+						if finished_project.project == "xeno_dig":
 							var space_travel_before_project = player.meta_info.space_travel_available
 							var random_research = ResearchHandler.finish_random_research(player)
 							if space_travel_before_project != player.is_space_travel_available():
@@ -153,8 +148,8 @@ func turn_maintenance():
 
 						var ev = EventGenerator.generate_construction(finished_project, colony.planet)
 						EventHandler.add_event(player, ev)				
-				
-				
+			# all colonies are finished with buildings, collect global stats
+			player.total_research = player.get_total_research()
 			
 			# for all ships in star lanes: move along the lane according to speed & specials (race factor)
 			for ship in player.ships:
