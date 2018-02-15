@@ -1,6 +1,5 @@
 extends Reference
 
-var systems = {} # list of v3, starsystem
-# FIXME: this is duplicated into game_state, remove one of them
-var races = {}
+var systems = [] # list of starsystem objects
+# TODO: should maybe just be an array
 var lanes = {}

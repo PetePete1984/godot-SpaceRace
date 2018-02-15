@@ -36,6 +36,7 @@ func clear_display():
 	for d in get_children():
 		d.hide()
 		d.queue_free()
+		remove_child(d)
 
 func _on_system_clicked(system):
 	emit_signal("system_clicked", system)

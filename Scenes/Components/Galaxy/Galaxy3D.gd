@@ -37,6 +37,7 @@ func rotate(delta, direction = 1):
 	if is_visible() and direction != 0:
 		#anchor.rotate_y(deg2rad(delta*SPIN_SPEED*direction))
 		anchor.global_rotate(Vector3(0,1,0), deg2rad(delta*SPIN_SPEED*direction))
+		line_anchor.global_rotate(Vector3(0,1,0), deg2rad(delta*SPIN_SPEED*direction))
 		# TODO: notify group instead of emitting signal
 		emit_signal("rotated")
 
@@ -68,6 +69,7 @@ func rotate_h(delta, direction):
 func rotate_v(delta, direction):
 	if direction != 0:
 		anchor.global_rotate(Vector3(1,0,0), deg2rad(delta*SPIN_SPEED*direction))
+		line_anchor.global_rotate(Vector3(1,0,0), deg2rad(delta*SPIN_SPEED*direction))
 		emit_signal("rotated")
 	pass
 
@@ -132,10 +134,10 @@ func clear_display():
 	
 func generate_starsystem_display(galaxy, interaction = true):
 	clear_display()
-	for s in galaxy.systems:
-		var sys = galaxy.systems[s]
+	for sys in galaxy.systems:
+		#var sys = galaxy.systems[s]
 		var spr3d = get_clickable_sprite3D_for_system(sys)
-		spr3d.set_translation(s)
+		spr3d.set_translation(sys.position)
 		connect("rotated", spr3d.star, "_on_update_pos")
 		sprites.append(spr3d)
 		pass

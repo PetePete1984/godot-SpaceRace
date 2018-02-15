@@ -14,6 +14,7 @@ var RaceGenerator = preload("res://Scripts/RaceGenerator.gd")
 var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
 
 var GameStatePurger = preload("res://Scripts/Tools/GameStatePurger.gd")
+var GameStateTransformer = preload("res://Scripts/Transformer/GameStateTransformer.gd")
 # temporary game state for the "new game" screen
 var new_game_state
 
@@ -44,25 +45,12 @@ func load_old_game(path):
 # start new default game
 # this is also what happens when you resume without a resume state
 func start_new_game():
-	# TODO: immediately resuming on boot leaves galaxy in a half-finished state
 	#randomize()
 	#purge_game_state(game_state)
-	game_state = make_game_state(mapdefs.default_galaxy_settings)
-	game_state.galaxy = GalaxyGenerator.generate_galaxy(null)
-	# get a default human player
-	var player = RaceGenerator.generate_player(game_state, "minions")
-	game_state.races["minions"] = player
-	game_state.human_player = player
-	
-	# plunk the player onto ANY planet
-	var random_system = Utils.rand_pick_from_dict(game_state.galaxy.systems)
-	var planet = Utils.rand_pick_from_dict(random_system.planets)
-
-	# give the planet a colony base
-	ColonyGenerator.initialize_colony(player, planet, true)
-	
+	generate_stars(mapdefs.default_galaxy_settings.galaxy_size)
+	initialize_galaxy(mapdefs.default_galaxy_settings, "minions", mapdefs.galaxy_colors.GREEN)
+	#print(inst2dict(game_state))
 	return game_state
-	pass
 
 # get a default game state, don't assign it to anything
 func make_game_state(settings):
@@ -117,43 +105,47 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			var participant = new_game_state.races[r_key]
 			# scatter the starter colonies
 			# plunk the players onto ANY planet in not yet occupied systems
-			var random_system = Utils.rand_key_from_dict(new_game_state.galaxy.systems)
+			var random_system = Utils.rand_pick_from_array(new_game_state.galaxy.systems)
 			while random_system in occupied_systems:
-				random_system = Utils.rand_key_from_dict(new_game_state.galaxy.systems)
+				random_system = Utils.rand_pick_from_array(new_game_state.galaxy.systems)
 
 			occupied_systems.append(random_system)
-			var random_planet = Utils.rand_key_from_dict(new_game_state.galaxy.systems[random_system].planets)
-			var planet = new_game_state.galaxy.systems[random_system].planets[random_planet]
+			var random_planet = Utils.rand_key_from_dict(random_system.planets)
+			var planet = random_system.planets[random_planet]
 
 			# give the planet a colony base
 			# FIXME: meeeeeeeeh?
 			# home = true
-			new_game_state.galaxy.systems[random_system].planets[random_planet] = ColonyGenerator.initialize_colony(participant, planet, true)
-			new_game_state.galaxy.races = new_game_state.races
+			random_system.planets[random_planet] = ColonyGenerator.initialize_colony(participant, planet, true)
+			#new_game_state.galaxy.races = new_game_state.races
 		
 		# move everything into the normal game state
-		GameStatePurger.purge_game_state(game_state)
-		game_state = null
+		if game_state != null:
+			GameStatePurger.purge_game_state(game_state)
+			game_state = null
 		game_state = new_game_state
 		#GameStatePurger.purge_game_state(new_game_state)
 		new_game_state = null
 	pass
 
-func save_game_state():
+func save_game_state(save_name = null):
+	var path = save_path
+	if save_name != null:
+		path = save_name
 	saveable_state.turn = game_state.turn
 	saveable_state.galaxy = game_state.galaxy
 	saveable_state.difficulty = game_state.difficulty
 	saveable_state.races = game_state.races
 	
 	var file = File.new()
-	if file.open(save_path, File.WRITE) != 0:
+	if file.open(path, File.WRITE) != 0:
 		print("Error opening save")
 	
 	file.store_line(saveable_state.to_json())
 	file.close()
 	pass
 
-func load_game_state():
+func load_game_state(save_name = null):
 	game_state.turn = saveable_state.turn
 	game_state.galaxy = saveable_state.galaxy
 	game_state.difficulty = saveable_state.difficulty

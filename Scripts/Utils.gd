@@ -1,14 +1,34 @@
 # Utils
 extends Node
 
-func rand_v3_in_unit_sphere(radius):
+static func randf_between(min_num, max_num):
+	var num = randf()
+	return num
+
+static func randi_between(min_num, max_num):
+	var nums = range(min_num, max_num)
+	var num = nums[randi() % nums.size()]
+	return num
+
+static func rand_between(lowest, highest):
+	return rand_range(lowest, highest)
+
+func rand_v3_in_unit_sphere(radius, integers = false):
 	# find a random position in 3D space
+	var rand_func
+	if integers:
+		rand_func = funcref(self, "randi_between")
+	else:
+		rand_func = funcref(self, "rand_between")
 	var in_sphere = false
 	var result = null
 	while in_sphere == false:
-		var x = rand_range(-radius, radius)
-		var y = rand_range(-radius, radius)
-		var z = rand_range(-radius, radius)
+		#var x = rand_range(-radius, radius)
+		#var y = rand_range(-radius, radius)
+		#var z = rand_range(-radius, radius)
+		var x = rand_func.call_func(-radius, radius)
+		var y = rand_func.call_func(-radius, radius)
+		var z = rand_func.call_func(-radius, radius)
 		if x*x + y*y + z*z <= radius*radius:
 			in_sphere = true
 			result = Vector3(x, y, z)
@@ -28,14 +48,23 @@ func rand_pick_from_array(array):
 	return array[randi() % array.size()]
 	
 func rand_pick_from_array_no_dupes(array, picked):
-	var iterations = 0
-	var index = randi() % array.size()
-	while picked.has(array[index]) and iterations < 1000:
-		index = randi() % array.size()
-		iterations += 1
-	if iterations >= 1000:
-		print("Tried 1000 picks, always found duplicates. Maybe the list is too short.")
-	return array[index]
+	var copy = []
+	for i in array:
+		if not i in picked:
+			copy.append(i)
+
+	if copy.size() > 0:
+		return rand_pick_from_array(copy)
+	else:
+		print("Array list picks exhausted, need a bigger list")
+
+func array_intersect(small_set, big_set):
+	var result = true
+	for s in small_set:
+		result = result and s in big_set
+		if result == false:
+			break
+	return result
 	
 func get_tile_neighbors(x, y, grid, diagonals = false):
 	var neighbors = {

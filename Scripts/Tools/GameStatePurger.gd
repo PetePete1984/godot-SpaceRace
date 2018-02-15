@@ -14,15 +14,15 @@ static func purge_game_state(state):
 static func purge_galaxy(galaxy):
 	purge_systems(galaxy.systems)
 	galaxy.systems = null
-	purge_races(galaxy.races)
-	galaxy.races = null
+	#purge_races(galaxy.races)
+	#galaxy.races = null
 	purge_lanes(galaxy.lanes)
 	galaxy.lanes = null
 	galaxy = null
 
 static func purge_systems(systems):
-	for s in systems:
-		var system = systems[s]
+	for system in systems:
+		#var system = systems[s]
 
 		purge_planets(system.planets)
 		system.planets = null
@@ -32,7 +32,7 @@ static func purge_systems(systems):
 		system.pivot = null
 
 		system = null
-		systems[s] = null
+		#systems[s] = null
 	systems = null
 
 static func purge_lanes(lanes):
