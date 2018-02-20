@@ -14,7 +14,8 @@ onready var BattleScreen = get_node("BattleScreen")
 onready var PlanetScreen = get_node("PlanetScreen")
 onready var ShipDesignScreen = get_node("ShipDesignScreen")
 
-signal leaving_screen
+signal leaving_screen(old_screen)
+signal showing_screen(new_screen)
 signal quit_requested
 
 # screen stack
@@ -43,6 +44,7 @@ func connect_signals():
 	# connect main buttons
 	GalaxyScreen.connect("planetlist_requested", self, "_planetlist_view")
 	GalaxyScreen.connect("research_requested", self, "_research_view")
+	GalaxyScreen.connect("shiplist_requested", self, "_shiplist_view")
 	
 	# connect to a click on a planet
 	BattleScreen.connect("planet_picked", self, "_planet_view")
@@ -54,6 +56,14 @@ func connect_signals():
 	PlanetListScreen.connect("system_clicked", self, "_system_view")
 	PlanetListScreen.connect("planet_clicked", self, "_planet_view")
 
+	# Ship Design signals
+	# right-click on ship in ship list
+	ShipListScreen.connect("view_ship_layout", self, "_ship_design_view")
+	# new ship project
+	PlanetScreen.connect("design_new_ship", self, "_ship_design_view")
+	# refit project
+	PlanetScreen.connect("refit_ship", self, "_ship_design_view")
+
 	# gameplay signals
 	GalaxyScreen.connect("next_requested", self, "_next_turn_requested")
 	GalaxyScreen.connect("auto_requested", self, "_auto_requested")
@@ -64,12 +74,13 @@ func return_screen():
 	if current_screen == RaceIntroScreen:
 		init_gameplay()
 	elif screens.size() > 1:
+		emit_signal("leaving_screen", screens.back())
 		screens.back().hide()
 		screens.pop_back()
 		# TODO: if multiple are visible (galaxy + species < intelligence), find something else
 		# TODO: returning from planet to planet list after starting a project must update planet list
+		emit_signal("showing_screen", screens.back())
 		screens.back().show()
-		emit_signal("leaving_screen")
 	else:
 		emit_signal("quit_requested")
 	pass
@@ -104,6 +115,18 @@ func _research_view(player = null):
 func _planetlist_view(player = null):
 	PlanetListScreen.set_player(GameStateHandler.game_state.human_player)
 	move_to_screen(PlanetListScreen)
+
+func _shiplist_view(player = null):
+	ShipListScreen.set_player(GameStateHandler.game_state.human_player)
+	move_to_screen(ShipListScreen)
+
+func _ship_design_view(ship = null):
+	ShipDesignScreen.set_player(GameStateHandler.game_state.human_player)
+	if ship != null:
+		ShipDesignScreen.set_ship(ship)
+	else:
+		ShipDesignScreen.set_ship()
+	move_to_screen(ShipDesignScreen)
 	
 func _system_view(system):
 	set_payload(BattleScreen, system)

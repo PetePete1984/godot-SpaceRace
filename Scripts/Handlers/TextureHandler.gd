@@ -93,6 +93,10 @@ func get_planet(planet, small = false):
 		return null
 	pass
 
+func get_starlane(lane):
+	var path = "res://Images/Screens/Battle/Lanes/%s.png" % [lane.type]
+	return get_texture(path)
+
 # TODO: could also do a more clever function that just derives everything from a ship and a docked var
 func get_ship(player, ship_size = "small", docked = false):
 	var race = _type(player)

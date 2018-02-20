@@ -10,6 +10,8 @@ var ships = {}
 var research = {}
 var completed_research = []
 
+var research_self_managed = false
+
 # TODO: reset project on new game
 var research_project = null
 var total_research = 0

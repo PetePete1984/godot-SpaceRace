@@ -60,7 +60,7 @@ static func refresh_grids(planet):
 static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings, tilemap_orbitals):
 	tilemap_cells.clear()
 	tilemap_buildings.clear()
-	#tilemap_orbitals.clear()
+	tilemap_orbitals.clear()
 	
 	var cells = mapdefs.cell_types
 	var buildings = BuildingDefinitions.building_types

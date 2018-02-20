@@ -75,13 +75,13 @@ func show_research(player):
 		# TODO: take research status into account
 		research_ring.set_texture(rings.normal)
 		
-		var area3d = Area.new()
-		### picking
-		area3d.set_script(ResearchPick)
+		### picking area
+		var area3d = ResearchPick.new()
 		area3d.set_monitorable(true)
 		area3d.set_enable_monitoring(true)
 		area3d.set_ray_pickable(true)
 		area3d.set_name("area")
+		
 		var collisionShape = CollisionShape.new()
 		var collisionBox3d = BoxShape.new()
 		

@@ -166,6 +166,7 @@ func _on_research_exit(player, research):
 func _on_rotate(direction):
 	tree.spin_direction = direction
 	pass
+
 func _on_scroll(direction):
 	tree.scroll_direction = direction
 	pass

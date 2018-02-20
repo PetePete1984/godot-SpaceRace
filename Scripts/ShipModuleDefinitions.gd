@@ -73,7 +73,7 @@ var ship_module_types = [
 	"gizmogrifier",
 	"replenisher",
 	"specialty_blaster",
-	"gyro-inductor",
+	"gyro_inductor",
 	"plasma_coupler",
 	"invulnerablizer",
 	"phase_bomb",
@@ -359,7 +359,7 @@ var ship_module_defs = {
 		"category": "special",
 		"requires_research": "teleinfiltration"
 	},
-	"gyro-inductor": {
+	"gyro_inductor": {
 		"category": "special",
 		"requires_research": "murgatroyd_hypothesis"
 	},

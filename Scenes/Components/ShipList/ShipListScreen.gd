@@ -1,10 +1,16 @@
 extends "res://Scripts/Model/Screen.gd"
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+onready var ShipList = get_node("ScrollContainer/VBoxContainer")
+
+signal view_ship_layout(ship)
+
+func set_player(player):
+	# TODO: find the total number of ships, allowed ships and the difference
+	#Flag.set_texture(TextureHandler.get_race_flag(player))
+	ShipList.set_ships(player)
+
+func update():
+	ShipList.update()
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
+	connect("visibility_changed", self, "update")

@@ -14,7 +14,7 @@ var DISPLAY_SCALE = Vector3(SCALE_FACTOR,SCALE_FACTOR,SCALE_FACTOR) #Vector3(0.2
 
 var Planet = preload("res://Scripts/Model/Planet.gd")
 var Planetmap = preload("res://Scripts/Planetmap.gd")
-var SmallPlanetSprite = preload("res://Scenes/Components/Battle/SmallPlanetSprite.gd")
+#var SmallPlanetSprite = preload("res://Scenes/Components/Battle/SmallPlanetSprite.gd")
 var BattlePick = preload("res://Scenes/Components/ClickableArea3D.gd")
 var BillboardSprite3D = preload("res://Scenes/Components/BillboardSprite3D.tscn")
 
@@ -26,6 +26,9 @@ var spin_direction = 0
 var zoom_direction = 0
 
 signal battle_object_clicked(object)
+signal battle_object_hover_begin(object)
+signal battle_object_hover_end(object)
+
 signal sprites_cleared
 signal sprites_repainted
 signal rotated
@@ -63,6 +66,7 @@ func display_lines(display = true):
 	line_drawer.set("geometry/visible", display)
 
 func clear_display():
+	# FIXME: clear sun sprite
 	for spr in sprites:
 		#print(spr.get_name())
 		if spr.has_node("area"):
@@ -86,62 +90,45 @@ func generate_starsystem_display(system):
 	var sys = system
 	
 	# get and draw the star
-	var image_index = mapdefs.stars.find(sys.star_type)
-	if image_index != -1:
-		# TODO: Use BillboardSprite
-		var spr3d = Sprite3D.new()
-		var path = "res://Images/Screens/Battle/Suns/%02d_%s.png" % [image_index+1, sys.star_type]
-		
-		if star_textures.has(image_index):
-			spr3d.set_texture(star_textures[image_index])
-		elif File.new().file_exists(path):
-			var texture = load(path)
-			spr3d.set_texture(texture)
-			star_textures[image_index] = texture
-
-		spr3d.set_translation(Vector3(0, 0, 0))
-		spr3d.translate(Vector3(0, mapdefs.system_default_y, 0))
-		
-		spr3d.set_flag(GeometryInstance.FLAG_BILLBOARD, true)
-		spr3d.set_scale(DISPLAY_SCALE)
-		spr3d.set_name(sys.system_name)
-		# FIXME: why is flip h required?
-		spr3d.set_flip_h(true)
-		anchor.add_child(spr3d)
-		sprites.append(spr3d)
+	var sun_sprite = BillboardSprite3D.instance()
+	sun_sprite.depth_cue = false
+	sun_sprite.set_texture(TextureHandler.get_star(system))
+	sun_sprite.set_scale(DISPLAY_SCALE)
+	sun_sprite.set_translation(Vector3())
+	sun_sprite.translate(Vector3(0, mapdefs.system_default_y, 0))
+	sun_sprite.set_name(system.system_name)
+	anchor.add_child(sun_sprite)
 		
 	# draw the system's star lanes
 	for l in sys.lanes:
 		var lane = sys.lanes[l]
-		var l3d = Sprite3D.new()
-		l3d.set_translation(l)
-		l3d.set_flag(GeometryInstance.FLAG_BILLBOARD, true)
-		l3d.set_scale(DISPLAY_SCALE)
-		l3d.set_texture(load("res://Images/Screens/Battle/Lanes/%s.png" % [lane.type]))
-		l3d.set_flip_h(true)
+		var lane_sprite = BillboardSprite3D.instance()
+		lane_sprite.depth_cue = false
+		lane_sprite.set_texture(TextureHandler.get_starlane(lane))
+		lane_sprite.set_scale(DISPLAY_SCALE)
+		lane_sprite.set_translation(l)
+
 		var connects_to
 		for i in lane.connects:
 			if i != sys:
 				connects_to = i.system_name
-		l3d.set_name("Star Lane to %s" % [connects_to])
-		anchor.add_child(l3d)
-		sprites.append(l3d)
+		lane_sprite.set_name("Star Lane to %s" % [connects_to])
+		anchor.add_child(lane_sprite)
+		sprites.append(lane_sprite)
 	
 	# draw the system's planets
 	# and assign them clickables
 	for p in sys.planets:
 		var planet = sys.planets[p]
-		var p3d = SmallPlanetSprite.new()
-		p3d.set_translation(p)
-		p3d.set_flag(GeometryInstance.FLAG_BILLBOARD, true)
-		p3d.set_scale(DISPLAY_SCALE)
-		p3d.set_small_planet(planet)
-		# FIXME: why is flip h required?
-		p3d.set_flip_h(true)
+		var planet_sprite = BillboardSprite3D.instance()
+
+		planet_sprite.depth_cue = false
+		planet_sprite.set_translation(p)
+		planet_sprite.set_scale(DISPLAY_SCALE)
+		planet_sprite.set_texture(TextureHandler.get_planet(planet, true))
+
 		# clickable area
-		var area3d = Area.new()
-		area3d.set_script(BattlePick)
-		area3d.set_layer_mask(1)
+		var area3d = BattlePick.new()
 		area3d.set_monitorable(true)
 		area3d.set_enable_monitoring(true)
 		area3d.set_ray_pickable(true)
@@ -152,9 +139,9 @@ func generate_starsystem_display(system):
 		var collisionBox3d = BoxShape.new()
 		
 		# sprite size * math = area shape
-		var sprite_x = p3d.get_texture().get_width()
-		var sprite_y = p3d.get_texture().get_height()
-		var unit_pixel_ratio = p3d.get_pixel_size()
+		var sprite_x = planet_sprite.get_texture().get_width()
+		var sprite_y = planet_sprite.get_texture().get_height()
+		var unit_pixel_ratio = planet_sprite.get_pixel_size()
 		
 		# divide by 2 because extents are doubled size
 		collisionBox3d.set_extents(Vector3(sprite_x, sprite_y, 1) * unit_pixel_ratio / 2)
@@ -164,27 +151,36 @@ func generate_starsystem_display(system):
 		area3d.add_child(collisionShape)
 		
 		# add collision area to planet
-		p3d.add_child(area3d)
-		p3d.set_name(planet.planet_name)
+		planet_sprite.add_child(area3d)
+		planet_sprite.set_name(planet.planet_name)
 		
-		# connect to area's click signal
+		# connect to area's click signal for planet picking
 		area3d.connect("clicked", self, "_on_battle_object_clicked", [planet])
+		area3d.connect("hover_begin", self, "_on_battle_object_hover_begin", [planet])
+		area3d.connect("hover_end", self, "_on_battle_object_hover_end", [planet])
 		
 		# add planet sprite to planet anchor
-		anchor.add_child(p3d)
-		# FIXME: this drawing hack must be nicer later
+		anchor.add_child(planet_sprite)
+		# FIXME: this drawing hack must be nicer later, when the list is implemented
 		var has_owner = false
 		if planet.owner != null:
 			has_owner = true
 		if has_owner:
 			# TODO: if planet size doesn't match home sprite size, resize collision box
-			p3d.set_scale(Vector3(4,4,4))
+			# TODO: use colored outlines to show ownership (nah, lines are only for stuff in orbit?)
+			planet_sprite.set_scale(Vector3(4,4,4))
 		
-		sprites.append(p3d)
+		sprites.append(planet_sprite)
 	pass
 
 func _on_battle_object_clicked(object):
 	emit_signal("battle_object_clicked", object)
+
+func _on_battle_object_hover_begin(object):
+	emit_signal("battle_object_hover_begin", object)
+	
+func _on_battle_object_hover_end(object):
+	emit_signal("battle_object_hover_end", object)
 
 #func _create_random_system():
 #	var sys = StarSystemGenerator.generate_system()

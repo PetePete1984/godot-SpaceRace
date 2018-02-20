@@ -1,8 +1,27 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=23 format=1]
 
 [ext_resource path="res://Scenes/Components/ShipDesign/ShipDesignScreen.gd" type="Script" id=1]
 [ext_resource path="res://Images/Screens/ShipDesign/border.png" type="Texture" id=2]
-[ext_resource path="res://Images/Placeholder/ascend_019.png" type="Texture" id=3]
+[ext_resource path="res://Images/Placeholder/ascend_058.png" type="Texture" id=3]
+[ext_resource path="res://Images/Placeholder/ascend_059.png" type="Texture" id=4]
+[ext_resource path="res://Images/Placeholder/ascend_060.png" type="Texture" id=5]
+[ext_resource path="res://Images/Placeholder/ascend_061.png" type="Texture" id=6]
+[ext_resource path="res://Images/Placeholder/ascend_062.png" type="Texture" id=7]
+[ext_resource path="res://Images/Placeholder/ascend_063.png" type="Texture" id=8]
+[ext_resource path="res://Images/Placeholder/ascend_064.png" type="Texture" id=9]
+[ext_resource path="res://Images/Placeholder/ascend_065.png" type="Texture" id=10]
+[ext_resource path="res://Images/Races/Flags/raceflag.shp_01.png" type="Texture" id=11]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_3.png" type="Texture" id=12]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_6.png" type="Texture" id=13]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_7.png" type="Texture" id=14]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_8.png" type="Texture" id=15]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_9.png" type="Texture" id=16]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_5.png" type="Texture" id=17]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_01.png" type="Texture" id=18]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_4.png" type="Texture" id=19]
+[ext_resource path="res://Images/Screens/ShipDesign/Ships/dkship00/dkship00.shp_1.png" type="Texture" id=20]
+[ext_resource path="res://tileset_shipmodules.tres" type="TileSet" id=21]
+[ext_resource path="res://Scenes/Components/ShipDesign/ModuleMap.gd" type="Script" id=22]
 
 [node name="ShipDesignScreen" type="Node2D"]
 
@@ -24,8 +43,54 @@ stretch_mode = 0
 
 [node name="Placeholder" type="Sprite" parent="."]
 
+visibility/visible = false
 visibility/opacity = 0.25
 texture = ExtResource( 3 )
+centered = false
+
+[node name="Placeholder1" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Placeholder2" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 5 )
+centered = false
+
+[node name="Placeholder3" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Placeholder4" type="Sprite" parent="."]
+
+visibility/visible = false
+visibility/opacity = 0.25
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Placeholder5" type="Sprite" parent="."]
+
+visibility/visible = false
+visibility/opacity = 0.25
+texture = ExtResource( 8 )
+centered = false
+
+[node name="Placeholder6" type="Sprite" parent="."]
+
+visibility/visible = false
+texture = ExtResource( 9 )
+centered = false
+
+[node name="Placeholder7" type="Sprite" parent="."]
+
+visibility/visible = false
+visibility/opacity = 0.25
+texture = ExtResource( 10 )
 centered = false
 
 [node name="Flag" type="TextureFrame" parent="."]
@@ -34,34 +99,314 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 40.0
+margin/left = 10.0
+margin/top = 10.0
+margin/right = 25.0
+margin/bottom = 35.0
+texture = ExtResource( 11 )
 stretch_mode = 0
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CategoryButtons" type="Position2D" parent="."]
 
 transform/pos = Vector2( 485, 7 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Weapons" type="TextureButton" parent="CategoryButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 31.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 12 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Drives" type="TextureButton" parent="CategoryButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 39.0
+margin/right = 31.0
+margin/bottom = 70.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 13 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Scanners" type="TextureButton" parent="CategoryButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 39.0
+margin/top = 39.0
+margin/right = 70.0
+margin/bottom = 70.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 14 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Generators" type="TextureButton" parent="CategoryButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 78.0
+margin/top = 39.0
+margin/right = 109.0
+margin/bottom = 70.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 15 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Modules" type="TextureButton" parent="CategoryButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 117.0
+margin/top = 39.0
+margin/right = 148.0
+margin/bottom = 70.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 16 )
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Shields" type="TextureButton" parent="CategoryButtons"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 117.0
+margin/top = 0.0
+margin/right = 148.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 17 )
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="SelectedGizmoDisplay" type="Position2D" parent="."]
 
 transform/pos = Vector2( 315, 7 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectedGizmoDisplay"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 162.0
+margin/bottom = 99.0
+alignment = 0
+
+[node name="Label" type="Label" parent="SelectedGizmoDisplay/VBoxContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 162.0
+margin/bottom = 14.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="CenterContainer" type="CenterContainer" parent="SelectedGizmoDisplay/VBoxContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 18.0
+margin/right = 162.0
+margin/bottom = 71.0
+use_top_left = false
+
+[node name="TextureFrame" type="TextureFrame" parent="SelectedGizmoDisplay/VBoxContainer/CenterContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 46.0
+margin/top = 0.0
+margin/right = 116.0
+margin/bottom = 53.0
+texture = ExtResource( 18 )
+stretch_mode = 0
 
 [node name="TextAnchor" type="Position2D" parent="."]
 
 transform/pos = Vector2( 154, 10 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="TextAnchor"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -57.0
+margin/top = 0.0
+margin/right = 58.0
+margin/bottom = 14.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="SizeButton" type="Position2D" parent="."]
 
 transform/pos = Vector2( 524, 7 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="TextureButton" type="TextureButton" parent="SizeButton"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 31.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+textures/normal = ExtResource( 19 )
+params/resize_mode = 0
+params/stretch_mode = 0
 
 [node name="ShipPreview" type="Position2D" parent="."]
 
 transform/pos = Vector2( 7, 114 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="TextureFrame" type="TextureFrame" parent="ShipPreview"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 315.0
+margin/bottom = 223.0
+texture = ExtResource( 20 )
+stretch_mode = 0
 
 [node name="TileMapAnchor" type="Position2D" parent="."]
 
 transform/pos = Vector2( 7, 114 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="TileMap_Modules" type="TileMap" parent="TileMapAnchor"]
+
+transform/pos = Vector2( 37, -2 )
+mode = 1
+tile_set = ExtResource( 21 )
+cell/size = Vector2( 72, 36 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 1
+cell/y_sort = true
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray(  )
+script/script = ExtResource( 22 )
+
+[node name="GizmoListAnchor" type="Position2D" parent="."]
+
+transform/pos = Vector2( 485, 86 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="GizmoListAnchor"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 148.0
+margin/bottom = 387.0
+scroll/horizontal = false
+scroll/vertical = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GizmoListAnchor/ScrollContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 148.0
+margin/bottom = 387.0
+alignment = 0
 
 

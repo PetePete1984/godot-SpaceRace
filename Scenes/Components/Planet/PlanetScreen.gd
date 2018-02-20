@@ -34,6 +34,12 @@ onready var popup = get_node("PlanetUI/AcceptDialog")
 onready var project_button = get_node("PlanetUI/ProjectButton")
 onready var project_grid = popup.get_node("ProjectGrid")
 
+signal design_new_ship
+signal refit_ship
+signal help_requested
+
+# TODO: evaluate using a signal to communicate "dirty" state to planet list screen
+
 func _ready():
 	#set_process(true)
 	# grab the tilesets of the tilemaps and make all shaders unique
@@ -140,8 +146,11 @@ func _input(event):
 			var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
 			ColonyGenerator.initialize_colony(GameStateHandler.game_state.human_player, currentPlanet)
 			set_planet(currentPlanet)
+	if event.is_action_pressed("ui_right"):
+		emit_signal("design_new_ship")
 	
 	# hover display
+	# TODO: might just live on the tilemap?
 	if event.type == InputEvent.MOUSE_MOTION and currentPlanet != null:
 		var relative_mouse_pos_orbital = tilemap_orbitals.get_local_mouse_pos()
 		var tilemap_orbitals_pos = tilemap_orbitals.world_to_map(relative_mouse_pos_orbital)
@@ -157,7 +166,7 @@ func _input(event):
 		
 		var relative_mouse_pos = tilemap_cells.get_local_mouse_pos()
 		var tilemap_cells_pos = tilemap_cells.world_to_map(relative_mouse_pos)
-		var cell = tilemap_cells.get_cell(tilemap_cells_pos.x, tilemap_cells_pos.y)
+		var cell = tilemap_cells.get_cellv(tilemap_cells_pos)
 		if cell != -1:
 			surface_cursor.set_pos(tilemap_cells.map_to_world(tilemap_cells_pos))
 			surface_cursor.show()

@@ -1,0 +1,468 @@
+[gd_scene load_steps=78 format=1]
+
+[ext_resource path="res://Images/shipmodule_slot.png" type="Texture" id=1]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_01.png" type="Texture" id=2]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_02.png" type="Texture" id=3]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_03.png" type="Texture" id=4]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_04.png" type="Texture" id=5]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_05.png" type="Texture" id=6]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_06.png" type="Texture" id=7]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_07.png" type="Texture" id=8]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_08.png" type="Texture" id=9]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_09.png" type="Texture" id=10]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_10.png" type="Texture" id=11]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_11.png" type="Texture" id=12]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_12.png" type="Texture" id=13]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_13.png" type="Texture" id=14]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_14.png" type="Texture" id=15]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_15.png" type="Texture" id=16]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_16.png" type="Texture" id=17]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_17.png" type="Texture" id=18]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_18.png" type="Texture" id=19]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_19.png" type="Texture" id=20]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_20.png" type="Texture" id=21]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_21.png" type="Texture" id=22]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_22.png" type="Texture" id=23]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_23.png" type="Texture" id=24]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_24.png" type="Texture" id=25]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_25.png" type="Texture" id=26]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_26.png" type="Texture" id=27]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_27.png" type="Texture" id=28]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_28.png" type="Texture" id=29]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_29.png" type="Texture" id=30]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_30.png" type="Texture" id=31]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_31.png" type="Texture" id=32]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_32.png" type="Texture" id=33]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_33.png" type="Texture" id=34]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_34.png" type="Texture" id=35]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_35.png" type="Texture" id=36]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_36.png" type="Texture" id=37]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_37.png" type="Texture" id=38]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_38.png" type="Texture" id=39]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_39.png" type="Texture" id=40]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_40.png" type="Texture" id=41]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_41.png" type="Texture" id=42]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_42.png" type="Texture" id=43]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_43.png" type="Texture" id=44]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_44.png" type="Texture" id=45]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_45.png" type="Texture" id=46]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_46.png" type="Texture" id=47]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_47.png" type="Texture" id=48]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_48.png" type="Texture" id=49]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_49.png" type="Texture" id=50]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_50.png" type="Texture" id=51]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_51.png" type="Texture" id=52]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_52.png" type="Texture" id=53]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_53.png" type="Texture" id=54]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_54.png" type="Texture" id=55]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_55.png" type="Texture" id=56]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_56.png" type="Texture" id=57]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_57.png" type="Texture" id=58]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_58.png" type="Texture" id=59]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_59.png" type="Texture" id=60]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_60.png" type="Texture" id=61]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_61.png" type="Texture" id=62]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_62.png" type="Texture" id=63]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_63.png" type="Texture" id=64]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_64.png" type="Texture" id=65]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_65.png" type="Texture" id=66]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_66.png" type="Texture" id=67]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_67.png" type="Texture" id=68]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_68.png" type="Texture" id=69]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_69.png" type="Texture" id=70]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_70.png" type="Texture" id=71]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_71.png" type="Texture" id=72]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_72.png" type="Texture" id=73]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_73.png" type="Texture" id=74]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_74.png" type="Texture" id=75]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_75.png" type="Texture" id=76]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_76.png" type="Texture" id=77]
+
+[node name="Node" type="Node"]
+
+[node name="slot" type="Sprite" parent="."]
+
+texture = ExtResource( 1 )
+offset = Vector2( 0, 0.5 )
+
+[node name="gizmos.shp_01" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_02" type="Sprite" parent="."]
+
+texture = ExtResource( 3 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_03" type="Sprite" parent="."]
+
+texture = ExtResource( 4 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_04" type="Sprite" parent="."]
+
+texture = ExtResource( 5 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_05" type="Sprite" parent="."]
+
+texture = ExtResource( 6 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_06" type="Sprite" parent="."]
+
+texture = ExtResource( 7 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_07" type="Sprite" parent="."]
+
+texture = ExtResource( 8 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_08" type="Sprite" parent="."]
+
+texture = ExtResource( 9 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_09" type="Sprite" parent="."]
+
+texture = ExtResource( 10 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_10" type="Sprite" parent="."]
+
+texture = ExtResource( 11 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_11" type="Sprite" parent="."]
+
+texture = ExtResource( 12 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_12" type="Sprite" parent="."]
+
+texture = ExtResource( 13 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_13" type="Sprite" parent="."]
+
+texture = ExtResource( 14 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_14" type="Sprite" parent="."]
+
+texture = ExtResource( 15 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_15" type="Sprite" parent="."]
+
+texture = ExtResource( 16 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_16" type="Sprite" parent="."]
+
+texture = ExtResource( 17 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_17" type="Sprite" parent="."]
+
+texture = ExtResource( 18 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_18" type="Sprite" parent="."]
+
+texture = ExtResource( 19 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_19" type="Sprite" parent="."]
+
+texture = ExtResource( 20 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_20" type="Sprite" parent="."]
+
+texture = ExtResource( 21 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_21" type="Sprite" parent="."]
+
+texture = ExtResource( 22 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_22" type="Sprite" parent="."]
+
+texture = ExtResource( 23 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_23" type="Sprite" parent="."]
+
+texture = ExtResource( 24 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_24" type="Sprite" parent="."]
+
+texture = ExtResource( 25 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_25" type="Sprite" parent="."]
+
+texture = ExtResource( 26 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_26" type="Sprite" parent="."]
+
+texture = ExtResource( 27 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_27" type="Sprite" parent="."]
+
+texture = ExtResource( 28 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_28" type="Sprite" parent="."]
+
+texture = ExtResource( 29 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_29" type="Sprite" parent="."]
+
+texture = ExtResource( 30 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_30" type="Sprite" parent="."]
+
+texture = ExtResource( 31 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_31" type="Sprite" parent="."]
+
+texture = ExtResource( 32 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_32" type="Sprite" parent="."]
+
+texture = ExtResource( 33 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_33" type="Sprite" parent="."]
+
+texture = ExtResource( 34 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_34" type="Sprite" parent="."]
+
+texture = ExtResource( 35 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_35" type="Sprite" parent="."]
+
+texture = ExtResource( 36 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_36" type="Sprite" parent="."]
+
+texture = ExtResource( 37 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_37" type="Sprite" parent="."]
+
+texture = ExtResource( 38 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_38" type="Sprite" parent="."]
+
+texture = ExtResource( 39 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_39" type="Sprite" parent="."]
+
+texture = ExtResource( 40 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_40" type="Sprite" parent="."]
+
+texture = ExtResource( 41 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_41" type="Sprite" parent="."]
+
+texture = ExtResource( 42 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_42" type="Sprite" parent="."]
+
+texture = ExtResource( 43 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_43" type="Sprite" parent="."]
+
+texture = ExtResource( 44 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_44" type="Sprite" parent="."]
+
+texture = ExtResource( 45 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_45" type="Sprite" parent="."]
+
+texture = ExtResource( 46 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_46" type="Sprite" parent="."]
+
+texture = ExtResource( 47 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_47" type="Sprite" parent="."]
+
+texture = ExtResource( 48 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_48" type="Sprite" parent="."]
+
+texture = ExtResource( 49 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_49" type="Sprite" parent="."]
+
+texture = ExtResource( 50 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_50" type="Sprite" parent="."]
+
+texture = ExtResource( 51 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_51" type="Sprite" parent="."]
+
+texture = ExtResource( 52 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_52" type="Sprite" parent="."]
+
+texture = ExtResource( 53 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_53" type="Sprite" parent="."]
+
+texture = ExtResource( 54 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_54" type="Sprite" parent="."]
+
+texture = ExtResource( 55 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_55" type="Sprite" parent="."]
+
+texture = ExtResource( 56 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_56" type="Sprite" parent="."]
+
+texture = ExtResource( 57 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_57" type="Sprite" parent="."]
+
+texture = ExtResource( 58 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_58" type="Sprite" parent="."]
+
+texture = ExtResource( 59 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_59" type="Sprite" parent="."]
+
+texture = ExtResource( 60 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_60" type="Sprite" parent="."]
+
+texture = ExtResource( 61 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_61" type="Sprite" parent="."]
+
+texture = ExtResource( 62 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_62" type="Sprite" parent="."]
+
+texture = ExtResource( 63 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_63" type="Sprite" parent="."]
+
+texture = ExtResource( 64 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_64" type="Sprite" parent="."]
+
+texture = ExtResource( 65 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_65" type="Sprite" parent="."]
+
+texture = ExtResource( 66 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_66" type="Sprite" parent="."]
+
+texture = ExtResource( 67 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_67" type="Sprite" parent="."]
+
+texture = ExtResource( 68 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_68" type="Sprite" parent="."]
+
+texture = ExtResource( 69 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_69" type="Sprite" parent="."]
+
+texture = ExtResource( 70 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_70" type="Sprite" parent="."]
+
+texture = ExtResource( 71 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_71" type="Sprite" parent="."]
+
+texture = ExtResource( 72 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_72" type="Sprite" parent="."]
+
+texture = ExtResource( 73 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_73" type="Sprite" parent="."]
+
+texture = ExtResource( 74 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_74" type="Sprite" parent="."]
+
+texture = ExtResource( 75 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_75" type="Sprite" parent="."]
+
+texture = ExtResource( 76 )
+offset = Vector2( 0, -9.5 )
+
+[node name="gizmos.shp_76" type="Sprite" parent="."]
+
+texture = ExtResource( 77 )
+offset = Vector2( 0, -9.5 )
+
+

@@ -25,7 +25,7 @@ static func generate_planets(system):
 		planet.system = system
 		var plan_pos = Utils.rand_v3_in_unit_sphere(10)
 		# FIXME: planet y pos has to be set some other way
-		plan_pos.y = 3
+		plan_pos.y = mapdefs.system_default_y
 		if not system.planets.has(plan_pos):
 			system.planets[plan_pos] = planet
 	pass

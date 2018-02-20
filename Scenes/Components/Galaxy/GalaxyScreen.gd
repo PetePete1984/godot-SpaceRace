@@ -6,6 +6,7 @@ signal next_requested
 signal auto_requested(enable)
 signal research_requested
 signal planetlist_requested
+signal shiplist_requested
 
 # Display Elements
 onready var Galaxy3D = get_node("Galaxy3D")
@@ -102,6 +103,7 @@ func _planetlist_requested():
 	
 func _shiplist_requested():
 	_cancel_auto()
+	emit_signal("shiplist_requested")
 
 func _research_requested():
 	_cancel_auto()

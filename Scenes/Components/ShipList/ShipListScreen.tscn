@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://Scenes/Components/ShipList/ShipListScreen.gd" type="Script" id=1]
-[ext_resource path="res://Images/Placeholder/ascend_003.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/PlanetList/border.png" type="Texture" id=2]
+[ext_resource path="res://Images/Placeholder/ascend_003.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Components/ShipList/ShipList.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Components/ShipList/SingleShipDisplay.tscn" type="PackedScene" id=5]
 
 [node name="ShipListScreen" type="Node2D"]
 
@@ -9,9 +12,69 @@ transform/pos = Vector2( 2, 0 )
 script/script = ExtResource( 1 )
 _is_overlay = false
 
+[node name="Border" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+texture = ExtResource( 2 )
+stretch_mode = 0
+
+[node name="Flag" type="TextureFrame" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+stretch_mode = 0
+
 [node name="Sprite" type="Sprite" parent="."]
 
-texture = ExtResource( 2 )
+visibility/self_opacity = 0.25
+texture = ExtResource( 3 )
 centered = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 7.0
+margin/top = 46.0
+margin/right = 633.0
+margin/bottom = 473.0
+scroll/horizontal = false
+scroll/vertical = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 610.0
+margin/bottom = 124.0
+alignment = 0
+script/script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SingleShipDisplay" parent="ScrollContainer/VBoxContainer" instance=ExtResource( 5 )]
 
 

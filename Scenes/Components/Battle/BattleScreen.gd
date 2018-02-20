@@ -1,5 +1,9 @@
 extends "res://Scripts/Model/Screen.gd"
 
+# imports
+var Planet = preload("res://Scripts/Model/Planet.gd")
+var Ship = preload("res://Scripts/Model/Ship.gd")
+
 # 3D Display Elements
 onready var battle_root = get_node("BattleViewport/Viewport/battle_root")
 onready var battle_center = get_node("BattleViewport/Viewport/battle_root/battle_center")
@@ -26,6 +30,7 @@ signal ship_picked(ship)
 signal repainted
 
 var current_system = null
+var current_selection = null
 
 func _ready():
 	# TODO: unify rotation directions
@@ -53,7 +58,8 @@ func _process(delta):
 	
 func set_payload(payload):
 	set_system(payload)
-	
+
+# TODO: update when returning from planet screen, for example because of colonies cheated in or ships entering / leaving orbit
 func _maybe_refresh():
 	# multiple possible entry points exist for the battle screen
 	# 1: from the galaxy view, player clicked on a star system
@@ -77,6 +83,16 @@ func update_ui(system):
 	star_name.set_text(system.system_name)
 	star_type.set_text(system.star_type.capitalize())
 	star_sprite.set_texture(TextureHandler.get_star(system))
+
+func planet_clicked(planet):
+	if current_selection == planet:
+		emit_signal("planet_picked", planet)
+	else:
+		current_selection = planet
+	pass
+
+func ship_clicked(ship):
+	pass
 	
 func _on_rotate(direction):
 	battle_root.spin_direction = direction
@@ -85,7 +101,6 @@ func _on_zoom(direction):
 	battle_root.zoom_direction = direction
 	
 func _on_battle_object_picked(object):
-	if "planet_name" in object:
-		#print(object.planet_name)
-		emit_signal("planet_picked", object)
+	if object extends Planet:
+		planet_clicked(object)
 	pass
