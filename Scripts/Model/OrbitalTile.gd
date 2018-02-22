@@ -15,3 +15,15 @@ var content
 
 var tilemap_x
 var tilemap_y
+
+func reset_orbital():
+	type = null
+	automated = false
+	active = false
+	used_pop = 0
+
+func set_orbital(key):
+	# TODO: handle ships
+	type = OrbitalDefinitions.orbital_defs[key]
+	active = true
+	used_pop = type.used_pop

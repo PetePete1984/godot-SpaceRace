@@ -4,6 +4,7 @@ extends Reference
 const BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
 const Planetmap = preload("res://Scripts/Planetmap.gd")
 const Colony = preload("res://Scripts/Model/Colony.gd")
+const ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
 const PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
 
 #var buildings = {}
@@ -48,13 +49,10 @@ static func initialize_colony(player, planet, home = false):
 	var colony_tile = generate_colony(planet, "initial")
 	var building_tile = planet.buildings[colony_tile.x][colony_tile.y]
 	building_tile.set("colony_base")
-	# FIXME: datafy this so it can be correctly refreshed
-	# FIXME: colonies increase planetary spaces by 2!
 	planet.population.alive = 2
 	#building_tile.tilemap_x = colony_tile.x
 	#building_tile.tilemap_y = colony_tile.y
-	colony.refresh()
-	Planetmap.refresh_grids(planet)
+	ColonyController.update_colony_stats(colony)
 	# FIXME: meeeeh
 	return planet
 	pass

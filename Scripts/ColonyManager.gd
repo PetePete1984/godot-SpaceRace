@@ -1,21 +1,22 @@
 # Colony Manager
+# class to auto-manage any colony
 
 # imports for type checking
-const BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
+#const BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 const BuildingRules = preload("res://Scripts/BuildingRules.gd")
-const OrbitalProject = preload("res://Scripts/Model/OrbitalProject.gd")
+#const OrbitalProject = preload("res://Scripts/Model/OrbitalProject.gd")
 const TechProject = preload("res://Scripts/Model/TechProject.gd")
-const Planetmap = preload("res://Scripts/Planetmap.gd")
-
-# class to auto-manage a colony?
+#const Planetmap = preload("res://Scripts/Planetmap.gd")
 
 # TODO: build candidate lists from tags in building definitions
 # TODO: maybe adopt a more GOAP-like approach
+# TODO: check aoe 2 AI again
 # ie simplify "need industry" => "pick highest available industry yield"
 # an advanced version would also take industry cost efficiency into account (ie agriplot is usually more efficient than hydroponifer)
 var candidate_lists
 
 static func manage(colony):
+	# TODO: take planet size (and quality?) into account, maybe also position in space, and (initial) home planet status
 	# TODO: maybe path to xeno ruins along the way
 	# standard progression
 	# early game:
@@ -352,120 +353,3 @@ static func decide_next_project(colony):
 
 static func automate_something(colony):
 	pass
-
-static func start_colony_project(colony, project_key, type, position):
-	var planet = colony.planet
-	var player = planet.owner
-	var grid = planet.grid
-	var buildings = planet.buildings
-	var orbitals = planet.orbitals
-
-	if type == "Surface":
-		var project = BuildingProject.new()
-		var project_definition = BuildingDefinitions.building_defs[project_key]
-		project.project = project_key
-
-		project.remaining_industry = project_definition.cost
-		project.position = position # Vector2
-		project.type = type # Surface, Orbital, Tech
-
-		start_surface_building(colony, project)
-		update_colony_stats(colony)
-	elif type == "Orbital":
-		var project = OrbitalProject.new()
-		var project_definition = OrbitalDefinitions.orbital_defs[project_key]
-		project.project = project_key
-		project.remaining_industry = project_definition.cost
-		project.position = position
-		project.type = type
-
-		start_orbital_building(colony, project)
-		update_colony_stats(colony)
-	pass
-
-static func cancel_any_project(colony):
-	if colony.project != null:
-		if colony.project extends BuildingProject:
-			var old_x = colony.project.position.x
-			var old_y = colony.project.position.y
-
-			var old_building = colony.planet.buildings[old_x][old_y]
-			if old_building.type != null:
-				old_building.reset()
-		elif colony.project extends OrbitalProject:
-			var old_x = colony.project.position.x
-			var old_y = colony.project.position.y
-
-			var old_orbital = colony.planet.orbitals[old_x][old_y]
-			# TODO: reset
-		elif colony.project extends TechProject:
-			# TODO: finish techproject cancel (should be simple)
-			pass
-		pass
-	pass
-
-static func start_surface_building(colony, new_project):
-	colony.start_surface_building(new_project)
-
-static func start_orbital_building(colony, new_project):
-	cancel_any_project(colony)
-	var x = new_project.position.x
-	var y = new_project.position.y
-	var orbital = colony.planet.orbitals[x][y]
-	# TODO: maybe null check building tile first
-	if orbital.active:
-		if not new_project.project == "automation":
-			orbital.active = false
-
-	orbital.automated = false
-	orbital.type = OrbitalDefinitions.orbital_defs[new_project.project]
-	#orbital.orbital_name = orbital.type.orbital_name
-	colony.project = new_project
-	pass
-
-static func finish_project(colony):
-	var project = colony.project
-	if project != null:
-		var x = -1
-		var y = -1
-		if project.position != null:
-			x = project.position.x
-			y = project.position.y
-		if project extends BuildingProject:
-			var building = colony.planet.buildings[x][y]
-			# TODO: actually a techproject, but how will those know what tile they're working on? I don't want to make an orbital_automation..
-			if project.project == "automation":
-				pass
-			building.active = true
-
-			# special case for terraforming: reset the building
-			if project.project == "terraforming":
-				var cell = colony.planet.grid[x][y]
-				cell.tiletype = "white"
-				building.reset()
-
-			# special case for xeno dig: reset the building tile and trigger a random research completion
-			# research is triggered in turnhandler
-			if project.project == "xeno_dig":
-				building.reset()
-			pass
-		elif project extends OrbitalProject:
-			var orbital = colony.planet.orbitals[x][y]
-			# TODO: handle ships
-			orbital.active = true
-			pass
-		elif project extends TechProject:
-			if project.project == "automation":
-				# find target type
-				# apply automation to target on correct grid
-				pass
-			pass
-		else:
-			print("Unknown project type")
-	project = null
-	colony.project = null
-	pass
-
-static func update_colony_stats(colony):
-	colony.refresh()
-	Planetmap.refresh_grids(colony.planet)

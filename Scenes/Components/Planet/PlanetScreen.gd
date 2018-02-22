@@ -9,6 +9,7 @@ var current_control_mode = control_mode.NORMAL
 
 var PlanetMap = preload("res://Scripts/Planetmap.gd")
 var ColonyManager = preload("res://Scripts/ColonyManager.gd")
+var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
 var BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 
 onready var tilemap_cells = get_node("TileMapAnchor/TileMapCells")
@@ -58,7 +59,7 @@ func _on_project_picked(key, tile, type):
 	# - end all old projects (unless queue is working)
 	# - start the new project at the specified position, setting the proper building tile
 	# afterwards, the tilemap refresh should happen
-	ColonyManager.start_colony_project(currentPlanet.colony, key, type, Vector2(tile.tilemap_x, tile.tilemap_y))
+	ColonyController.start_colony_project(currentPlanet.colony, key, type, Vector2(tile.tilemap_x, tile.tilemap_y))
 	project_grid.clear_buttons()
 	
 	# TODO: may be obsolete
@@ -218,7 +219,7 @@ func _input(event):
 				if tile_under_mouse.tiletype != null or building_under_mouse.type != null:
 					if building_under_mouse.type != null:
 						# TODO: use type's name
-						var text = "%s on %s square, %s %s" % [building_under_mouse.building_name, tile_under_mouse.tiletype.capitalize(), tilemap_cells_pos.x, tilemap_cells_pos.y]
+						var text = "%s on %s square, %s %s" % [building_under_mouse.type.building_name, tile_under_mouse.tiletype.capitalize(), tilemap_cells_pos.x, tilemap_cells_pos.y]
 						# TODO: Normal behaviour is a popup that allows abandon or automate
 						var buildings = project_grid.get_projects_for_surface(currentPlanet, tile_under_mouse, building_under_mouse)
 						var textbut = project_grid.get_sprites_for_projects(buildings, tile_under_mouse)

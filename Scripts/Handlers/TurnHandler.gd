@@ -3,6 +3,7 @@ extends Node
 onready var EventGenerator = preload("res://Scripts/EventGenerator.gd")
 var AlienRaceHandler = preload("res://Scripts/Handlers/AlienRaceHandler.gd")
 var ColonyManager = preload("res://Scripts/ColonyManager.gd")
+var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
 var TurnTimer
 
 signal turn_finished
@@ -68,7 +69,7 @@ func game_turn():
 				if colony.project == null:
 					# no project is running
 					# no idle pop
-					if colony.get_population().idle == 0:
+					if colony.planet.population.idle == 0:
 						if GameOptions.events.skip_zero_population == false:
 							pass
 				pass
@@ -89,6 +90,8 @@ func turn_maintenance():
 	for race in game_state.races:
 		var player = game_state.races[race]
 
+		# TODO: skip generating events for research if managed
+		# TODO: skip generating events for construction / population if colony managed
 		if not player.extinct:
 			# research first
 			# total research is calculated after projects are finished in the previous turn
@@ -115,7 +118,7 @@ func turn_maintenance():
 				if colony.planet.population.alive < colony.planet.population.slots:
 					colony.remaining_growth -= colony.adjusted_prosperity
 					if colony.remaining_growth <= 0:
-						var previous_pop = colony.grow_population()
+						var previous_pop = ColonyController.grow_population(colony)
 						if previous_pop == 0 and colony.planet.population.idle > 0 and colony.project == null:
 							var ev = EventGenerator.generate_free_pop(colony.planet)
 							EventHandler.add_event(player, ev)
@@ -128,8 +131,8 @@ func turn_maintenance():
 						var finished_project = colony.project
 						var labs_before_building = player.meta_info.num_laboratories
 						#colony.finish_project()
-						ColonyManager.finish_project(colony)
-						ColonyManager.update_colony_stats(colony)
+						ColonyController.finish_project(colony)
+						ColonyController.update_colony_stats(colony)
 
 						if labs_before_building == 0 and finished_project.project == "laboratory":
 							if player.count_laboratories() > 0 and player.research_project == null:
