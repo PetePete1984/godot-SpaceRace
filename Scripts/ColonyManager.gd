@@ -13,18 +13,18 @@ const TechProject = preload("res://Scripts/Model/TechProject.gd")
 # TODO: check aoe 2 AI again
 # ie simplify "need industry" => "pick highest available industry yield"
 # an advanced version would also take industry cost efficiency into account (ie agriplot is usually more efficient than hydroponifer)
-var candidate_lists
 
 static func manage(colony):
 	# TODO: take planet size (and quality?) into account, maybe also position in space, and (initial) home planet status
 	# TODO: maybe path to xeno ruins along the way
+	# TODO: also also, number of colonies, availability of shipyards, orbitals elsewhere in the system etc
 	# standard progression
 	# early game:
 		# build up industry
 		# build up prosperity
 		# build 2-3 labs
 	# space travel and colonizer available:
-		# build industry until 15-20
+		# build industry until 15-20 < this is almost impossible on starter planets
 		# build shipyard
 		# build medium colony ship
 		# immediately build second colony ship
@@ -37,8 +37,45 @@ static func manage(colony):
 		# habitat-style buildings if free < 2 and slots available
 	
 	# bonus considerations:
-		# planets that have filled all planet slots don't need pure prosperity buildings anymore
+		# planets that have filled all planet slots don't need pure prosperity buildings anymore (unless slots may increase, like for mebes)
+		# planets that have enough people for all fields (and maybe a ship) also don't need additional prosperity
 		
+	#############
+	# 	1. getFreeTiles() (white tiles count as a tile for each color)
+	#	2. if allTechDone -> set free research tiles to 0
+	#	3. if popMax - population < 2 AND population - popInUse < 2 -> habitat
+	#	4. if IND < 3 and redTileFree -> industry
+	#	5. if RES < 3 and blueTileFree and !alltechdone -> research
+	#	6. if FER < 2 and greenTileFree -> fertility
+	#	7. if IND < 4 and redTileFree -> industry
+	#	8. if FER < 3 and greenTileFree -> fertility
+	#	9. if RES < 5 and blueTileFree and !alltechdone -> research
+	#	10. if FER < 1 -> fertility
+	#	11. if FER < 2 and popMax - pop < 1 and pop - popInUse < 1 -> fertility
+	#	12. if greenTileFree and
+	# 		100 / FER > 15 (?) and
+	# 		popMax - pop > 3 and pop - popInUse = 1 -> fertility
+	#	13. if allTechDone
+	# 		if redTileFree -> industry
+	# 		if greenTileFree and FER < 5 -> fertility
+	#	 	else -> habitat
+	#	14. if !allTechDone
+	# 		if hasHyperPower -> RES =+ IND / 2
+	# 		if hasInternet -> IND += RES / 2
+	# 		if RES > IND and blueTileFree -> research
+	# 		if redTileFree -> industry
+	# 		if greenTileFree -> fertility
+	# 		else habitat
+
+	# --------------
+	#	4.	if FER < 3 -> fertility
+	#	5.if IND < 3 -> IND
+	#	6.if RES < 3 -> RES
+	#	7.if IND < 8
+	#	8.if RES < 8
+	#############
+
+	
 	var project_candidate = null
 	var project_running = colony.project
 	var party_project = false
@@ -75,9 +112,12 @@ static func manage(colony):
 		var research = colony.adjusted_research
 		var global_research = colony.owner.total_research
 		
+		var working_pop = colony.planet.population.work
 		var idle_pop = colony.planet.population.idle
+		var alive_pop = colony.planet.population.alive
 		var free_pop = colony.planet.population.free
-		
+		var max_pop = colony.planet.population.slots
+
 		var available_buildings
 		var available_projects
 		var available_orbitals
@@ -113,12 +153,17 @@ static func manage(colony):
 										project_candidate = "transport_tubes"
 						else:
 							# non-black squares available
+
+							# default AI behaviour is to expand living space whenever the planet approaches being full
+							if free_pop < 2 and idle_pop < 2:
+								project_candidate = "habitation"
+
 							# FIXME: this gets stuck in either 0 free / 1 idle (without the or) or 0 free / 0 idle (with the or)
-							if free_pop > 0 or num_all_squares > free_pop:
+							if free_pop > 0 or num_buildable_squares > free_pop:
 								if free_pop < 2:
 									#printt(colony.planet.planet_name, num_all_squares)
 									pass
-								if free_pop < 2 and num_all_squares > free_pop:
+								if free_pop < 2 and num_buildable_squares > free_pop:
 									if growth_bomb_available:
 										if growth_bomb_used:
 											if automation_available:
@@ -204,7 +249,8 @@ static func manage(colony):
 											else:
 												if all_unused_are_black:
 													# wait for terraforming
-													printt(colony.planet.planet_name, "waiting for terraforming")
+													#printt(colony.planet.planet_name, "waiting for terraforming")
+													# TODO: run a project in the meantime, or automate something
 													keep_waiting = true
 												else:
 													# TODO: pathfind to better squares?
@@ -226,7 +272,10 @@ static func manage(colony):
 				else:
 					# 0 prosperity
 					if idle_pop > 0:
-						project_candidate = "prosperity"
+						if all_reachable_are_black:
+							project_candidate = "transport_tubes"
+						else:
+							project_candidate = "prosperity"
 						pass
 					else:
 						# TODO: population can't grow and no idle people, need to demolish something
