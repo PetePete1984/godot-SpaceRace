@@ -7,16 +7,23 @@ var type
 signal project_picked(project, tile, type)
 
 func _init(project, tile, type = "Surface", player = null):
+	var tooltip = ""
 	if type == "Surface":
 		init_surface(project, tile)
+		tooltip = BuildingDefinitions.building_defs[project].building_name
 	elif type == "Orbital":
-		init_orbital(project, tile, player)
+		if project == "missiles_dummy":
+			set_normal_texture(TextureHandler.get_ship(player))
+			tooltip = "Ship"
+		else:
+			init_orbital(project, tile, player)
+			tooltip = OrbitalDefinitions.orbital_defs[project].orbital_name
 	elif type == "Tech":
 		init_tech(project, tile)
+		tooltip = TechProjectDefinitions.project_defs[project].project_name
 
 	# TODO: make texturebutton and add to result list
-	# FIXME: use real def
-	set_tooltip(project.capitalize())
+	set_tooltip(tooltip)
 	# FIXME: formalize this into a variable, don't use the name
 	set_name(project)
 	self.project = project

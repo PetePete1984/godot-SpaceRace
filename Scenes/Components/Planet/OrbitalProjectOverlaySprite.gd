@@ -5,9 +5,10 @@ onready var sprite = get_node("Sprite")
 func _ready():
 	sprite.set_material(sprite.get_material().duplicate())
 
-func set_project(tilemap, project, player):
+func set_orbital_project(tilemap, project, player):
 	if project != null:
 		if project.type == "Orbital":
+			# TODO: handle ships
 			update_progress(project)
 			var cell = tilemap.get_cellv(project.position)
 			set_pos(tilemap.map_to_world(project.position))

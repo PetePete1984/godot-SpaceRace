@@ -63,6 +63,8 @@ func connect_signals():
 	PlanetScreen.connect("design_new_ship", self, "_ship_design_view")
 	# refit project
 	PlanetScreen.connect("refit_ship", self, "_ship_design_view")
+	# TODO: maybe connect PlanetScreen to ShipDesign screen here, realistically the planet screen is the only one who needs to know about changes in design
+	ShipDesignScreen.connect("leaving_with_ship_design", PlanetScreen, "_on_left_ship_design_screen")
 
 	# gameplay signals
 	GalaxyScreen.connect("next_requested", self, "_next_turn_requested")

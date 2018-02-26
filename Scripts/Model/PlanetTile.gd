@@ -1,7 +1,7 @@
 extends Reference
 # class PlanetTile
 var tiletype = null
-var building = null
+# var building = null
 var buildable = false
 
 # FIXME: I don't really want these in here, currently just using it for finding neighbors

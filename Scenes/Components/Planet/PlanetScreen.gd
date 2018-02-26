@@ -4,9 +4,6 @@ extends "res://Scripts/Model/Screen.gd"
 # TODO: use control mode to change input behavior
 enum control_mode {NONE, COLONY, NORMAL}
 
-var currentPlanet = null
-var current_control_mode = control_mode.NORMAL
-
 var PlanetMap = preload("res://Scripts/Planetmap.gd")
 var ColonyManager = preload("res://Scripts/ColonyManager.gd")
 var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
@@ -35,17 +32,23 @@ onready var popup = get_node("PlanetUI/AcceptDialog")
 onready var project_button = get_node("PlanetUI/ProjectButton")
 onready var project_grid = popup.get_node("ProjectGrid")
 
+# TODO: evaluate using a signal to communicate "dirty" state to planet list screen
 signal design_new_ship
 signal refit_ship
 signal help_requested
+signal ship_named(size, modules, ship_name)
+signal ship_finalized
 
-# TODO: evaluate using a signal to communicate "dirty" state to planet list screen
+var currentPlanet = null
+var current_control_mode = control_mode.NORMAL
+var current_ship_design
 
 func _ready():
 	#set_process(true)
 	# grab the tilesets of the tilemaps and make all shaders unique
 	# then update the alpha_height of each sprite
 	connect("hide", self, "_on_hidden")
+	connect("ship_named", self, "_on_ship_named")
 	project_button.connect("pressed", self, "_on_project_pressed")
 	set_process_input(true)
 	pass
@@ -59,13 +62,42 @@ func _on_project_picked(key, tile, type):
 	# - end all old projects (unless queue is working)
 	# - start the new project at the specified position, setting the proper building tile
 	# afterwards, the tilemap refresh should happen
-	ColonyController.start_colony_project(currentPlanet.colony, key, type, Vector2(tile.tilemap_x, tile.tilemap_y))
+	# TODO: special handling for ship building required
+	if type == "Orbital" and key == "missiles_dummy":
+		# TODO: hide popup first
+		popup.hide()
+		print(emit_signal("design_new_ship"))
+		# wait for return from ship design screen
+		# TODO: I don't know if this is nice, needs to be basically skipped if the ship is empty
+		yield(self, "ship_finalized")
+		if current_ship_design != null:
+			print("hello")
+			ColonyController.start_ship_project(currentPlanet.colony, current_ship_design, Vector2(tile.tilemap_x, tile.tilemap_y))
+			current_ship_design = null
+	else:
+		ColonyController.start_colony_project(currentPlanet.colony, key, type, Vector2(tile.tilemap_x, tile.tilemap_y))
 	project_grid.clear_buttons()
 	
 	# TODO: may be obsolete
 	PlanetMap.get_tilemap_from_planet(currentPlanet, tilemap_cells, tilemap_buildings, tilemap_orbitals)
 	_notify_displays()
 	popup.hide()
+
+func _on_left_ship_design_screen(size, modules):
+	# triggered when the player leaves the ship design screen
+	# TODO: show a popup asking for a name, with default being the ship's size
+	# TODO: I don't think you get a name popup on refits?
+	var ship_name = size.capitalize()
+	emit_signal("ship_named", size, modules, ship_name)
+	pass
+
+func _on_ship_named(size, modules, ship_name):
+	current_ship_design = {
+		size = size,
+		modules = modules,
+		ship_name = ship_name
+	}
+	emit_signal("ship_finalized")
 
 func set_payload(payload):
 	set_planet(payload)
@@ -89,6 +121,8 @@ func set_planet(planet):
 	else:
 		# TODO: check for colony ship / colonizing mode
 		 current_control_mode = control_mode.NONE
+		
+	
 	pass
 
 func generate_planet_display(planet):
@@ -109,8 +143,8 @@ func _notify_displays():
 		#project_display.set_project(currentPlanet)
 		# TODO: add sprites for orbital display
 		# TODO: find out how to handle automation (overlay?)
-		surface_project_sprite.set_project(tilemap_buildings, currentPlanet.colony.project)
-		orbital_project_sprite.set_project(tilemap_orbitals, currentPlanet.colony.project, currentPlanet.colony.owner)
+		surface_project_sprite.set_surface_project(tilemap_buildings, currentPlanet.colony.project)
+		orbital_project_sprite.set_orbital_project(tilemap_orbitals, currentPlanet.colony.project, currentPlanet.colony.owner)
 	else:
 		# TODO: reset display for empty planets
 		research_display.set_points(0)
@@ -120,10 +154,27 @@ func _notify_displays():
 		project_display.set_project(currentPlanet)
 		surface_project_sprite.update_progress(null)
 		orbital_project_sprite.update_progress(null)
+
+	# always get ship orbitals because these might be there on a fresh planet, or might be ships from others
+	draw_ships()
 	pass
-	
+
+func draw_ships():
+	var orbitals = currentPlanet.orbitals
+	var colony = currentPlanet.colony
+	for x in range(orbitals.size()):
+		for y in range(orbitals[x].size()):
+			var orbital = orbitals[x][y]
+			if orbital.type == null and orbital.orbiting_ship != null:
+				var ship = orbital.orbiting_ship
+				var sprite = Sprite.new()
+				sprite.set_texture(TextureHandler.get_ship(ship.owner, ship.size))
+				tilemap_orbitals.add_child(sprite)
+				sprite.set_pos(tilemap_orbitals.map_to_world(Vector2(x, y)))
+
 func _on_hidden():
 	surface_cursor.hide()
+	orbital_cursor.hide()
 
 func _process(delta):
 	pass
@@ -193,7 +244,7 @@ func _input(event):
 					# free tile
 					var text = "Orbital squares can be used to anchor orbital structures"
 					var orbitals = project_grid.get_projects_for_orbit(currentPlanet, orbital_under_mouse)
-					var textbut = project_grid.get_sprites_for_projects(orbitals, orbital_under_mouse, "Orbital")
+					var textbut = project_grid.get_sprites_for_projects(orbitals, orbital_under_mouse, "Orbital", currentPlanet.owner)
 					for tb in textbut:
 						tb.connect("project_picked", self, "_on_project_picked")
 					project_grid.set_buttons_on_container(textbut)
@@ -218,7 +269,6 @@ func _input(event):
 				var building_under_mouse = currentPlanet.buildings[tilemap_cells_pos.x][tilemap_cells_pos.y]
 				if tile_under_mouse.tiletype != null or building_under_mouse.type != null:
 					if building_under_mouse.type != null:
-						# TODO: use type's name
 						var text = "%s on %s square, %s %s" % [building_under_mouse.type.building_name, tile_under_mouse.tiletype.capitalize(), tilemap_cells_pos.x, tilemap_cells_pos.y]
 						# TODO: Normal behaviour is a popup that allows abandon or automate
 						var buildings = project_grid.get_projects_for_surface(currentPlanet, tile_under_mouse, building_under_mouse)

@@ -1,45 +1,61 @@
 extends Node
+var ShipDef = preload("res://Scripts/Model/ShipDef.gd")
 
 var ship_types = ["small", "medium", "large", "enormous"]
 
-var ship_defs = {}
+var ship_defs = {
+	"small": {
+		cost = 70
+	},
+	"medium": {
+		cost = 170
+	},
+	"large": {
+		cost = 240
+	},
+	"enormous": {
+		cost = 410
+	}
+}
+
+# TODO: try reordering by Y coordinate (or just sorting on load)
 
 var ship_size_templates = {
 	"small": [
 		[6, -4],
 		[9, 0],
-		[14, 3],
 		[9, 6],
-		[9, 9]
+		[9, 9],
+		[14, 3]
 	],
 	"medium": [
 		[6, -4],
 		[7, -2],
+		[9, 9],
 		[10, -1],
+		[10, 7],
+		[11, 6],
 		[12, 1],
 		[12, 3],
 		[12, 4],
-		[12, 5],
-		[11, 6],
-		[10, 7],
-		[9, 9]
+		[12, 5]
 	],
 	"large": [
 		[6, -4],
 		[7, -3],
 		[8, -2],
-		[10, -1],
-		[11, 0],
-		[11, 2],
-		[11, 3],
-		[10, 4],
-		[10, 5],
-		[11, 6],
-		[13, 4],
 		[8, 6],
 		[8, 8],
 		[9, 7],
-		[9, 9]
+		[9, 9],
+		[10, -1],
+		[10, 4],
+		[10, 5],
+		[11, 0],
+		[11, 2],
+		[11, 3],
+		[11, 6],
+		[13, 4]
 	],
 	"enormous": [
 		[6, -4],
@@ -69,3 +85,12 @@ var ship_size_templates = {
 		[14, 3]
 	]
 }
+
+# TODO: count slots from template
+func _ready():
+	for s in ship_types:
+		var data = ship_defs[s]
+		var def = ShipDef.new()
+		def.size = s
+		for key in data:
+			def[key] = data[key]

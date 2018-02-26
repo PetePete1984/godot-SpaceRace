@@ -245,6 +245,7 @@ var building_preference = {
 
 func _ready():
 	var real_defs = {}
+	# TODO: maybe use types as index, as in other def files
 	for bkey in building_defs:
 		var data = building_defs[bkey]
 		var bDef = BuildingDef.new()

@@ -23,7 +23,7 @@
 [ext_resource path="res://Scenes/Components/Planet/ProjectGrid.gd" type="Script" id=21]
 [ext_resource path="res://Images/Screens/Planet/Layout/popup.png" type="Texture" id=22]
 
-[sub_resource type="ConvexPolygonShape2D" id=4]
+[sub_resource type="ConvexPolygonShape2D" id=1]
 
 custom_solver_bias = 0.0
 points = Vector2Array( 0, 0, 72, 0, 72, 72, 0, 72 )
@@ -97,7 +97,7 @@ tile_data = IntArray(  )
 
 visibility/visible = false
 input/pickable = true
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )

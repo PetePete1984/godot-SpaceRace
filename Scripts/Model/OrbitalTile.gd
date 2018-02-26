@@ -11,7 +11,7 @@ var automated = false
 var active = false
 var used_pop = 0
 
-var content
+var orbiting_ship
 
 var tilemap_x
 var tilemap_y

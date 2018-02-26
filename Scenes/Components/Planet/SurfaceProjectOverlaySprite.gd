@@ -6,7 +6,7 @@ func _ready():
 	# make sprite's material unique
 	sprite.set_material(sprite.get_material().duplicate())
 
-func set_project(tilemap, project):
+func set_surface_project(tilemap, project):
 	if project != null:
 		if project.type == "Surface":
 			update_progress(project)

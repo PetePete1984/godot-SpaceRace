@@ -13,14 +13,14 @@ func get_projects_for_surface(planet, cell, building_tile):
 func get_projects_for_orbit(planet, orbital_tile):
 	return BuildingRules.get_projects_for_orbit(planet, orbital_tile)
 
-func get_sprites_for_projects(projects, tile, type = "Surface"):
+func get_sprites_for_projects(projects, tile, type = "Surface", player = null):
 	var texturebuttons = []
 	if not type in ["Surface", "Orbital", "Tech"]:
 		print("Unknown tile type %s" % type)
 		return null
 	for p in range(projects.size()):
 		var project = projects[p]
-		texturebuttons.append(ProjectGridButton.new(project, tile, type))
+		texturebuttons.append(ProjectGridButton.new(project, tile, type, player))
 	return texturebuttons
 	pass
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=1]
+[gd_scene load_steps=25 format=1]
 
 [ext_resource path="res://Scenes/Components/ShipDesign/ShipDesignScreen.gd" type="Script" id=1]
 [ext_resource path="res://Images/Screens/ShipDesign/border.png" type="Texture" id=2]
@@ -17,11 +17,13 @@
 [ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_8.png" type="Texture" id=15]
 [ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_9.png" type="Texture" id=16]
 [ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_5.png" type="Texture" id=17]
-[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_01.png" type="Texture" id=18]
-[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_4.png" type="Texture" id=19]
-[ext_resource path="res://Images/Screens/ShipDesign/Ships/dkship00/dkship00.shp_1.png" type="Texture" id=20]
-[ext_resource path="res://tileset_shipmodules.tres" type="TileSet" id=21]
-[ext_resource path="res://Scenes/Components/ShipDesign/ModuleMap.gd" type="Script" id=22]
+[ext_resource path="res://Scenes/Components/ShipDesign/SelectedGizmoDisplay.gd" type="Script" id=18]
+[ext_resource path="res://Images/Ship/Equipment/gizmos.shp_01.png" type="Texture" id=19]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_4.png" type="Texture" id=20]
+[ext_resource path="res://Images/Screens/ShipDesign/Ships/dkship00/dkship00.shp_1.png" type="Texture" id=21]
+[ext_resource path="res://tileset_shipmodules.tres" type="TileSet" id=22]
+[ext_resource path="res://Scenes/Components/ShipDesign/ModuleMap.gd" type="Script" id=23]
+[ext_resource path="res://Images/Screens/ShipDesign/8shipdes.shp_2.png" type="Texture" id=24]
 
 [node name="ShipDesignScreen" type="Node2D"]
 
@@ -43,7 +45,6 @@ stretch_mode = 0
 
 [node name="Placeholder" type="Sprite" parent="."]
 
-visibility/visible = false
 visibility/opacity = 0.25
 texture = ExtResource( 3 )
 centered = false
@@ -222,6 +223,7 @@ params/stretch_mode = 0
 [node name="SelectedGizmoDisplay" type="Position2D" parent="."]
 
 transform/pos = Vector2( 315, 7 )
+script/script = ExtResource( 18 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true
@@ -276,7 +278,7 @@ margin/left = 46.0
 margin/top = 0.0
 margin/right = 116.0
 margin/bottom = 53.0
-texture = ExtResource( 18 )
+texture = ExtResource( 19 )
 stretch_mode = 0
 
 [node name="TextAnchor" type="Position2D" parent="."]
@@ -323,7 +325,7 @@ margin/bottom = 31.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/normal = ExtResource( 19 )
+textures/normal = ExtResource( 20 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -345,12 +347,12 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 315.0
 margin/bottom = 223.0
-texture = ExtResource( 20 )
+texture = ExtResource( 21 )
 stretch_mode = 0
 
 [node name="TileMapAnchor" type="Position2D" parent="."]
 
-transform/pos = Vector2( 7, 114 )
+transform/pos = Vector2( 44, 112 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true
@@ -358,9 +360,8 @@ __meta__ = {
 
 [node name="TileMap_Modules" type="TileMap" parent="TileMapAnchor"]
 
-transform/pos = Vector2( 37, -2 )
 mode = 1
-tile_set = ExtResource( 21 )
+tile_set = ExtResource( 22 )
 cell/size = Vector2( 72, 36 )
 cell/quadrant_size = 16
 cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -373,8 +374,13 @@ collision/bounce = 0.0
 collision/layers = 1
 collision/mask = 1
 occluder/light_mask = 1
-tile_data = IntArray(  )
-script/script = ExtResource( 22 )
+tile_data = IntArray( 0, 0 )
+script/script = ExtResource( 23 )
+
+[node name="PlacementPreview" type="Sprite" parent="TileMapAnchor"]
+
+texture = ExtResource( 24 )
+offset = Vector2( 0, 18.5 )
 
 [node name="GizmoListAnchor" type="Position2D" parent="."]
 

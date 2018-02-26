@@ -1,5 +1,7 @@
 # Surface, Orbital, Tech
 var type = null
+# Ship, ShipConstruction, ShipRefit
+var sub_type = null
 # dictionary key
 var project = null
 # if continuous = true, ignore remaining_industry and keep it running (usually only on Tech type)

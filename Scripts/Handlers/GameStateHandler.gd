@@ -12,6 +12,9 @@ var Colony = preload("res://Scripts/Model/Colony.gd")
 var GalaxyGenerator = preload("res://Scripts/GalaxyGenerator.gd")
 var RaceGenerator = preload("res://Scripts/RaceGenerator.gd")
 var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
+# FIXME: temp for debug
+var ColonyManager = preload("res://Scripts/ColonyManager.gd")
+var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
 
 var GameStatePurger = preload("res://Scripts/Tools/GameStatePurger.gd")
 var GameStateTransformer = preload("res://Scripts/Transformer/GameStateTransformer.gd")
@@ -116,7 +119,26 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			# give the planet a colony base
 			# FIXME: meeeeeeeeh?
 			# home = true
-			random_system.planets[random_planet] = ColonyGenerator.initialize_colony(participant, planet, true)
+			planet = ColonyGenerator.initialize_colony(participant, planet, true)
+			random_system.planets[random_planet] = planet
+			# FIXME: remove this sometime or make it DEBUG-conditional
+			if participant == player:
+				player.completed_research = ["orbital_structures", "xenobiology", "environmental_encapsulation", "interplanetary_exploration", "tonklin_diary", "spacetime_surfing"]
+				planet.base_population += 20
+				planet.population.slots += 20
+				planet.population.free = planet.population.slots - planet.population.alive
+				
+				for i in range(planet.population.free):
+					var build_next = ColonyManager.manage(planet.colony)
+					if build_next != null:
+						if build_next.project != null:
+							ColonyController.start_colony_project(planet.colony, build_next.project, build_next.type, build_next.square)
+							ColonyController.finish_project(planet.colony)
+							ColonyController.grow_population(planet.colony)
+				ColonyController.grow_population(planet.colony)
+				ColonyController.grow_population(planet.colony)
+
+
 			#new_game_state.galaxy.races = new_game_state.races
 		
 		# move everything into the normal game state
