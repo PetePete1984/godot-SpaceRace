@@ -1,0 +1,28 @@
+[gd_resource type="CanvasItemMaterial" load_steps=2 format=1]
+
+[sub_resource type="CanvasItemShader" id=1]
+
+_code = {
+"fragment": "uniform float amount = 1.0;
+uniform float height = 7.0;
+
+vec4 current = tex(TEXTURE, UV);
+float alpha = 0.0;
+if (UV.y / height > 1 - amount) {
+	alpha = 1.0;
+}
+COLOR = vec4(current.rgb, alpha);",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[resource]
+
+shader/shader = SubResource( 1 )
+shader/shading_mode = 0
+shader_param/amount = 1.0
+shader_param/height = 7.0
+

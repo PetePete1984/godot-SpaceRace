@@ -1,13 +1,16 @@
 # Planet info
 extends Reference
 
-# player
+# player owning this place, maybe it's enough if the colony knows it
 var owner
 
 var colony = null
 
 # which system this planet is in
 var system
+# the planet's position inside the system
+var position
+# TODO: maybe store original position?
 
 # Usually system.system_name + planet index, but can be changed
 var planet_name

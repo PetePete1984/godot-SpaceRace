@@ -9,6 +9,7 @@ var ships = {}
 
 var research = {}
 var completed_research = []
+var finished_all_research = false
 
 var research_self_managed = false
 
@@ -31,6 +32,7 @@ var meta_info = {
 var knowledge = null
 	
 func count_laboratories():
+	# FIXME: maybe? count research campus and all other producers? or just ignore the building types, go by total_research > 0 instead?
 	var result = 0
 	for c in colonies:
 		var colony = colonies[c]

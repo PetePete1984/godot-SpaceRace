@@ -1,0 +1,44 @@
+[gd_resource type="MaterialShader" format=1]
+
+[resource]
+
+_code = {
+"fragment": "uniform float outline_width=0.5;
+uniform color outline_color=vec4(1,1,1,1);
+
+uniform texture t;
+
+vec4 col = tex(t,UV);
+if (outline_width > 0.0) {
+	vec2 ps = vec2(0.01, 0.01);
+	float a;
+	float maxa=col.a;
+	float mina=col.a;
+	
+	a=tex(t,UV+vec2(0,-outline_width)*ps).a;
+	maxa=max(a,maxa); 
+	mina=min(a,mina);
+	
+	a=tex(t,UV+vec2(0,outline_width)*ps).a;
+	maxa=max(a,maxa); 
+	mina=min(a,mina);
+	
+	a=tex(t,UV+vec2(-outline_width,0)*ps).a;
+	maxa=max(a,maxa); 
+	mina=min(a,mina);
+	
+	a=tex(t,UV+vec2(outline_width,0)*ps).a;
+	maxa=max(a,maxa); 
+	mina=min(a,mina);
+	
+	DIFFUSE_ALPHA=mix(col, outline_color, maxa-mina);
+} else {
+	DIFFUSE_ALPHA=col;
+}",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+

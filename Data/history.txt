@@ -1,0 +1,899 @@
+// Minions
+specnum 0
+power
+Supreme Planet Invaders
+endpower
+
+intro
+_____Your ancient programming has been reactivated.  You are the
+central control unit.  You must coordinate the efforts of the Minions to
+develop the technology of space travel and spread throughout this
+galaxy.
+@@_____The Minions have detected transmissions from other stars.  Analysis
+of these transmissions indicates that some have an aggressive
+nature.  Eliminate threats to the Source World. 
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Minions are a species of artificial life--machines that
+serve the purposes of their extra-galactic master-species.  Eons ago, the
+master-species seeded the ancestor-units of the Minions on a planet
+chosen to accelerate their developmental programs. 
+Their ultimate programming lay dormant throughout their history until
+reawakened by their cosmic masters.  No one knows anything about the
+location of the masters or their purpose.
+@@_____The Minions are made up of microscopic, self-maintaining machines, and they are able to assimilate other
+life forms to obtain the rich mixture of elements they need for power and self-maintenance.  They are
+efficient and unstoppable at taking over worlds.  They are built for strength and speed, and no known
+species can stand against a Minion in an unarmed confrontation.  They infiltrate, assimilate, and control
+worlds with great speed and have been known to take over an entire planet and its population in hours.
+endtext
+
+// Snovemdomas
+specnum 1
+power
+Builders of Nigh-Indestructible Ships
+endpower
+
+intro
+_____You are the Dovahmon.  You are the leader of all the tribes of your
+people, the brave
+Snovemdomas.
+@@_____Your people have explored all of their world.  You must
+now lead them into the unknown.  Construct vessels to take
+Snovemdomas to other stars, to meet the challenge of hunting
+grounds on other worlds.
+@@_____It is written that the Snovemdomas will one day meet thinking
+creatures among the stars.
+endintro
+
+peace
+_The Prophecies tell of a day when these
+peoples will look to the strength of the Snovemdomas for guidance.
+endpeace
+
+neutral
+_Heed the Song of Mandenonda, which foretells
+the destruction of the unwary.
+endneutral
+
+hostile
+_Fight well against those that threaten
+the world of your people, lest the Prophecy of Ending comes to pass.
+endhostile
+
+text
+_____The Snovemdomas evolved as pack-hunting predators in woods and tundra plains on a very high-gravity world. 
+Snovemdomas are about the size of a bear, and their stocky build is deceptive since they are quick and
+graceful in motion.  To the inhabitants of other worlds, they appear to be imposing and massive.  On their
+own world, the Snovemdomas preyed on much larger and tougher creatures, bringing the prey down by
+overwhelming it with numbers and speed.  Their bodies evolved
+strength and lightness (too much mass being detrimental in high gravity), and their bones are made of a hollow
+but nearly unbreakable force-distributing honeycomb lattice.
+@@_____Because of the high-gravity environment on their home world they have
+always had to allow for greater stress in
+designing their dwellings and machines. 
+Their material science is advanced and they make use of strong, light
+composite materials in their construction.  It is in their nature to design ships
+that can withstand great force.
+endtext
+
+// Orfa
+specnum 2
+power
+Black Square Dwellers
+endpower
+
+intro
+_____You have been chosen by all Orfa to implement The Plan.  The Rituals of
+Reproduction have gotten out of hand.  The Orfa need new worlds to
+live on with plenty of grazing land and a decent chance
+to mate before growing old.  The first phase of The Plan calls
+for the construction of vehicles that can cross the inky vastness
+between the stars.
+@@____Those of the Orfa who study the stars have no doubt that there
+are other beings in the galaxy who have intelligence and technology. 
+Theory holds that some of the races from other worlds will have an
+inherent need to control the existence of others through physical
+coercion.  Guard against such beings.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Orfa are grazing animals that evolved on a hostile world. 
+Their bodies are very dense and tough, and they are as happy in a pool of lava as pigs
+are in a wallow of filth.  They prefer vegetation and a diet of complex
+organic molecules but they can subsist on
+raw minerals.  They are not harmed by the radiation, heat, cold, chemicals, or physical buffeting of any
+known planetary body, nor do they require an atmosphere.
+@@_____They have no known natural enemies (nothing on their home world is able to make a dent in their
+impregnable hides) and no particular difficulty surviving in almost any environment.  It is likely that they
+evolved sentience due to competition for mating.  They have seventeen
+sexes, so finding sixteen mates of the appropriate sex (so they can have one of their litters, numbering in the hundreds)
+is their central preoccupation.  They have unbelievably complicated and difficult cultural mores centering around
+mating competition, and an Orfa who mates successfully usually gets to
+do so by outsmarting many of its peers.  Thus they are very intelligent and are able to perceive subtle causes of events and fine
+levels of meaning.  They are also happy to loaf once they have fulfilled their mating imperative.
+endtext
+
+// Kambuchka
+specnum 3
+power
+Clairvoyants
+endpower
+
+intro
+_____Your people, the Kambuchka, look to you for direction in their
+attempt to explore space.  You are
+the Sense-Master, possessing the most highly-tuned senses of all
+Kambuchka.  You are able to gather information and coordinate actions
+at an interstellar distance.
+@@_____Your people await your wisdom.  Help
+them develop the technology of space travel.  Show them the way to the stars.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Kambuchka evolved in the dense, fog-like atmosphere of a large planet.  They see by feeling the atomic vibrations of
+their surroundings on their convoluted membrane bodies.  The Kambuchka cannot move quickly
+in the atmosphere of their home world, so they evolved the ability to detect faraway living things, both to
+help them find food (they feed by filtering microscopic plants from the thick atmosphere of their world)
+and to help them avoid predators.
+@@_____They are so sensitive to the vibrations of living things that, in the absence of the opaque atmosphere of
+their home world, they are able to perceive very large concentrations of life at interstellar distances.
+endtext
+
+// Hanshaks
+specnum 4
+power
+Telepathic Diplomats
+endpower
+
+intro
+_____You are the High Shaman, the Eldest of the Hanshaks.  You have existed
+in your current cycle for nine thousand orbits of your world around its sun. 
+Your life force has gone through more cycles than any other Hanshak's.
+@@_____Your species has nurtured its world, and the time has come to
+commune with the life of other worlds.  The Hanshaks must discover a
+way to reach other planets and encounter the vast diversity that
+exists in the cosmos.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Hanshaks are an ancient race of toroidal mind-bodies.  The are deeply
+in tune with life and nature, and
+can communicate telepathically with other sentient life.
+The Hanshaks are few, but they are renowned for their wisdom and intuition. 
+@@_____After an early technological
+surge, they dismantled their cities and returned their world to its natural
+state, developing a culture devoted
+to enlightenment and living symbiotically with nature.  They have managed to
+retain a knowledge of technology in their druidic society.
+endtext
+
+// Fludentri
+specnum 5
+power
+Instant Healers 
+endpower
+
+intro
+_____You are First Among Warriors.  Your combat artistry is unmatched.  None
+can best you in the grand arena and all Fludentri obey your
+command.  Your people hunger to prove themselves against the dangers of new
+worlds, and they hunger for new dominions.
+@@_____The leaders of the
+Armorers' Cabal await your guidance in their new task: to construct the mighty vessels
+that will allow the Fludentri to attain the stars.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Fludentri evolved on a world covered with ocean.  They are composed of
+polymerized liquid.  When a Fludentri
+is injured it regenerates in seconds, its fluid anatomy knitting together immediately after physical damage
+occurs.  A Fludentri dies only when its entire body is disrupted at once.
+@@_____The Fludentri are able to make their bodies assume varying
+degrees of solidity.  They can wrap their tendrils quickly around
+prey and tighten them with ferocious strength.  They see combat as a fine
+art, and a Fludentri is deeply moved by a finely-improvised combat
+performance between skilled and creative warriors.
+@@_____They do not respect
+abstract thought or communication with concepts--they see these things as
+fuzzy-minded and irrelevant, and they prefer to let their bravery in
+action speak for them.  A Fludentri's status and cultural power is
+determined by its skill in combat.
+endtext
+
+// Baliflids
+specnum 6
+power
+Super Diplomats 
+endpower
+
+intro
+_____The Baliflids of three generations gather around you, the
+Old Storyteller--the closest thing the Baliflids have to a leader. 
+The cavorting and joking subsides, and the crowd waits silently for you to
+start.
+@@_____This world is fun, but there is a whole universe to goof
+around in.  Tell a story, to amuse your buddies, about a bunch of
+three-tongued rodents who build large impressive ships and fly around
+in space.  It would be a supreme practical joke on all the big
+humorless self-important types out there.  Be careful, though--it's always
+the cosmic drips that have the biggest fang-equivalents.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Baliflids are cute little rodent-like organisms.  They evolved on
+a hospitable but competitive world where
+they developed the ability to disarm and win over their
+competitors.  Other creatures instinctively feel protective of
+Baliflids.
+@@_____A Baliflid being charged by an Insatiable Strak Beast will stand, calmly
+staring toward the raging, thundering predator with an expression of barely
+supressed mirth.  Often the predator will stop short, not knowing why
+but feeling a sudden lack of aggression in the face of the Baliflid's
+harmless calm.
+@@_____The Baliflids have a huge capacity for fun--they take nothing
+very seriously and are friendly and curious.  Despite their naive and
+harmless image, the Baliflids are deeply intelligent and highly
+perceptive.  They
+survived as a species because of their keen awareness of the
+outlook and motivations of other creatures.
+endtext
+
+// Swaparamans
+specnum 7
+power
+Energy Doublers 
+endpower
+
+intro
+_____The Swaparamans have thrived on their new planetary home
+since their incredible escape but have lost the knowledge of space
+travel.  Swaparamans remember their history and they are filled with the worry that
+their existence on a single planet is too precarious.
+@@_____You are the
+latest of the successors to Tanandanam.  You must follow the example
+Tanandanam set and secure the future of your people.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Swaparamans evolved on the first planet of a binary star-system (consisting of a
+normal star and the black hole Graveesha in orbit around each other).  The dual-star configuration (it is assumed) influenced the
+development of duality-inverse-reality structures that continually build in the minds of Swaparamans like
+electricity charging a capacitor.  Once charged, the Swaparamans can release their stored potential.
+@@_____The Swaparamans evolved on the same world as the Frutmaka, and they share common
+ancestry.  Millennia ago, The
+Frutmaka betrayed the Swaparamans and drove them from their home world.
+@@_____A tiny number of Swaparamans--the ancestors of
+all modern Swaparamans--were able to flee
+their home world in space vessels that they patched together in
+secret.  The architect of this bold escape was Tanandanam, a
+wise and determined leader whose name is now sacred to Swaparamans.
+@@_____The Swaparamans survived
+the dangerous passage through space by using their energy storage ability.  As
+a result of the ordeal, the
+Swaparamans with the strongest ability tended to survive, and their energy storage ability is now highly
+developed.
+endtext
+
+// Frutmaka
+specnum 8
+power
+Teleporters 
+endpower
+
+intro
+_____You are the High Prelate of Graveesha.  It is Graveesha's will
+that the Frutmaka spread to the stars. You must guide the Frutmaka
+to form ships, to cause the substance of your planet to coalesce and
+shape itself into space vessels.
+@@_____Do not let your guard down.  The universe is full of those in aimless
+motion, those who take action with the crude, repugnant grasp of
+their bodily parts.  History has proven that
+the Frutmaka cannot trust these.  Only the Frutmaka live in
+enlightenment.  Only the Frutmaka truly follow Graveesha's example of
+perfect stillness.  Only the Frutmaka bear the gift of pure action.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Frutmaka evolved near a black hole--their beloved god
+Graveesha--on the same planet that gave birth to the Swaparamans.  Long
+ago they drove the Swaparamans from their mutual home world--they saw the
+Swaparamans as a threat to their beliefs and their way of life.
+@@_____The Frutmaka move with glacial slowness.  They are near-sessile
+fungal animals that obtained high intelligence early in their evolution. 
+Their frustration at being fully aware and helpless while they were
+eaten alive by predators gave way to the development of a latent telekinetic
+ability.  No one knows when it was that a Frutmaka first lashed out
+with its mind at its tormentors, but modern Frutmaka have a
+formidable ability to teleport objects with the force of their wills.
+@@_____They are able to combine their ability, and when massed together they can
+teleport large objects across huge distances.  The Frutmaka believe that
+Graveesha gave them the power to teleport objects for the purpose of making
+sacrifices.  They will occasionally teleport enemies to Graveesha
+to maintain harmony with their god.  It is not known precisely what happens
+to the victims of Graveesha.
+endtext
+
+// Shevar
+specnum 9
+power
+Energy Sappers 
+endpower
+
+intro
+_____Know, O Sorcerer, that this world the Shevar found so long ago is not
+unique in this universe.  The points of light in the sky are huge balls of
+superheated plasma and around many of them are worlds such as this one.
+@@_____The Shevar follow your will.  They must build arcane engines
+with which they can find these other worlds.  This universe teems
+with energy-food, ready for the Shevar to absorb.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____Little is known of the Shevar.  They are sorcerers, masters of dark
+forces from another universe.  They are an inorganic life
+form--they
+follow most definitions of life but are composed entirely of
+inorganic substances.  They are able to
+harness an anti-energy that draws in and consumes energy and life force.
+@@_____It is believed that the Shevar came from another universe
+with different physical laws.  They experimented with their arcane arts until
+they opened a way into
+this universe, and the pathway they opened led to a planet teeming with
+life.  This was an unimagined bounty to the Shevar and many of them
+came across to settle the world they found.  They utterly
+devastated this world, destroying all other life on the planet by
+feeding on its life force.
+@@_____They aren't purposely hostile or evil, but their values are
+incomprehensible and they do not recognize the
+creatures of this universe as living beings.
+endtext
+
+
+// Govorom
+specnum 10
+power
+Planet Nurturers 
+endpower
+
+intro
+_____Our people, the Govorom, sense the wonderful truth--that the galaxy
+teems with life in a beautiful, endless variety of forms.
+@@_____The Govorom must reach the stars.  There are
+misguided species, life forms out of balance, that pose a threat to
+other life.  The youngest
+generation of Govorom is far larger than any previous generation.  Most
+of these young Govorom pine for the other worlds where, they feel in
+the core of their being, their duty of protection lies.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Govorom evolved on a barren desert planet.  In order to survive,
+they learned to preserve and nurture the scant resources of their world. 
+They do not have an organized society; they live apart from
+each other, each being a caretaker of a small region of the planet.  The
+regions they care for are ever-changing and are not agreed upon but
+handled purely by intuition--each Govorom knows instinctively
+where its region lies.
+@@_____Their powers grew over time until much of their planet teemed with
+life.  Given an already-hospitable
+planet, they are able to transform it into a paradise.
+endtext
+
+
+// Ungooma
+specnum 11
+power
+Travel Disruptors
+endpower
+
+intro
+_____The Ungooma are an intensely curious people.  In recent times
+their naturally high caution has given way to a growing need to let
+go of their collective fear of the unknown and explore the universe
+around them.
+@@_____You are one of the greatest Ungooma minds, consisting of an unusually
+large number of individual Ungooma.  The other Ungooma collective minds
+look to you for guidance.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Ungooma are a species of adaptive-intelligence beings that evolved
+as thought-parasites and later
+developed their own means of thinking.  Before they became sentient
+they would take control of the higher animals on their
+world, using the bodies and minds of their hosts for their own needs.
+@@_____They are tiny, and their intellect is derived from the combined
+thought impulses of large numbers of Ungooma.  There are trillions of
+Ungooma and their combined thoughts form many thousands of distinct
+composite personalities.
+@@_____Ungooma no longer possess the ability to take over a host, but
+they retain the vestigial ability to exert a limited form of mind control at
+a distance.  They are able to control other species for brief
+periods, and their victims often wake up not knowing how they came to be
+where they are.
+endtext
+
+
+// Dubtaks
+specnum 12
+power
+Unsportsmanlike Scientists 
+endpower
+
+intro
+_____Our spies report that some scientists on the Great Southern
+Continent have discovered the signs
+of technologically advanced species on other worlds.
+@@_____If our
+stealth masters could infiltrate the research centers of the Polar
+Island and acquire their construction technology, we could combine it
+with our own secret knowledge and be the first tribe of Dubtaks to
+contact the otherworlders.
+@@_____With the exclusive knowledge of alien technological secrets, our
+tribe could ensure its security.  However, be cautious of the
+otherworlders--some of them could be more a threat than a source of
+information.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Dubtaks evolved on a world full of aggressive, competitive
+life.  If a Bengal tiger, raging bull elephant,
+or adult male gorilla were set down anywhere on this planet, it would be
+consumed in seconds.
+@@_____Although
+they are not especially aggressive themselves, they survived by excelling at
+hiding and watching.  Their senses cover a vast spectrum of phenomena, so
+they can tell
+that something is headed their way when it is
+still far away.  They move like the wind and their flexible bodies can fit
+in small holes and cracks easily.
+@@_____Their history is full of covert wars of information and
+espionage.  Their natural abilities and their
+love of technological gadgetry make them supreme stealers of research.
+endtext
+
+
+// Capelons
+specnum 13
+power
+Planet Camouflagers
+endpower
+
+intro
+_____You are the Hunt Leader of the Capelons.  Your people have been
+so successful on their own world that their numbers have swelled
+and prey grows scarce.  You must lead the hunt to the stars and find
+new worlds for Capelons to roam.
+@@_____As on the home world, so must it be elsewhere.  There are surely
+races of hunters from other worlds, and they will threaten to leave the
+Capelons nothing if you are not quicker and more cunning.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Capelons are masses of flowing fibers who can rearrange
+their bodies quickly to assume any shape.  They evolved on a highly
+predatory world where their camouflage and shape-shifting were useful
+for catching their scarce, elusive prey before competing
+predators could.
+@@_____They eventually developed the power to repel competing predators
+and other threats as a telepathic extension to
+their camouflage ability.  They make themselves so unnoticeable that the
+threatening being forgets what it
+was thinking about, allowing the Capelon to bring down its
+prey and make an escape.
+@@_____The Capelons can combine their
+individual powers.  A planetary population of Capelons can hide their
+entire planet from notice.
+endtext
+
+
+// Mebes
+specnum 14
+power
+Rapid Reproducers
+endpower
+
+intro
+_____You are the Great Parent.  Most of the Mebes are your
+descendants, and all Mebes look to you for your ancient wisdom.
+@@_____A sickness has been growing amidst your people, a viral disease that
+ruthlessly strikes down children before they have reached their first
+century.
+@@_____For the sake of the children, your species must find another
+home.  You must undertake a vast project: to escape the plague by
+spreading from your home world to the rest of the cosmos.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Mebes are large single-celled creatures that evolved on
+a warm, sunny world.  They roll around collecting food on
+their surfaces and absorbing it into their bodies.
+@@_____They breed rapidly by sexual
+reproduction.  Two Mebes exchange genetic material, then each divides
+to produce a new Mebe that contains a combination of genes from each
+parent.
+@@_____Although this method of reproduction is quick and the
+offspring are immediately self-sufficient, the Mebes are very
+attached to their young ones.  Despite their alarming appearance, they
+are a sentimental species.
+endtext
+
+// Oculons
+specnum 15
+power
+Super Astronomers 
+endpower
+
+intro
+_____You are the Jhitan, the Far Seer of the Oculons.  The fulfillment of
+the Oculons' ancient longing is within grasp.  From their long-distance
+communication with the civilizations of other worlds, your people
+now know that it is theoretically possible to construct vehicles that
+can explore space.
+@@_____No Oculon is immune to the poetry of the stars, and your people
+are now obsessed with exploring space and seeing its wonders up
+close.  You must guide them to develop the advances necessary to construct
+space ships.  The wondrous sights and fantastic creatures of the
+universe await your people.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Oculons have only the extremely acute sense
+of sight.  They evolved on a thin-atmosphere
+planet orbiting a bright sun.  Their culture is strongly
+astronomical (they are essentially living telescopes) and they have amassed
+a great deal of knowledge about the galaxy.
+@@_____They are more mystical than intellectual, and are considered
+superstitious by other species.  They are endlessly fascinated with space
+and with other forms of life.  Without yet achieving space travel
+they have managed to communicate with other technological species
+from remote stars in this galaxy.
+@@_____The average Oculon is obsessed with nobility of action and
+thought, and lives by a ritualistic code of honor.
+endtext
+
+
+// Arbryls
+specnum 16
+power
+System Isolators
+endpower
+
+intro
+_____All Arbryls have agreed.  It would be good to see other worlds. 
+It would be good to learn about the universe.
+@@_____Arbryls have no experience with the engineering needed to build
+space vessels, but they have incredible focus and concentration.  An
+Arbryl can ponder the same question for years without cease.  Many
+Arbryls have already anchored themselves and stand pondering the
+path to space.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Arbryls are tree-people who evolved on a huge eden planet containing
+only plant life.  They are peaceful, slow-moving, and highly intelligent. 
+They are unused to conflict and their philosophy is isolationist. 
+They can usually be found standing perfectly motionless for huge
+amounts of time, thinking their tree-thoughts, pondering the world.
+@@_____At times they conduct a planet-wide ritual, including every
+Arbryl, to tune their mystic energy vibrations to resonance. 
+This ritual is exhausting and cathartic to them, and it restores the
+balance and calm they treasure.
+@@_____As a side effect, their ritual of mystic resonance sends out a
+spherical ripple in space and time.  This ripple expands hugely, distorting
+gravitational fields on an interstellar scale and causing star lanes to
+contract and close.
+endtext
+
+
+// Marmosians
+specnum 17
+power
+Hostility Diverters 
+endpower
+
+intro
+_____Your species and your planet need relief from the endless
+territorial bickerings that have kept your home world in a state of
+pandemonium for as long as Marmosian history records.
+@@_____You must accomplish the daunting task of
+uniting the Marmosians for the first time in their history.  The
+alternative is stagnation and a gradual decline into extinction.  You
+must provide them a common purpose and a new beginning.  The only
+answer is to find new homes on other planets, to leave the legacy of your
+home planet behind.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Marmosians are territorial insect-like creatures from the inner
+world of a hot sun.  Their mating pheromones
+evolved into a general purpose array of
+complex mood-altering scent molecules that allow them to manipulate the
+base emotions of other creatures.
+@@_____They learned to use the predators of
+their world to protect their territories, and they tend to repel attacks by
+causing their enemies to fight each other.  They are intellectually active
+but physically lazy, preferring to rely on the efforts of those they control.
+endtext
+
+
+// Chronomyst
+specnum 18
+power
+Lane Travelers 
+endpower
+
+intro
+_____At The Conclave it becomes obvious
+that the Chronomyst have developed a strong need to follow the light
+of the stars.  The will of Chronos is clear and bright.
+@@_____Your light shines vividly at The Conclave.  Guide the Chronomyst
+in their quest.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Chronomyst are a deeply religious and philosophical race who spend much of their time in trance-like
+meditations exploring the inner space.  When one with their god, Chronos, the Chronomyst float through
+time and space at a different rate than that experienced by those not ascended.  They have discovered a way
+to use this to access star lanes and accelerate through them.
+@@_____The Chronomyst are largely composed of organic optical components, and their intelligence consists of
+light rays bending and bouncing through their internal lenses and mirrors. 
+Bright light heightens their mental acuity and allows them to focus
+more deeply in their communion with Chronos.
+@@_____Chronomyst society is unstructured.  There is a never-ending
+gathering called The Conclave where individual Chronomyst
+come and go, reflecting light rays, defining and
+communicating the evolution of their culture and beliefs.  The Conclave of
+the Chronomyst is one of the wondrous sights of the universe: a
+never-ending, intricate dance of colored light that every Chronomyst
+joins for some part of its lifetime.
+endtext
+
+
+// Chamachies
+specnum 19
+power
+Determined Researchers 
+endpower
+
+intro
+_____You are the Emperor of the Chamachies.  Your hereditary line has
+ruled from the City of Enlightenment for centuries.
+@@_____Your rule has
+only been strengthened by the anticipation of The Cataclysm.  Your
+people now stand ready to implement your plans for escape from this
+star system.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Chamachies love gadgets and technology.  They are able to
+discover major breakthroughs quickly
+when under duress--stress heightens their scientific abilities and amplifies
+their determination,
+much like adrenalin heightens physical ability.
+@@_____In the recent past a huge, highly advanced alien vessel passed
+through the Chamachie system.  The aliens discovered that the star lane
+entry points in that system had drifted over time into an
+unstable configuration.  They told the Chamachies that they could
+not predict when the cataclysm would occur, but they were sure that
+the forces released would destroy the star and the planets orbiting
+it.
+@@_____The knowledge of this danger sent Chamachie society into a
+frenzy of scientific and technological advancement.  The Chamachie
+stress-response of heightened mental capability went into full force, and
+they have gone in a few decades from a pre-technological civilization
+to a society on the brink of space travel.
+endtext
+
+// Nimbuloids
+specnum 20
+power
+Expert Builders
+endpower
+
+intro
+_____Your way is strong among Nimbuloids and many follow you.  The
+currents to the stars grow stronger and few now doubt that the way
+of all Nimbuloids follows these currents.
+@@_____Guide your species.  Show the Nimbuloids the
+currents that will take them to their destiny.
+endintro
+
+peace
+endpeace
+
+neutral
+endneutral
+
+hostile
+endhostile
+
+text
+_____The Nimbuloids arose on a planet with a thick, reactive
+atmosphere.  They are composed entirely of dense,
+cohesive gases and move through the atmosphere by chemically attracting and
+repelling the molecules of the
+gases in their environment.  They see reality in terms of the
+intersecting flow of what they call currents: the karmic forces that, they
+believe, determine destiny.
+@@_____With great effort, a Nimbuloid can transform matter from solidity
+to a greatly expanded gaseous state and back.  They are able to herd around
+clumps of transformed matter and cause the clumps to coalesce into
+arbitrary shapes.  When a skilled Nimbuloid expends the needed energy, it
+can shape large, intricate structures with awesome speed.
+endtext
+
+END

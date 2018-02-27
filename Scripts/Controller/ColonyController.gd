@@ -4,6 +4,12 @@ const BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 const BuildingRules = preload("res://Scripts/BuildingRules.gd")
 const OrbitalProject = preload("res://Scripts/Model/OrbitalProject.gd")
 const TechProject = preload("res://Scripts/Model/TechProject.gd")
+
+const ShipConstructionProject = preload("res://Scripts/Model/ShipConstructionProject.gd")
+const ShipRefitProject = preload("res://Scripts/Model/ShipConstructionProject.gd")
+const ShipProject = preload("res://Scripts/Model/ShipProject.gd")
+const ShipFactory = preload("res://Scripts/Factories/ShipFactory.gd")
+
 const Planetmap = preload("res://Scripts/Planetmap.gd")
 
 static func start_colony_project(colony, project_key, type, position):
@@ -36,6 +42,51 @@ static func start_colony_project(colony, project_key, type, position):
 		update_colony_stats(colony)
 	pass
 
+static func start_ship_project(colony, ship_design, position):
+	# if there's already a ship on the spot, load its modules and treat is as a refit project
+	# if there's a building on the spot, we should have never come here, but if we did then it's a new ship
+	# if there's nothing, then it's also a new ship
+	# cancel all other projects
+	cancel_any_project(colony)
+	var planet = colony.planet
+
+	var tile = planet.orbitals[position.x][position.y]
+	# basic cost will be hull cost for new ships, or (hull cost) / 2 for refits
+	var project_cost = 0
+	print("hello")
+	if tile.orbiting_ship != null:
+		# existing ship, it's a refit project
+		var ship = tile.orbiting_ship
+		var existing_modules = ship.modules
+		# TODO: find out how repair actually works, if being docked at a planet with a dock is enough or if it needs a proper refit
+		# TODO: might need to be hull strength
+		ship.shield = ship.maximum_shield
+		project_cost = ShipDefinitions.ship_defs[ship.size].cost / 2
+		# grab all existing modules, sum their cost and ignore it
+		# TODO: grab all new modules, sum their cost and add it
+		var new_project = ShipRefitProject.new()
+		new_project.cost = project_cost
+		pass
+	else:
+		if tile.type != null:
+			print("error, already an object on a ship planning tile, should never arrive here")
+		else:
+			print("hello, starting new ship")
+			# building new ship
+			project_cost = ShipDefinitions.ship_defs[ship_design.size].cost
+			var new_project = ShipConstructionProject.new()
+			# TODO: grab all new modules and sum their cost
+			new_project.total_cost = project_cost
+			new_project.remaining_industry = project_cost
+			new_project.project = "missiles_dummy"
+			new_project.ship_name = ship_design.ship_name
+			new_project.resulting_ship = ShipFactory.initialize_ship(ship_design.size, ship_design.modules, ship_design.ship_name, colony.owner)
+			new_project.position = position
+			tile.orbiting_ship = new_project.resulting_ship
+			colony.project = new_project
+			
+	pass
+
 static func cancel_any_project(colony):
 	if colony.project != null:
 		if colony.project extends BuildingProject:
@@ -51,12 +102,20 @@ static func cancel_any_project(colony):
 
 			var old_orbital = colony.planet.orbitals[old_x][old_y]
 			if old_orbital.type != null:
-				old_orbital.reset()
+				old_orbital.reset_orbital()
 			# TODO: reset
 		elif colony.project extends TechProject:
 			# TODO: finish techproject cancel (should be simple, unless it's automation?)
 			colony.project = null
 			pass
+		elif colony.project extends ShipProject:
+			# FIXME: duplicate of OrbitalProject, remove if it stays the same
+			var old_x = colony.project.position.x
+			var old_y = colony.project.position.y
+
+			var old_orbital = colony.planet.orbitals[old_x][old_y]
+			if old_orbital.type != null:
+				old_orbital.reset()
 		pass
 	pass
 
@@ -82,7 +141,7 @@ static func start_surface_building(colony, new_project):
 	building.automated = false
 	building.type = BuildingDefinitions.building_defs[new_project.project]
 	# TODO: see if this can be made obsolete
-	building.building_name = building.type.building_name
+	#building.building_name = building.type.building_name
 	colony.project = new_project	
 
 static func start_orbital_building(colony, new_project):
@@ -144,6 +203,12 @@ static func finish_project(colony):
 						orbital.used_pop = 0
 						orbital.automated = true
 				pass
+			pass
+		elif project extends ShipProject:
+			var orbital = colony.planet.orbitals[x][y]
+			orbital.orbiting_ship = project.resulting_ship
+			if project extends ShipConstructionProject:
+				colony.planet.population.idle -= 1
 			pass
 		else:
 			print("Unknown project type")

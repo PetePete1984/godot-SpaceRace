@@ -58,6 +58,13 @@ static func generate_star_systems(galaxy):
 static func connect_star_systems(galaxy):
 	var first = true
 	# TODO: walk through the systems and spawn connections
+	# TODO: maybe connect second closest too
+	# TODO: otherwise delaunay, gabriel, urquhart, relative neighborhood
+	# https://en.wikipedia.org/wiki/Urquhart_graph
+	# https://en.wikipedia.org/wiki/Delaunay_triangulation
+	# https://en.wikipedia.org/wiki/Gabriel_graph
+	# https://en.wikipedia.org/wiki/Nearest_neighbor_graph
+	# https://en.wikipedia.org/wiki/Relative_neighborhood_graph
 	for system in galaxy.systems:
 		var system_position = system.position
 		# find the closest unconnected system

@@ -1,44 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=1]
 
-[ext_resource path="res://Images/Planets/planal03/planal03.shp_4.png" type="Texture" id=1]
-
-[sub_resource type="MaterialShader" id=1]
-
-_code = {
-"fragment": "uniform float outline_width=0.5;
-uniform color outline_color=vec4(1,1,1,1);
-
-uniform texture t;
-
-vec4 col = tex(t,UV);
-if (outline_width > 0.0) {
-vec2 ps = vec2(0.01, 0.01);
-float a;
-float maxa=col.a;
-float mina=col.a;
-a=tex(t,UV+vec2(0,-outline_width)*ps).a;
-maxa=max(a,maxa); 
-mina=min(a,mina);
-a=tex(t,UV+vec2(0,outline_width)*ps).a;
-maxa=max(a,maxa); 
-mina=min(a,mina);
-a=tex(t,UV+vec2(-outline_width,0)*ps).a;
-maxa=max(a,maxa); 
-mina=min(a,mina);
-a=tex(t,UV+vec2(outline_width,0)*ps).a;
-maxa=max(a,maxa); 
-mina=min(a,mina);
-
-DIFFUSE_ALPHA=mix(col, outline_color, maxa-mina);
-} else {
-DIFFUSE_ALPHA=col;
-}",
-"fragment_ofs": 0,
-"light": "",
-"light_ofs": 0,
-"vertex": "",
-"vertex_ofs": 0
-}
+[ext_resource path="res://Materials/Outline3D_Shader.tres" type="Shader" id=1]
+[ext_resource path="res://Images/Planets/planal03/planal03.shp_4.png" type="Texture" id=2]
 
 [resource]
 
@@ -52,8 +15,8 @@ flags/colarray_is_srgb = false
 params/blend_mode = 0
 params/depth_draw = 1
 params/line_width = 4.68368e-39
-shader/shader = SubResource( 1 )
+shader/shader = ExtResource( 1 )
 shader_param/outline_width = 0.25
 shader_param/outline_color = Color( 0.898438, 1, 0, 1 )
-shader_param/t = ExtResource( 1 )
+shader_param/t = ExtResource( 2 )
 
