@@ -122,7 +122,7 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			planet = ColonyGenerator.initialize_colony(participant, planet, true)
 			random_system.planets[random_planet] = planet
 			# FIXME: remove this sometime or make it DEBUG-conditional
-			if participant == player:
+			if participant == player and false:
 				player.completed_research = ["orbital_structures", "xenobiology", "environmental_encapsulation", "interplanetary_exploration", "tonklin_diary", "spacetime_surfing"]
 				planet.base_population += 20
 				planet.population.slots += 20

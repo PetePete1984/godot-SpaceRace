@@ -322,39 +322,45 @@ static func refresh_colony(colony):
 	var fertilized = "fertilization_plant" in existing_building_types
 	
 	if internet:
-		colony.adjusted_research = int(floor(colony.research * 1.5))
+		colony.adjusted_research = int(floor(float(colony.research) * 1.5))
 	else:
 		colony.adjusted_research = colony.research
 		
 	if hyperpower:
-		colony.adjusted_industry = int(pow(colony.industry, 0.85) * 1.4)
+		colony.adjusted_industry = int(floor(float(colony.industry) * 1.5))
 	else:
-		colony.adjusted_industry = int(round(pow(colony.industry, 0.85)))
+		colony.adjusted_industry = colony.industry
 	
 	var endless_party = false
 
 	if colony.project != null:
 		if colony.project extends TechProject:
 			if colony.project.project == "scientist_takeover":
-				if hyperpower:
-					colony.adjusted_research += int(float(colony.industry) * 1.5 / 4)
-				else:
-					colony.adjusted_research += int(float(colony.industry / 4))
+				colony.adjusted_research += int(floor(float(colony.adjusted_industry) / 4))
 			elif colony.project.project == "endless_party":
 				endless_party = true
 
 
 	var pop = planet.population.alive
-	# TODO: Find the correct formula
+	# TODO: Clean up, order is irrelevant if diminishing returns are applied last
 	var additional_prosperity = 0
 	if endless_party:
-		additional_prosperity = int(float(colony.adjusted_industry)/3)
+		additional_prosperity = int(floor(float(colony.industry) / 4))
 
 	if fertilized:
-		colony.adjusted_prosperity = int(round(pow(colony.prosperity, 0.85) * 1.4 + additional_prosperity - round(pow(0.4 * pop, 0.85)))) + 1
+		colony.adjusted_prosperity += int(floor(float(colony.prosperity + additional_prosperity) * 1.5))
 	else:
-		colony.adjusted_prosperity = int(round(pow(colony.prosperity, 0.85) + additional_prosperity - round(pow(0.4 * pop, 0.85)))) + 1
+		colony.adjusted_prosperity = colony.prosperity + additional_prosperity
 	pass
+
+	# apply diminishing returns to industry
+	colony.adjusted_industry = int(pow(float(colony.adjusted_industry + 1), 0.85))
+
+	# apply diminishing returns to prosperity
+	# FIXME: this STILL isn't right
+	colony.adjusted_prosperity = int(pow(float(colony.adjusted_prosperity + 1), 0.85)) - int(float(pop) / 4)
+	if colony.adjusted_prosperity <= 0:
+		colony.adjusted_prosperity = 0
 	
 	if planet.growth_bombed == true:
 		extra_slots += 10
