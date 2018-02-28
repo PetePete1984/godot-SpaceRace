@@ -313,6 +313,7 @@ static func refresh_colony(colony):
 			
 			total_ind += ind
 	
+	# store raw values
 	colony.industry = total_ind
 	colony.research = total_res
 	colony.prosperity = total_prosp
@@ -320,45 +321,32 @@ static func refresh_colony(colony):
 	var internet = "internet" in existing_building_types
 	var hyperpower = "hyperpower_plant" in existing_building_types
 	var fertilized = "fertilization_plant" in existing_building_types
+	var pop = planet.population.alive
 	
 	if internet:
-		colony.adjusted_research = int(floor(float(colony.research) * 1.5))
-	else:
-		colony.adjusted_research = colony.research
+		total_res = int(floor(float(total_res) * 1.5))
 		
 	if hyperpower:
-		colony.adjusted_industry = int(floor(float(colony.industry) * 1.5))
-	else:
-		colony.adjusted_industry = colony.industry
-	
-	var endless_party = false
+		total_ind = int(floor(float(total_ind) * 1.5))
+		
+	if fertilized:
+		total_prosp += int(floor(float(total_prosp) * 1.5))
 
 	if colony.project != null:
 		if colony.project extends TechProject:
 			if colony.project.project == "scientist_takeover":
-				colony.adjusted_research += int(floor(float(colony.adjusted_industry) / 4))
+				total_res += int(floor(float(total_ind) / 4))
 			elif colony.project.project == "endless_party":
-				endless_party = true
+				total_prosp += int(floor(float(total_ind) / 4))
 
-
-	var pop = planet.population.alive
-	# TODO: Clean up, order is irrelevant if diminishing returns are applied last
-	var additional_prosperity = 0
-	if endless_party:
-		additional_prosperity = int(floor(float(colony.industry) / 4))
-
-	if fertilized:
-		colony.adjusted_prosperity += int(floor(float(colony.prosperity + additional_prosperity) * 1.5))
-	else:
-		colony.adjusted_prosperity = colony.prosperity + additional_prosperity
-	pass
+	# no diminishing returns for research
+	colony.adjusted_research = total_res
 
 	# apply diminishing returns to industry
-	colony.adjusted_industry = int(pow(float(colony.adjusted_industry + 1), 0.85))
+	colony.adjusted_industry = int(pow(float(total_ind + 1), 0.85))
 
 	# apply diminishing returns to prosperity
-	# FIXME: this STILL isn't right
-	colony.adjusted_prosperity = int(pow(float(colony.adjusted_prosperity + 1), 0.85)) - int(float(pop) / 4)
+	colony.adjusted_prosperity = int(pow(float(total_prosp + 1), 0.85)) - int(float(pop) / 4)
 	if colony.adjusted_prosperity <= 0:
 		colony.adjusted_prosperity = 0
 	
