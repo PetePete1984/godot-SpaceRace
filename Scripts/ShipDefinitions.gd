@@ -18,6 +18,18 @@ var ship_defs = {
 	}
 }
 
+# TODO: the original might have scale factors for all race / ship size combinations
+var drawing_scale_offset = {
+	"small": {
+		"scale_planet": 0.5,
+		"offset_planet": [-6, 11]
+	},
+	"medium": {
+		"scale_planet": 0.5,
+		"offset_planet": [-5, 11]
+	}
+}
+
 # TODO: try reordering by Y coordinate (or just sorting on load)
 
 var ship_size_templates = {
@@ -86,7 +98,6 @@ var ship_size_templates = {
 	]
 }
 
-# TODO: count slots from template
 func _ready():
 	for s in ship_types:
 		var data = ship_defs[s]
@@ -94,3 +105,8 @@ func _ready():
 		def.size = s
 		for key in data:
 			def[key] = data[key]
+
+		for slot in ship_size_templates[s]:
+			def.slots.append(slot)
+
+		def.num_slots = def.slots.size()

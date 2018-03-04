@@ -53,7 +53,6 @@ static func start_ship_project(colony, ship_design, position):
 	var tile = planet.orbitals[position.x][position.y]
 	# basic cost will be hull cost for new ships, or (hull cost) / 2 for refits
 	var project_cost = 0
-	print("hello")
 	if tile.orbiting_ship != null:
 		# existing ship, it's a refit project
 		var ship = tile.orbiting_ship
@@ -71,7 +70,6 @@ static func start_ship_project(colony, ship_design, position):
 		if tile.type != null:
 			print("error, already an object on a ship planning tile, should never arrive here")
 		else:
-			print("hello, starting new ship")
 			# building new ship
 			project_cost = ShipDefinitions.ship_defs[ship_design.size].cost
 			var new_project = ShipConstructionProject.new()
@@ -82,6 +80,8 @@ static func start_ship_project(colony, ship_design, position):
 			new_project.ship_name = ship_design.ship_name
 			new_project.resulting_ship = ShipFactory.initialize_ship(ship_design.size, ship_design.modules, ship_design.ship_name, colony.owner)
 			new_project.position = position
+			# deactivate ship while it's in construction
+			new_project.resulting_ship.active = false
 			tile.orbiting_ship = new_project.resulting_ship
 			colony.project = new_project
 			
@@ -103,7 +103,7 @@ static func cancel_any_project(colony):
 			var old_orbital = colony.planet.orbitals[old_x][old_y]
 			if old_orbital.type != null:
 				old_orbital.reset_orbital()
-			# TODO: reset
+			# TODO: reset ship construction
 		elif colony.project extends TechProject:
 			# TODO: finish techproject cancel (should be simple, unless it's automation?)
 			colony.project = null
@@ -114,8 +114,8 @@ static func cancel_any_project(colony):
 			var old_y = colony.project.position.y
 
 			var old_orbital = colony.planet.orbitals[old_x][old_y]
-			if old_orbital.type != null:
-				old_orbital.reset()
+			if old_orbital.orbiting_ship != null:
+				old_orbital.reset_orbital()
 		pass
 	pass
 
@@ -207,6 +207,7 @@ static func finish_project(colony):
 		elif project extends ShipProject:
 			var orbital = colony.planet.orbitals[x][y]
 			orbital.orbiting_ship = project.resulting_ship
+			orbital.orbiting_ship.active = true
 			if project extends ShipConstructionProject:
 				colony.planet.population.idle -= 1
 			pass

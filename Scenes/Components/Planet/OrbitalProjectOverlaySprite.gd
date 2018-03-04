@@ -12,10 +12,17 @@ func set_orbital_project(tilemap, project, player):
 			update_progress(project)
 			var cell = tilemap.get_cellv(project.position)
 			set_pos(tilemap.map_to_world(project.position))
-			var texture = TextureHandler.get_orbital_building(project.project, player)
-			var alpha_height = Utils.get_alpha_height(texture)
+			# TODO: probably better to use the classes
+			if project.sub_type == null:
+				# TODO: reset offset and scale
+				sprite.set_texture(TextureHandler.get_orbital_building(project.project, player))
+				sprite.set_offset(Vector2())
+				sprite.set_scale(Vector2(1,1))
+			else:
+				var ship = project.resulting_ship
+				TextureHandler.get_ship_for_planet(ship, sprite)
+			var alpha_height = Utils.get_alpha_height(sprite.get_texture())
 			sprite.get_material().set_shader_param("alpha_height", float(alpha_height))
-			sprite.set_texture(texture)
 			show()
 		else:
 			hide()

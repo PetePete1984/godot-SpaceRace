@@ -98,6 +98,7 @@ func get_starlane(lane):
 	return get_texture(path)
 
 # TODO: could also do a more clever function that just derives everything from a ship and a docked var
+# needs to know if it's showing a ship on a planet, in space or in the research screen
 func get_ship(player, ship_size = "small", docked = false):
 	var race = _type(player)
 	var race_index = race.index
@@ -114,6 +115,16 @@ func get_ship(player, ship_size = "small", docked = false):
 			return get_texture(path)
 	else:
 		print("TextureHander: Ship Texture not found for %s, %s, docked = %s") % [race, ship_size, str(docked)]
+
+func get_ship_for_planet(ship, sprite):
+	var texture = get_ship(ship.owner, ship.size)
+	sprite.set_texture(texture)
+	if ShipDefinitions.drawing_scale_offset.has(ship.size):
+		var offset_scale = ShipDefinitions.drawing_scale_offset[ship.size]
+		var offset = Vector2(offset_scale.offset_planet[0], offset_scale.offset_planet[1])
+		var scale = Vector2(offset_scale.scale_planet, offset_scale.scale_planet)
+		sprite.set_scale(scale)
+		sprite.set_offset(offset)
 
 func get_ship_module(ship_module):
 	var index = ShipModuleDefinitions.ship_module_defs[ship_module].index
@@ -171,7 +182,7 @@ func get_person(type, small = false):
 func get_indexed_display(type, points):
 	var index = -1
 	if type == "Research" or type == "Industry":
-		index = _lookup_index(points)
+		index = _adjusted_index(points)
 	elif type == "Prosperity":
 		index = _flat_index(points)
 	else:
@@ -182,19 +193,19 @@ func get_indexed_display(type, points):
 		return get_texture(path)
 	pass
 
-func _lookup_index(points):
+func _adjusted_index(points):
 	var index = points
-	if points < 0:
+	if points <= 0:
 		index = 0
-	elif points >= indexed_lookup.size():
-		index = 20
 	else:
-		index = indexed_lookup[points]
+		index = int(floor(pow(points, 0.75)))
+	if index > 20:
+		index = 20
 	return index
 	
 func _flat_index(points):
 	var index = points
-	if points < 0:
+	if points <= 0:
 		index = 0
 	elif points > 20:
 		index = 20

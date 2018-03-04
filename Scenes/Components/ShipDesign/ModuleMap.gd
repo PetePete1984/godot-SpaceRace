@@ -51,13 +51,13 @@ func set_modules(module_position_list):
 
 func _input(event):
 	if event.type == InputEvent.MOUSE_MOTION:
-		var relative_mouse_pos = get_local_mouse_pos()
-		var tilemap_pos = world_to_map(relative_mouse_pos)
-		var cell = get_cellv(tilemap_pos)
+		var cell_pos = _get_cell()
+		var cell = cell_pos[0]
+		var pos = cell_pos[1]
 		if cell != -1:
 			# highlight cell or draw module stuck to cursor
 			if ModulePreview != null:
-				ModulePreview.set_pos(map_to_world(tilemap_pos))
+				ModulePreview.set_pos(map_to_world(pos))
 				ModulePreview.show()
 			pass
 		else:

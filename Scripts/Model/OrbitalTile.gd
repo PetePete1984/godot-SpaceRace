@@ -11,6 +11,7 @@ var automated = false
 var active = false
 var used_pop = 0
 
+# TODO: maybe use a new array in planet.gd instead
 var orbiting_ship
 
 var tilemap_x
@@ -21,9 +22,14 @@ func reset_orbital():
 	automated = false
 	active = false
 	used_pop = 0
+	orbiting_ship = null
 
 func set_orbital(key):
 	# TODO: handle ships
 	type = OrbitalDefinitions.orbital_defs[key]
 	active = true
 	used_pop = type.used_pop
+
+func set_ship(ship):
+	reset_orbital()
+	orbiting_ship = ship

@@ -1,6 +1,13 @@
 extends "res://Scripts/Model/Screen.gd"
 
 # none = planet, colony = building a colony base, normal = colony base exists
+# possible states:
+# - viewing empty planet
+# - viewing empty planet, own ship in orbit
+# - viewing own colony
+# - viewing own colony, own ship in orbit
+# - viewing foreign colony
+# - viewing foreign colony, own ship in orbit
 # TODO: use control mode to change input behavior
 enum control_mode {NONE, COLONY, NORMAL}
 
@@ -8,6 +15,8 @@ var PlanetMap = preload("res://Scripts/Planetmap.gd")
 var ColonyManager = preload("res://Scripts/ColonyManager.gd")
 var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
 var BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
+
+var PlanetShipSprite = preload("res://Scenes/Components/Planet/PlanetShipSprite.tscn")
 
 onready var tilemap_cells = get_node("TileMapAnchor/TileMapCells")
 onready var tilemap_buildings = get_node("TileMapAnchor/TileMapBuildings")
@@ -42,6 +51,8 @@ signal ship_finalized
 var currentPlanet = null
 var current_control_mode = control_mode.NORMAL
 var current_ship_design
+
+# FIXME: Orbital Tilemap offsets seem to be off entirely
 
 func _ready():
 	#set_process(true)
@@ -160,6 +171,10 @@ func _notify_displays():
 	pass
 
 func draw_ships():
+	for c in tilemap_orbitals.get_children():
+		if c.is_in_group("planet_ship_sprite"):
+			c.hide()
+			c.queue_free()
 	var orbitals = currentPlanet.orbitals
 	var colony = currentPlanet.colony
 	for x in range(orbitals.size()):
@@ -167,8 +182,8 @@ func draw_ships():
 			var orbital = orbitals[x][y]
 			if orbital.type == null and orbital.orbiting_ship != null:
 				var ship = orbital.orbiting_ship
-				var sprite = Sprite.new()
-				sprite.set_texture(TextureHandler.get_ship(ship.owner, ship.size))
+				var sprite = PlanetShipSprite.instance()
+				sprite.set_ship(ship)
 				tilemap_orbitals.add_child(sprite)
 				sprite.set_pos(tilemap_orbitals.map_to_world(Vector2(x, y)))
 
