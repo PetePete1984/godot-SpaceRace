@@ -1,4 +1,4 @@
-extends TileMap
+extends "res://Scenes/Components/TileMapMouseInput.gd"
 
 signal place_module(position)
 signal remove_module(position)
@@ -6,6 +6,10 @@ signal remove_module(position)
 var ModulePreview
 
 func _ready():
+	connect("tile_clicked", self, "_on_left_click")
+	connect("tile_right_clicked", self, "_on_right_click")
+	connect("tile_hover_in", self, "_on_hover_in")
+	connect("tile_hover_out", self, "_on_hover_out")
 	set_process_input(true)
 
 func set_template(ship_size):
@@ -26,9 +30,13 @@ func set_preview(module):
 		ModulePreview.set_offset(Vector2(0, 9.5))
 
 func set_module(position, module = null):
-	var def = ShipModuleDefinitions.ship_module_defs[module]
-	var index = def.index
-	set_cellv(position, index)
+	if module != null:
+		var def = ShipModuleDefinitions.ship_module_defs[module]
+		var index = def.index
+		set_cellv(position, index)
+	else:
+		# reset cell to empty cell
+		set_cellv(position, 0)
 	pass
 
 # TODO: support loading functioning ships, ships with missing modules and swapping ship sizes
@@ -49,44 +57,25 @@ func set_modules(module_position_list):
 					break
 	pass
 
-func _input(event):
-	if event.type == InputEvent.MOUSE_MOTION:
-		var cell_pos = _get_cell()
-		var cell = cell_pos[0]
-		var pos = cell_pos[1]
-		if cell != -1:
-			# highlight cell or draw module stuck to cursor
-			if ModulePreview != null:
-				ModulePreview.set_pos(map_to_world(pos))
-				ModulePreview.show()
-			pass
-		else:
-			# hide cursor
-			if ModulePreview != null:
-				ModulePreview.hide()
-			pass
+func _on_left_click(cell, pos):
+	if cell != -1:
+		# the signal responder will tell the map to update itself
+		emit_signal("place_module", pos)
 
-	if event.type == InputEvent.MOUSE_BUTTON:
-		if event.button_index == BUTTON_LEFT and event.pressed:
-			var cell_pos = _get_cell()
-			var cell = cell_pos[0]
-			var pos = cell_pos[1]
-			if cell != -1:
-				# TODO: add module stuck to cursor
-				# the signal responder will tell the map to update itself
-				emit_signal("place_module", pos)
-			pass
-		elif event.button_index == BUTTON_RIGHT and event.pressed:
-			var cell_pos = _get_cell()
-			var cell = cell_pos[0]
-			var pos = cell_pos[1]
-			if cell != -1:
-				emit_signal("remove_module", pos)
-			pass
+func _on_right_click(cell, pos):
+	if cell != -1:
+		emit_signal("remove_module", pos)
+	
+func _on_hover_in(cell, pos):
+	if cell != -1:
+		# highlight cell or draw module stuck to cursor
+		if ModulePreview != null:
+			ModulePreview.set_pos(map_to_world(pos))
+			ModulePreview.show()
+	else:
+		# hide cursor
+		if ModulePreview != null:
+			ModulePreview.hide()		
+
+func _on_hover_out(cell, pos):
 	pass
-
-func _get_cell():
-	var relative_mouse_pos = get_local_mouse_pos()
-	var tilemap_pos = world_to_map(relative_mouse_pos)
-	var cell = get_cellv(tilemap_pos)
-	return [cell, tilemap_pos]

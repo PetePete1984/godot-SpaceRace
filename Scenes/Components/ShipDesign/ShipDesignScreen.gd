@@ -166,6 +166,11 @@ func _on_place_module(position):
 		current_modules[position] = selected_module
 		ModuleMap.set_module(position, selected_module)
 
+func _on_remove_module(position):
+	if current_modules.has(position):
+		current_modules.erase(position)
+		ModuleMap.set_module(position, null)
+
 func _notification(what):
 	if what == NOTIFICATION_PREDELETE:
 		current_player = null
