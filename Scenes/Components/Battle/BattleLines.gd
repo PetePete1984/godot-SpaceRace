@@ -8,14 +8,14 @@ func set_system(system):
 	add_vertex(Vector3(0,0,0))
 	
 	# draw the rest of the system's lines
-	for p in system.planets:
-		var planet = system.planets[p]
+	for planet in system.planets:
+		var p = planet.position
 		add_vertex(p)
 		var to = Vector3(p.x, 0, p.z)
 		add_vertex(to)
 	
-	for s in system.ships:
-		var ship = system.ships[s]
+	for ship in system.ships:
+		var s = ship.position
 		add_vertex(s)
 		var to = Vector3(s.x, 0, s.z)
 		add_vertex(to)

@@ -118,49 +118,9 @@ func generate_starsystem_display(system):
 	
 	# draw the system's planets
 	# and assign them clickables
-	for p in sys.planets:
-		var planet = sys.planets[p]
-		var planet_sprite = BillboardSprite3D.instance()
+	for planet in sys.planets:
+		var planet_sprite = get_clickable(TextureHandler.get_planet(planet, true), planet.position, planet.planet_name, planet)
 
-		planet_sprite.depth_cue = false
-		planet_sprite.set_translation(p)
-		planet_sprite.set_scale(DISPLAY_SCALE)
-		planet_sprite.set_texture(TextureHandler.get_planet(planet, true))
-
-		# clickable area
-		var area3d = BattlePick.new()
-		area3d.set_monitorable(true)
-		area3d.set_enable_monitoring(true)
-		area3d.set_ray_pickable(true)
-		area3d.set_name("area")
-		
-		# clickable area shape
-		var collisionShape = CollisionShape.new()
-		var collisionBox3d = BoxShape.new()
-		
-		# sprite size * math = area shape
-		var sprite_x = planet_sprite.get_texture().get_width()
-		var sprite_y = planet_sprite.get_texture().get_height()
-		var unit_pixel_ratio = planet_sprite.get_pixel_size()
-		
-		# divide by 2 because extents are doubled size
-		collisionBox3d.set_extents(Vector3(sprite_x, sprite_y, 1) * unit_pixel_ratio / 2)
-	
-		collisionShape.set_shape(collisionBox3d)
-		area3d.add_shape(collisionBox3d)
-		area3d.add_child(collisionShape)
-		
-		# add collision area to planet
-		planet_sprite.add_child(area3d)
-		planet_sprite.set_name(planet.planet_name)
-		
-		# connect to area's click signal for planet picking
-		area3d.connect("clicked", self, "_on_battle_object_clicked", [planet])
-		area3d.connect("hover_begin", self, "_on_battle_object_hover_begin", [planet])
-		area3d.connect("hover_end", self, "_on_battle_object_hover_end", [planet])
-		
-		# add planet sprite to planet anchor
-		anchor.add_child(planet_sprite)
 		# FIXME: this drawing hack must be nicer later, when the list is implemented
 		var has_owner = false
 		if planet.owner != null:
@@ -171,7 +131,55 @@ func generate_starsystem_display(system):
 			planet_sprite.set_scale(Vector3(4,4,4))
 		
 		sprites.append(planet_sprite)
+
+	for ship in system.ships:
+		var ship_sprite = get_clickable(TextureHandler.get_ship(ship.owner, ship.size), ship.position, ship.ship_name, ship)
+		sprites.append(ship_sprite)
 	pass
+
+func get_clickable(obj_texture, obj_position, obj_name, obj_as_signal_param):
+	var new_sprite = BillboardSprite3D.instance()
+
+	new_sprite.depth_cue = false
+	new_sprite.set_translation(obj_position)
+	new_sprite.set_scale(DISPLAY_SCALE)
+	new_sprite.set_texture(obj_texture)
+
+	# clickable area
+	var area3d = BattlePick.new()
+	area3d.set_monitorable(true)
+	area3d.set_enable_monitoring(true)
+	area3d.set_ray_pickable(true)
+	area3d.set_name("area")
+	
+	# clickable area shape
+	var collisionShape = CollisionShape.new()
+	var collisionBox3d = BoxShape.new()
+	
+	# sprite size * math = area shape
+	var sprite_x = new_sprite.get_texture().get_width()
+	var sprite_y = new_sprite.get_texture().get_height()
+	var unit_pixel_ratio = new_sprite.get_pixel_size()
+	
+	# divide by 2 because extents are doubled size
+	collisionBox3d.set_extents(Vector3(sprite_x, sprite_y, 1) * unit_pixel_ratio / 2)
+
+	collisionShape.set_shape(collisionBox3d)
+	area3d.add_shape(collisionBox3d)
+	area3d.add_child(collisionShape)
+	
+	# add collision area to object
+	new_sprite.add_child(area3d)
+	new_sprite.set_name(obj_name)
+	
+	# connect to area's click signal for object picking
+	area3d.connect("clicked", self, "_on_battle_object_clicked", [obj_as_signal_param])
+	area3d.connect("hover_begin", self, "_on_battle_object_hover_begin", [obj_as_signal_param])
+	area3d.connect("hover_end", self, "_on_battle_object_hover_end", [obj_as_signal_param])
+	
+	# add object sprite to object anchor
+	anchor.add_child(new_sprite)
+	return new_sprite
 
 func _on_battle_object_clicked(object):
 	emit_signal("battle_object_clicked", object)

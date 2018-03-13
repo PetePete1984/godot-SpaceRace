@@ -50,6 +50,7 @@ func _ready():
 # setup for the entire screen
 func show_research(player):
 	# TODO: update UI elements
+	# TODO: original game persists last viewed research screen position in savegame
 	tree.show_research(player)
 	race.set_text("%s Knowledge" % player.race.race_name)
 	display_current_research(player)

@@ -113,14 +113,12 @@ func initialize_galaxy(galaxy_options, race_key, color):
 				random_system = Utils.rand_pick_from_array(new_game_state.galaxy.systems)
 
 			occupied_systems.append(random_system)
-			var random_planet = Utils.rand_key_from_dict(random_system.planets)
-			var planet = random_system.planets[random_planet]
+			var planet = Utils.rand_pick_from_array(random_system.planets)
 
 			# give the planet a colony base
 			# FIXME: meeeeeeeeh?
 			# home = true
-			planet = ColonyGenerator.initialize_colony(participant, planet, true)
-			random_system.planets[random_planet] = planet
+			ColonyGenerator.initialize_colony(participant, planet, true)
 			# FIXME: remove this sometime or make it DEBUG-conditional
 			if participant == player and false:
 				player.completed_research = ["orbital_structures", "xenobiology", "environmental_encapsulation", "interplanetary_exploration", "tonklin_diary", "spacetime_surfing"]

@@ -19,7 +19,13 @@ var template
 var previous_modules
 
 # maaaaybe store a general location
-var location
+var location_planet
+var location_system
+
+var starlane
+var starlane_target
+var starlane_progress
+
 # maaaaaybe store a position in battlescape space
 var position
 

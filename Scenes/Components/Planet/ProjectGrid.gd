@@ -7,6 +7,7 @@ onready var container = get_node("GridContainer")
 func _ready():
 	pass
 
+# TODO: hovering over black cells as non-orfa with a project stuck to the mouse doesn't display a sprite
 func get_projects_for_surface(planet, cell, building_tile):
 	return BuildingRules.get_projects_for_surface(planet, cell, building_tile)
 

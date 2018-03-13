@@ -1,8 +1,33 @@
 # BuildingRules
 extends Reference
 
-static func project_available(player, project):
-	var definition = BuildingDefinitions.building_defs[project]
+static func can_automate_surface(player, planet, surface_building_tile):
+	var researched = project_available(player, "automation", "Tech")
+	var has_idlers = planet.population.idle >= 1
+	var automated = false
+	pass
+
+static func can_automate_orbital(player, planet, orbital_building_tile):
+	pass
+
+# TODO: this only checks research, maybe rename it appropriately
+static func project_available(player, project, type = null):
+	# TODO: support other project types
+	if type == null:
+		type = "Surface"
+	
+	var definition
+	if type == "Surface":
+		definition = BuildingDefinitions.building_defs[project]
+	elif type == "Orbital":
+		# TODO: ships need to ask the planet for a shipyard, refits for an orbital dock
+		definition = OrbitalDefinitions.orbital_defs[project]
+	elif type == "Tech":
+		definition = TechProjectDefinitions.project_defs[project]
+
+	if definition == null:
+		print("Definition for %s (%s) not found" % [project, type])
+		return false
 	if definition.requires_research != null:
 		if player != null:
 			return definition.requires_research in player.completed_research
@@ -166,6 +191,7 @@ static func get_projects_for_orbit(planet, orbital_tile):
 		var orbital = OrbitalDefinitions.orbital_defs[odef_key]
 
 		var allowed = true
+		# TODO: use project_available
 		if orbital.requires_research != null:
 			if player != null:
 				if not orbital.requires_research in player.completed_research:

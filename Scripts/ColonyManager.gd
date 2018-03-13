@@ -123,14 +123,26 @@ static func manage(colony):
 		var available_orbitals
 		
 		var terraforming_available = BuildingRules.project_available(colony.owner, "terraforming")
-		# FIXME: make it so
-		var growth_bomb_available = false
+
+		var growth_bomb_available = BuildingRules.project_available(colony.owner, "lush_growth_bomb", "Tech")
 		var growth_bomb_used = colony.planet.growth_bombed == true
-		var automation_available = false
+
+		var automation_available = BuildingRules.project_available(colony.owner, "automation", "Tech")
+
 		var hyperpower_available = BuildingRules.project_available(colony.owner, "hyperpower_plant")
 		var hyperpower_exists = "hyperpower_plant" in colony.unique_buildings
+
 		var internet_available = BuildingRules.project_available(colony.owner, "internet")
 		var internet_exists = "internet" in colony.unique_buildings
+
+		var fertilization_available = BuildingRules.project_available(colony.owner, "fertilization_plant")
+		var fertilization_exists = "fertilization_plant" in colony.unique_buildings
+
+		var cloning_available = BuildingRules.project_available(colony.owner, "cloning_plant")
+		var cloning_exists = "cloning_plant" in colony.unique_buildings
+
+		# TODO: check for xeno ruins; they already show up in unique_buildings which is probably good and bad
+		#print(colony.unique_buildings)
 		
 		if num_all_squares > 0:
 			if num_buildable_squares > 0:

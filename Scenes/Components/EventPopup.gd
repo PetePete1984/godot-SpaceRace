@@ -38,6 +38,7 @@ func set_event(event):
 	
 func spawn_button(type, target = null):
 	if type == "OK":
+		# TODO: new button type / scene for common attributes
 		var btn = Button.new()
 		btn.set_h_size_flags(SIZE_EXPAND_FILL)
 		btn.set_text("OK")

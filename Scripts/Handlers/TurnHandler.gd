@@ -156,6 +156,7 @@ func turn_maintenance():
 			
 			# for all ships in star lanes: move along the lane according to speed & specials (race factor)
 			for ship in player.ships:
+				# TODO: use ship controller
 				if ship.in_starlane():
 					ship.move_in_starlane(ship.starlane_speed * player.stats.starlane_factor)
 				# TODO: check arrivals and system discoveries

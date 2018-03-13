@@ -1,4 +1,5 @@
 # responsible for changing or updating colony state
+const Colony = preload("res://Scripts/Model/Colony.gd")
 
 const BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 const BuildingRules = preload("res://Scripts/BuildingRules.gd")
@@ -11,6 +12,35 @@ const ShipProject = preload("res://Scripts/Model/ShipProject.gd")
 const ShipFactory = preload("res://Scripts/Factories/ShipFactory.gd")
 
 const Planetmap = preload("res://Scripts/Planetmap.gd")
+
+static func colonize_planet(planet, player, position, name = null):
+	# TODO: allow the player to rename planets (on colonize and later)
+	planet.owner = player
+	var colony = Colony.new()
+	colony.owner = player
+	if name == null:
+		colony.colony_name = planet.planet_name
+	else:
+		colony.colony_name = name
+	# associate the objects
+	colony.planet = planet
+	planet.colony = colony
+
+	# TODO: disallow duplicate names or use another dictionary key system (or just an array)
+	# TODO: make colonies an array in the long run
+	player.colonies[colony.colony_name] = colony
+	# TODO: allow picking the colony position
+	var building_tile = planet.buildings[position.x][position.y]
+	building_tile.set("colony_base")
+	# TODO: check if this is even required; it seems to be, check if it can be avoided
+	planet.population.alive = 2
+	#building_tile.tilemap_x = colony_tile.x
+	#building_tile.tilemap_y = colony_tile.y
+	update_colony_stats(colony)	
+
+static func make_home_colony(colony):
+	# TODO: either "un-home" all owner's colonies here, or in the caller
+	colony.home = true
 
 static func start_colony_project(colony, project_key, type, position):
 	var planet = colony.planet
@@ -80,6 +110,7 @@ static func start_ship_project(colony, ship_design, position):
 			new_project.ship_name = ship_design.ship_name
 			new_project.resulting_ship = ShipFactory.initialize_ship(ship_design.size, ship_design.modules, ship_design.ship_name, colony.owner)
 			new_project.position = position
+			# TODO: insert ship into list of player ships
 			# deactivate ship while it's in construction
 			new_project.resulting_ship.active = false
 			tile.orbiting_ship = new_project.resulting_ship

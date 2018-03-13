@@ -379,6 +379,7 @@ script/script = ExtResource( 23 )
 
 [node name="PlacementPreview" type="Sprite" parent="TileMapAnchor"]
 
+visibility/visible = false
 texture = ExtResource( 24 )
 offset = Vector2( 0, 18.5 )
 

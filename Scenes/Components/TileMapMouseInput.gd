@@ -8,12 +8,12 @@ signal tile_hover_out(cell, pos)
 var previous_hover
 
 func _ready():
-	set_process_input(true)
+	set_process_unhandled_input(true)
 
 func _on_visibility_changed():
-	set_process_input(is_visible())
+	set_process_unhandled_input(is_visible())
 
-func _input(event):
+func _unhandled_input(event):
 	if not is_visible():
 		return
 	

@@ -44,12 +44,12 @@ func setup(system, signal_handler, interaction = true):
 	var system_has_owner = false
 	var system_has_home = false
 	var owner
-	for planet_key in system.planets:
-		var planet = system.planets[planet_key]
+	
+	for planet in system.planets:
 		# TODO: formalize planet / system ownership in game state
 		if planet.owner != null:
 			system_has_owner = true
-			owner = system.planets[planet_key].owner
+			owner = planet.owner
 			if planet.colony.home == true:
 				system_has_home = true
 	if system_has_owner:

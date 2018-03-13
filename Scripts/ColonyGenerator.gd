@@ -28,34 +28,18 @@ static func initialize_colony(player, planet, home = false):
 		var old_system = planet.system
 		var home_size = RaceDefinitions.home_planets[player.race.type].size
 		var home_type = RaceDefinitions.home_planets[player.race.type].type
-		planet = PlanetGenerator.generate_planet(home_size, home_type)
+		planet = PlanetGenerator.generate_planet(planet, home_size, home_type)
 		planet.planet_name = old_name
 		planet.system = old_system
 		Planetmap.refresh_grids(planet)
-	planet.owner = player
-	var colony = Colony.new()
-	colony.owner = player
-	# TODO: allow the player to rename planets (on colonize and later)
-	colony.colony_name = planet.planet_name
-	colony.home = home
-	# associate the objects
-	colony.planet = planet
-	planet.colony = colony
-	# TODO: disallow duplicate names or use another dictionary key system (or just an array)
-	player.colonies[colony.colony_name] = colony
-	
-	# give the planet a random colony base
-	# TODO: allow picking the colony position
+
+	# give the planet a mostly optimal colony base position
 	var colony_tile = generate_colony(planet, "initial")
-	var building_tile = planet.buildings[colony_tile.x][colony_tile.y]
-	building_tile.set("colony_base")
-	planet.population.alive = 2
-	#building_tile.tilemap_x = colony_tile.x
-	#building_tile.tilemap_y = colony_tile.y
-	ColonyController.update_colony_stats(colony)
-	# FIXME: meeeeh
-	return planet
-	pass
+	ColonyController.colonize_planet(planet, player, colony_tile)
+	ColonyController.make_home_colony(planet.colony)
+	# FIXME: returning the planet is necessary because regenerating the home planet makes a new instance; maybe just have a reset function instead
+	# easily doable, move Planet.new elsewhere or never do it
+	#return planet
 
 static func generate_colony(planet, plan):
 	# TODO: move count_cells to a static func somewhere

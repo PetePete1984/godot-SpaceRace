@@ -15,6 +15,7 @@ func _ready():
 	
 	ScreenHandler.connect_signals()
 	ScreenHandler.connect("quit_requested", self, "quit_clean")
+	# TODO: events are basically global and can be shown anywhere, but anchor to the screen they're on (basically)
 	EventHandler.anchor_object = ScreenHandler.get_node("GalaxyScreen/EventAnchor")
 	
 	ScreenHandler.title_screen()
@@ -24,7 +25,6 @@ func _ready():
 	pass
 	
 func _input(event):
-	# FIXME: ^+ESC = 2xESC
 	# check for unicode of accents and discard them
 	if event.type == InputEvent.KEY and event.scancode == KEY_ESCAPE and event.is_pressed():
 		if event.unicode != 0:

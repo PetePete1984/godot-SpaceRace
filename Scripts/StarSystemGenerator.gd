@@ -17,17 +17,26 @@ static func generate_star(used_star_names, i = 0):
 	pass
 
 static func generate_planets(system):
+	# TODO: keep planets a minimum distance away from the sun
 	var num_planets = (randi() % mapdefs.max_planets) + mapdefs.min_planets
+	var used_positions = []
 	#print("planets: %02d" % num_planets)
 	for p in range(num_planets):
 		var planet = PlanetGenerator.generate_planet()
 		planet.planet_name = "%s %02d" % [system.system_name, p]
 		planet.system = system
+		# TODO: since Y is fixed, change to v2 in unit circle
 		var plan_pos = Utils.rand_v3_in_unit_sphere(10)
 		# FIXME: planet y pos has to be set some other way
 		plan_pos.y = mapdefs.system_default_y
-		if not system.planets.has(plan_pos):
-			system.planets[plan_pos] = planet
+		while plan_pos in used_positions:
+			plan_pos = Utils.rand_v3_in_unit_sphere(10)
+			# FIXME: planet y pos has to be set some other way
+			plan_pos.y = mapdefs.system_default_y
+		
+		planet.position = plan_pos
+		system.planets.append(planet)
+		used_positions.append(plan_pos)
 	pass
 
 static func generate_system(used_star_names, i = 0):

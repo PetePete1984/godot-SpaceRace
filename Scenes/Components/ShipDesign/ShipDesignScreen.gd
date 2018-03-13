@@ -90,6 +90,7 @@ func _on_visibility_changed():
 		# TODO: leaving a refit without changes does nothing, ship stays active
 		# TODO: if any module was set and removed, the ship project is started (this might be a candidate for removal, it's silly (unless you want useless shells that don't move))
 		# TODO: refitting one colonizer to a ship at 7 industry takes 10 days, might be double cost; undoing that still sets the cost to 5 days (on a medium)
+		# TODO: sanity check the design, a ship without drives can de-orbit but not move
 		if current_modules.keys().size() > 0:
 			emit_signal("leaving_with_ship_design", current_size, current_modules)
 	else:

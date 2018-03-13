@@ -83,6 +83,7 @@ static func purge_colonies(colonies):
 		colonies[c] = null
 	colonies = null
 
+# TODO: ships are now an array in starsystem, not yet in player
 static func purge_ships(ships):
 	for s in ships:
 		var ship = ships[s]
@@ -103,9 +104,7 @@ static func purge_knowledge(knowledge):
 	knowledge = null
 
 static func purge_planets(planets):
-	for p in planets:
-		var planet = planets[p]
-
+	for planet in planets:
 		planet.owner = null
 		planet.colony = null
 		planet.system = null
@@ -117,7 +116,7 @@ static func purge_planets(planets):
 		planet.orbitals = null
 
 		planet = null
-		planets[p] = null
+	planets.clear()
 	planets = null
 
 static func purge_grid(grid):

@@ -17,6 +17,12 @@ var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
 var BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 
 var PlanetShipSprite = preload("res://Scenes/Components/Planet/PlanetShipSprite.tscn")
+var BasicPopup = preload("res://Scenes/Components/Planet/Popup/BasicPopup.tscn")
+
+var ShipCommandPopup = preload("res://Scenes/Components/Planet/Popup/ShipCommandPopup.gd")
+var ExistingBuildingPopup = preload("res://Scenes/Components/Planet/Popup/ExistingBuildingPopup.gd")
+var OrbitalTilePopup = preload("res://Scenes/Components/Planet/Popup/OrbitalTilePopup.gd")
+var SurfaceTilePopup = preload("res://Scenes/Components/Planet/Popup/SurfaceTilePopup.gd")
 
 onready var tilemap_cells = get_node("TileMapAnchor/TileMapCells")
 onready var tilemap_buildings = get_node("TileMapAnchor/TileMapBuildings")
@@ -52,6 +58,8 @@ var currentPlanet = null
 var current_control_mode = control_mode.NORMAL
 var current_ship_design
 
+var current_picked_project
+
 # FIXME: Orbital Tilemap offsets seem to be off entirely
 
 func _ready():
@@ -60,6 +68,13 @@ func _ready():
 	# then update the alpha_height of each sprite
 	connect("hide", self, "_on_hidden")
 	connect("ship_named", self, "_on_ship_named")
+
+	tilemap_cells.connect("tile_clicked", self, "_on_cell_clicked")
+	tilemap_cells.connect("tile_hover_in", self, "_on_cell_hover_in")
+
+	tilemap_orbitals.connect("tile_clicked", self, "_on_orbital_clicked")
+	tilemap_orbitals.connect("tile_hover_in", self, "_on_orbital_hover_in")
+
 	project_button.connect("pressed", self, "_on_project_pressed")
 	set_process_input(true)
 	pass
@@ -110,6 +125,16 @@ func _on_ship_named(size, modules, ship_name):
 	}
 	emit_signal("ship_finalized")
 
+func _on_ship_leave_orbit(ship, tile):
+	#ShipController.leave_orbit(currentPlanet, ship)
+	var exitPosition = currentPlanet.position + Vector3(1, 0, 0)
+	ship.position = exitPosition
+	ship.location_planet = null
+	ship.location_system = currentPlanet.system
+	currentPlanet.system.ships.append(ship)
+	tile.orbiting_ship = null
+	_notify_displays()
+
 func set_payload(payload):
 	set_planet(payload)
 
@@ -124,17 +149,17 @@ func set_payload(payload):
 func set_planet(planet):
 	currentPlanet = planet
 	generate_planet_display(planet)
-	if planet.colony:
-		if planet.colony.owner != GameStateHandler.game_state.human_player:
+	update_control_mode()
+
+func update_control_mode():
+	if currentPlanet.colony:
+		if currentPlanet.colony.owner != GameStateHandler.game_state.human_player:
 			current_control_mode = control_mode.NONE
 		else:
 			current_control_mode = control_mode.NORMAL
 	else:
 		# TODO: check for colony ship / colonizing mode
-		 current_control_mode = control_mode.NONE
-		
-	
-	pass
+		current_control_mode = control_mode.NONE
 
 func generate_planet_display(planet):
 	planet_sprite.set_planet(planet)
@@ -183,9 +208,12 @@ func draw_ships():
 			if orbital.type == null and orbital.orbiting_ship != null:
 				var ship = orbital.orbiting_ship
 				var sprite = PlanetShipSprite.instance()
-				sprite.set_ship(ship)
 				tilemap_orbitals.add_child(sprite)
+				sprite.set_ship(ship)
 				sprite.set_pos(tilemap_orbitals.map_to_world(Vector2(x, y)))
+				sprite.tile_position = Vector2(x, y)
+				# TODO: connect to click command or leave that to orbital tilemap
+				#sprite.connect("clicked")
 
 func _on_hidden():
 	surface_cursor.hide()
@@ -195,7 +223,7 @@ func _process(delta):
 	pass
 
 func _input(event):
-	# TODO: when there is already a project picked, the behavior changes
+	# TODO: when there is already a project picked and stuck to the mouse, the behavior changes
 	# fields that can't be built on don't react to the cursor
 	if not is_visible():
 		return
@@ -218,7 +246,7 @@ func _input(event):
 	
 	# hover display
 	# TODO: might just live on the tilemap?
-	if event.type == InputEvent.MOUSE_MOTION and currentPlanet != null:
+	if event.type == InputEvent.MOUSE_MOTION and currentPlanet != null and false:
 		var relative_mouse_pos_orbital = tilemap_orbitals.get_local_mouse_pos()
 		var tilemap_orbitals_pos = tilemap_orbitals.world_to_map(relative_mouse_pos_orbital)
 		# FIXME: can this be done better?
@@ -245,70 +273,108 @@ func _input(event):
 	if event.type == InputEvent.MOUSE_BUTTON and currentPlanet != null:
 		if event.button_index == BUTTON_LEFT and event.pressed:
 			# determine if planet tilemap or orbital tilemap was clicked
-			# orbital handling
-			var relative_mouse_pos_orbital = tilemap_orbitals.get_local_mouse_pos()
-			var tilemap_orbitals_pos = tilemap_orbitals.world_to_map(relative_mouse_pos_orbital)
-			var orbital_cell = tilemap_orbitals.get_cellv(tilemap_orbitals_pos)
-			if tilemap_orbitals_pos.x in range(0,2) and tilemap_orbitals_pos.y in range(0,5):
-				# mouse was clicked above an orbital cell
-				var orbital_under_mouse = currentPlanet.orbitals[tilemap_orbitals_pos.x][tilemap_orbitals_pos.y]
-				if orbital_under_mouse.type != null:
-					# occupied tile
-					var text = "%s, %s %s" % [orbital_under_mouse.type.orbital_name, tilemap_orbitals_pos.x, tilemap_orbitals_pos.y]
-				else:
-					# free tile
-					var text = "Orbital squares can be used to anchor orbital structures"
-					var orbitals = project_grid.get_projects_for_orbit(currentPlanet, orbital_under_mouse)
-					var textbut = project_grid.get_sprites_for_projects(orbitals, orbital_under_mouse, "Orbital", currentPlanet.owner)
+			pass
+	pass
+
+# If planet is uninhabited, clicking tilemaps, resource displays and project display does nothing; Workers button shows planet info; all top panels beep though, indicating a reaction
+# If planet is enemy colony, same as above
+# If planet is player colony, tilemaps highlight, panels highlight and react to clicks
+# If a player has a ship on an enemy colony, nothing reacts to clicks except the ship; after invasion success it's a normal colony
+# Same for uncolonized, but the colony-stuck-to-cursor mode interacts with planet tiles
+# Project-stuck-to-cursor interacts with appropriate grid
+# Hovering over enemy ships does nothing
+# Trying to orbit a planet that has all orbital slots filled ejects the ship immediately
+
+func _on_cell_hover_in(cell, pos):
+	if cell != -1:
+		surface_cursor.set_pos(tilemap_cells.map_to_world(pos))
+		surface_cursor.show()
+	else:
+		if surface_cursor.is_visible():
+			surface_cursor.hide()
+
+func _on_cell_clicked(cell, pos):
+	if current_control_mode == control_mode.NONE:
+		return
+		
+	if cell != -1:
+		if current_control_mode == control_mode.COLONY:
+			ColonyController.colonize_planet(currentPlanet, GameStateHandler.game_state.human_player, pos)
+			# TODO: update everything and set control mode
+			pass
+		elif current_control_mode == control_mode.NORMAL:
+			var tile_under_mouse = currentPlanet.grid[pos.x][pos.y]
+			var building_under_mouse = currentPlanet.buildings[pos.x][pos.y]
+			if tile_under_mouse.tiletype != null or building_under_mouse.type != null:
+				if building_under_mouse.type != null:
+					var text = "%s on %s square, %s %s" % [building_under_mouse.type.building_name, tile_under_mouse.tiletype.capitalize(), pos.x, pos.y]
+					# TODO: Normal behaviour is a popup that allows abandon or automate!!
+					var buildings = project_grid.get_projects_for_surface(currentPlanet, tile_under_mouse, building_under_mouse)
+					var textbut = project_grid.get_sprites_for_projects(buildings, tile_under_mouse)
 					for tb in textbut:
 						tb.connect("project_picked", self, "_on_project_picked")
 					project_grid.set_buttons_on_container(textbut)
+					#text += "\n%s" % str(buildings)
 					popup.set_text(text)
 					popup.call_deferred("popup_centered_ratio")
-
-				pass
-			else:
-				pass
-			
-			# planet grid handling
-			var relative_mouse_pos = tilemap_cells.get_local_mouse_pos()
-			var tilemap_cells_pos = tilemap_cells.world_to_map(relative_mouse_pos)
-			# ensure a square on the grid was clicked
-			# option a: constrain to grid size
-			#if tilemap_cells_pos.x < 0 or tilemap_cells_pos.y < 0 or tilemap_cells_pos.x >= currentPlanet.grid.size() or tilemap_cells_pos.y >= currentPlanet.grid.size():
-			#	return
-			# option b: only return if cell != -1
-			var cell = tilemap_cells.get_cellv(tilemap_cells_pos)
-			if cell != -1:
-				var tile_under_mouse = currentPlanet.grid[tilemap_cells_pos.x][tilemap_cells_pos.y]
-				var building_under_mouse = currentPlanet.buildings[tilemap_cells_pos.x][tilemap_cells_pos.y]
-				if tile_under_mouse.tiletype != null or building_under_mouse.type != null:
-					if building_under_mouse.type != null:
-						var text = "%s on %s square, %s %s" % [building_under_mouse.type.building_name, tile_under_mouse.tiletype.capitalize(), tilemap_cells_pos.x, tilemap_cells_pos.y]
-						# TODO: Normal behaviour is a popup that allows abandon or automate
+					#print(text)
+				else:
+					var text = "%s square, score: %02d, %s %s" % [tile_under_mouse.tiletype.capitalize(), tile_under_mouse.score, pos.x, pos.y]
+					if tile_under_mouse.buildable and current_control_mode == control_mode.NORMAL:
 						var buildings = project_grid.get_projects_for_surface(currentPlanet, tile_under_mouse, building_under_mouse)
 						var textbut = project_grid.get_sprites_for_projects(buildings, tile_under_mouse)
 						for tb in textbut:
 							tb.connect("project_picked", self, "_on_project_picked")
 						project_grid.set_buttons_on_container(textbut)
 						#text += "\n%s" % str(buildings)
-						popup.set_text(text)
-						popup.call_deferred("popup_centered_ratio")
-						#print(text)
 					else:
-						var text = "%s square, score: %02d, %s %s" % [tile_under_mouse.tiletype.capitalize(), tile_under_mouse.score, tilemap_cells_pos.x, tilemap_cells_pos.y]
-						if tile_under_mouse.buildable and current_control_mode == control_mode.NORMAL:
-							var buildings = project_grid.get_projects_for_surface(currentPlanet, tile_under_mouse, building_under_mouse)
-							var textbut = project_grid.get_sprites_for_projects(buildings, tile_under_mouse)
-							for tb in textbut:
-								tb.connect("project_picked", self, "_on_project_picked")
-							project_grid.set_buttons_on_container(textbut)
-							#text += "\n%s" % str(buildings)
-						else:
-							project_grid.clear_buttons()
-						popup.set_text(text)
-						popup.call_deferred("popup_centered_ratio")
-						#print(thingo)
-			#print(tilemap_cells_pos)
-			#var cell = tilemap_cells.get_cell(tilemap_cells_pos.x, tilemap_cells_pos.y)
-	pass
+						project_grid.clear_buttons()
+					popup.set_text(text)
+					popup.call_deferred("popup_centered_ratio")
+					#print(thingo)
+		#print(tilemap_cells_pos)
+		#var cell = tilemap_cells.get_cell(tilemap_cells_pos.x, tilemap_cells_pos.y)			
+
+func _on_orbital_hover_in(cell, pos):
+	if pos.x in range(0, 2) and pos.y in range(0,5):
+		orbital_cursor.set_pos(tilemap_orbitals.map_to_world(pos))
+		orbital_cursor.show()
+	else:
+		if orbital_cursor.is_visible():
+			orbital_cursor.hide()
+
+func _on_orbital_clicked(cell, pos):
+	# orbital handling
+	if current_control_mode == control_mode.NONE:
+		pass
+	
+	if pos.x in range(0,2) and pos.y in range(0,5):
+		var orbital_cell = currentPlanet.orbitals[pos.x][pos.y]
+
+		if orbital_cell.orbiting_ship != null:
+			# TODO: popup ship control
+			var ship = orbital_cell.orbiting_ship
+			var text = "%s %s" % [ship.owner, ship.ship_name]
+			var ship_popup = BasicPopup.instance()
+			ship_popup.set_script(ShipCommandPopup)
+			ship_popup.add_to_group("overlay_popup")
+			add_child(ship_popup)
+			ship_popup.setup_for_ship(ship)
+			ship_popup.connect("leave_orbit", self, "_on_ship_leave_orbit", [ship, orbital_cell])
+			pass
+		elif orbital_cell.type != null:
+			# occupied tile
+			# TODO: popup orbital building control
+			var text = "%s, %s %s" % [orbital_cell.type.orbital_name, pos.x, pos.y]
+			pass
+		else:
+			# TODO: popup orbital cell control
+			var text = "Orbital squares can be used to anchor orbital structures"
+			var orbitals = project_grid.get_projects_for_orbit(currentPlanet, orbital_cell)
+			var textbut = project_grid.get_sprites_for_projects(orbitals, orbital_cell, "Orbital", currentPlanet.owner)
+			for tb in textbut:
+				tb.connect("project_picked", self, "_on_project_picked")
+			project_grid.set_buttons_on_container(textbut)
+			popup.set_text(text)
+			popup.call_deferred("popup_centered_ratio")
+			pass

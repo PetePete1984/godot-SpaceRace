@@ -1,4 +1,4 @@
-extends Area
+extends Area2D
 
 signal clicked
 signal right_clicked

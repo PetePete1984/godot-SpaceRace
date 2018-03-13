@@ -6,13 +6,19 @@ const PlanetTile = preload("res://Scripts/Model/PlanetTile.gd")
 const BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
 const OrbitalTile = preload("res://Scripts/Model/OrbitalTile.gd")
 
-static func generate_planet(size = null, type = null):
+static func generate_planet(existing_planet = null, size = null, type = null):
 	#randomize()
-	var planet = Planet.new()
+	var planet
+	if existing_planet == null:
+		planet = Planet.new()
+	else:
+		planet = existing_planet
+
 	if size == null:
 		randomize_planet_size(planet)
 	else:
 		planet.size = size
+
 	if type == null:
 		randomize_planet_type(planet)
 	else:
@@ -58,6 +64,9 @@ static func generate_planet_grid(planet):
 	# the original game had hardcoded offsets that match this 1:1
 	var shift_x = (planet_max_grid - template.size()) / 2
 	var shift_y = shift_x
+
+	planet.grid.clear()
+	planet.buildings.clear()
 	
 	# init empty grid
 	for x in range(planet_max_grid):
@@ -97,6 +106,7 @@ static func generate_planet_grid(planet):
 	pass
 
 static func generate_orbital_grid(planet):
+	planet.orbitals.clear()
 	for x in range(2):
 		planet.orbitals.append([])
 		for y in range(5):
