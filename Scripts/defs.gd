@@ -279,6 +279,7 @@ var planet_xeno_chance = 1.0
 
 # used for tilemap index
 var cell_types = ["black", "white", "red", "green", "blue"]
+enum CELLS {BLACK, WHITE, RED, GREEN, BLUE}
 
 # FIXME: find references to mapdefs.building_types and replace by BuildingDefinitions.building_types
 # used for buildings' tilemap index

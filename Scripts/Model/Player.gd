@@ -1,14 +1,22 @@
+# the player's race def
 var race = null
 
+# the player's AI type (human or ai)
 var type = "human" # "ai"
 
+# true if the player has been eliminated
 var extinct = false
 
+# set of owned colonies
 var colonies = {}
+# set of owned ships
 var ships = {}
 
+# set of running research
 var research = {}
+# list of completed research
 var completed_research = []
+# flag that's set when all research is complete (making research buildings 100% obsolete)
 var finished_all_research = false
 
 var research_self_managed = false

@@ -8,8 +8,8 @@ class Visibility:
 	var visible = false
 	
 # star systems
-var systems
+var systems = {}
 # star lanes
-var lanes
+var lanes = {}
 # races in general
-var races
+var races = {}

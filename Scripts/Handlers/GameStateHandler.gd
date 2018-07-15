@@ -120,7 +120,7 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			# home = true
 			ColonyGenerator.initialize_colony(participant, planet, true)
 			# FIXME: remove this sometime or make it DEBUG-conditional
-			if participant == player and false:
+			if participant == player and true:
 				player.completed_research = ["orbital_structures", "xenobiology", "environmental_encapsulation", "interplanetary_exploration", "tonklin_diary", "spacetime_surfing"]
 				planet.base_population += 20
 				planet.population.slots += 20
@@ -130,7 +130,7 @@ func initialize_galaxy(galaxy_options, race_key, color):
 					var build_next = ColonyManager.manage(planet.colony)
 					if build_next != null:
 						if build_next.project != null:
-							ColonyController.start_colony_project(planet.colony, build_next.project, build_next.type, build_next.square)
+							ColonyController.start_project(planet.colony, build_next.square, [build_next.project, build_next.type])
 							ColonyController.finish_project(planet.colony)
 							ColonyController.grow_population(planet.colony)
 				ColonyController.grow_population(planet.colony)

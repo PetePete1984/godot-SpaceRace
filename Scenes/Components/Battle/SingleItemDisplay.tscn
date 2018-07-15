@@ -1,0 +1,430 @@
+[gd_scene load_steps=9 format=1]
+
+[ext_resource path="res://Scenes/Components/Battle/SingleItemDisplay.gd" type="Script" id=1]
+[ext_resource path="res://Materials/Tint.tres" type="CanvasItemMaterial" id=2]
+[ext_resource path="res://Images/Races/FlagsBW/raceflag.ascshp_000.png" type="Texture" id=3]
+[ext_resource path="res://Images/Screens/Ships/Icons/Small/02_attack.png" type="Texture" id=4]
+[ext_resource path="res://Images/Screens/Ships/Icons/Small/03_shield.png" type="Texture" id=5]
+[ext_resource path="res://Images/Screens/Ships/Icons/Small/04_drive.png" type="Texture" id=6]
+[ext_resource path="res://Images/Screens/Ships/Icons/Small/05_scanner.png" type="Texture" id=7]
+[ext_resource path="res://Images/Screens/Ships/Icons/Small/06_power.png" type="Texture" id=8]
+
+[node name="SingleItemDisplay" type="Control"]
+
+rect/min_size = Vector2( 0, 67 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 88.0
+script/script = ExtResource( 1 )
+
+[node name="Planet" type="Control" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 88.0
+
+[node name="Container" type="Container" parent="Planet"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 88.0
+
+[node name="Planet" type="TextureFrame" parent="Planet/Container"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = -20.0
+margin/right = 120.0
+margin/bottom = 80.0
+stretch_mode = 0
+
+[node name="Flag" type="TextureFrame" parent="Planet/Container"]
+
+material/material = ExtResource( 2 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 4.0
+margin/right = 17.0
+margin/bottom = 29.0
+texture = ExtResource( 3 )
+stretch_mode = 0
+
+[node name="PlanetName" type="Label" parent="Planet/Container"]
+
+material/material = ExtResource( 2 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 19.0
+margin/top = 6.0
+margin/right = 119.0
+margin/bottom = 20.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextureButton" type="TextureButton" parent="Planet"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 88.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Ship" type="Control" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 88.0
+
+[node name="Container" type="Container" parent="Ship"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 88.0
+
+[node name="Ship" type="TextureFrame" parent="Ship/Container"]
+
+rect/min_size = Vector2( 158, 0 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 0.0
+margin/right = 178.0
+margin/bottom = 40.0
+stretch_mode = 0
+
+[node name="Flag" type="TextureFrame" parent="Ship/Container"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 4.0
+margin/right = 17.0
+margin/bottom = 29.0
+texture = ExtResource( 3 )
+stretch_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Ship/Container"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+alignment = 0
+
+[node name="Stats" type="VBoxContainer" parent="Ship/Container/HBoxContainer"]
+
+editor/display_folded = true
+rect/min_size = Vector2( 121, 0 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 121.0
+margin/bottom = 40.0
+alignment = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Ship/Container/HBoxContainer/Stats"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 121.0
+margin/bottom = 0.0
+alignment = 0
+
+[node name="Attack" type="TextureFrame" parent="Ship/Container/HBoxContainer/Stats/HBoxContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 2
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="Ship/Container/HBoxContainer/Stats"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 4.0
+margin/right = 121.0
+margin/bottom = 4.0
+alignment = 0
+
+[node name="Shield" type="TextureFrame" parent="Ship/Container/HBoxContainer/Stats/HBoxContainer1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Ship/Container/HBoxContainer/Stats"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 8.0
+margin/right = 121.0
+margin/bottom = 8.0
+alignment = 0
+
+[node name="Drive" type="TextureFrame" parent="Ship/Container/HBoxContainer/Stats/HBoxContainer2"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Ship/Container/HBoxContainer/Stats"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 12.0
+margin/right = 121.0
+margin/bottom = 12.0
+alignment = 0
+
+[node name="Scanner" type="TextureFrame" parent="Ship/Container/HBoxContainer/Stats/HBoxContainer3"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Ship/Container/HBoxContainer/Stats"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 16.0
+margin/right = 121.0
+margin/bottom = 16.0
+alignment = 0
+
+[node name="Power" type="TextureFrame" parent="Ship/Container/HBoxContainer/Stats/HBoxContainer4"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 2
+
+[node name="HullVBox" type="VBoxContainer" parent="Ship/Container/HBoxContainer"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 125.0
+margin/top = 0.0
+margin/right = 125.0
+margin/bottom = 40.0
+alignment = 0
+
+[node name="HullStrengthBar" type="TextureFrame" parent="Ship/Container/HBoxContainer/HullVBox"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+stretch_mode = 0
+
+[node name="PowerVBox" type="VBoxContainer" parent="Ship/Container/HBoxContainer"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 129.0
+margin/top = 0.0
+margin/right = 129.0
+margin/bottom = 40.0
+alignment = 0
+
+[node name="PowerBar" type="TextureFrame" parent="Ship/Container/HBoxContainer/PowerVBox"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+stretch_mode = 0
+
+[node name="ShipName" type="Label" parent="Ship/Container"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 19.0
+margin/top = 6.0
+margin/right = 119.0
+margin/bottom = 20.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="TextureButton" type="TextureButton" parent="Ship"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 159.0
+margin/bottom = 88.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="Weapon" type="Control" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="Shield" type="Control" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="Module" type="Control" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+

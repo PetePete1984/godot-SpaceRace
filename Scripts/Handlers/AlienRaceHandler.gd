@@ -13,9 +13,10 @@ static func handle(player):
 		var build_next = ColonyManager.manage(colony)
 		if build_next != null:
 			if player.race.type == "fludentri":
-				printt(build_next, colony.planet.planet_name, player.race.type, GameStateHandler.game_state.turn)
+				#printt(build_next, colony.planet.planet_name, player.race.type, GameStateHandler.game_state.turn)
+				pass
 			if build_next.project != null:
-				ColonyController.start_colony_project(colony, build_next.project, build_next.type, build_next.square)
+				ColonyController.start_project(colony, build_next.square, [build_next.project, build_next.type])
 			else:
 				#print(build_next)
 				pass

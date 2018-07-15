@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=1]
 
 [ext_resource path="res://Scenes/Components/ShipList/SingleShipDisplay.gd" type="Script" id=1]
-[ext_resource path="res://Images/Races/Ships/smship00/smship00.shp_2.png" type="Texture" id=2]
+[ext_resource path="res://Images/Races/Ships/smship00/smship00.ascshp_001.png" type="Texture" id=2]
 [ext_resource path="res://Images/Screens/Ships/Icons/01_experience.png" type="Texture" id=3]
 [ext_resource path="res://Images/Screens/Ships/Icons/02_attack.png" type="Texture" id=4]
 [ext_resource path="res://Images/Screens/Ships/Icons/03_shield.png" type="Texture" id=5]

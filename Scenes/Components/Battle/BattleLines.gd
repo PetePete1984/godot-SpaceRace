@@ -21,6 +21,7 @@ func set_system(system):
 		add_vertex(to)
 		
 	for l in system.lanes:
+		# TODO: needs an update if this changes to an array of lanes with positions
 		var lane = system.lanes[l]
 		add_vertex(l)
 		var to = Vector3(l.x, 0, l.z)

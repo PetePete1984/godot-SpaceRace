@@ -1,0 +1,22 @@
+[gd_resource type="Theme" load_steps=2 format=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.170898, 0.312531, 0.4375, 1 )
+light_color = Color( 0.430206, 0.754528, 0.867188, 1 )
+dark_color = Color( 0.0952301, 0.233583, 0.308594, 1 )
+border_size = 5
+border_blend = false
+draw_bg = true
+
+[resource]
+
+Panel/styles/panel = SubResource( 1 )
+Panel/styles/panelf = SubResource( 1 )
+Panel/styles/panelnc = SubResource( 1 )
+PanelContainer/styles/panel = SubResource( 1 )
+

@@ -6,6 +6,7 @@ const TILE_HEIGHT = 10
 const TILES_X = 10
 const OFFSET = Vector2(360, 12)
 
+# TODO: use texturehandler
 onready var pop_free = preload("res://Images/Screens/Planet/Workers/free.png")
 onready var pop_idle = preload("res://Images/Screens/Planet/Workers/idle.png")
 onready var pop_work = preload("res://Images/Screens/Planet/Workers/work.png")

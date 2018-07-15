@@ -53,3 +53,23 @@ var lane_speed
 var module_count
 # convenience list
 var unique_modules
+
+func has_module(module):
+	var result = false
+	for coords in modules:
+		var tile = modules[coords]
+		if tile != null:
+			if tile.module_type != null:
+				if tile.module_type.type == module:
+					result = true
+					break
+
+	return result
+
+func has_colonizer():
+	return has_module("colonizer")
+	pass
+
+func has_invader():
+	return has_module("invasion_module")
+	pass

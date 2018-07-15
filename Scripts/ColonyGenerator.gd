@@ -36,7 +36,8 @@ static func initialize_colony(player, planet, home = false):
 	# give the planet a mostly optimal colony base position
 	var colony_tile = generate_colony(planet, "initial")
 	ColonyController.colonize_planet(planet, player, colony_tile)
-	ColonyController.make_home_colony(planet.colony)
+	if home == true:
+		ColonyController.make_home_colony(planet.colony)
 	# FIXME: returning the planet is necessary because regenerating the home planet makes a new instance; maybe just have a reset function instead
 	# easily doable, move Planet.new elsewhere or never do it
 	#return planet

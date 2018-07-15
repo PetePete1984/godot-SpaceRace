@@ -42,6 +42,19 @@ static func make_home_colony(colony):
 	# TODO: either "un-home" all owner's colonies here, or in the caller
 	colony.home = true
 
+static func start_project(colony, position, project_payload):
+	if typeof(project_payload) == TYPE_DICTIONARY:
+		# ship project
+		start_ship_project(colony, project_payload, position)
+		pass
+	elif typeof(project_payload) == TYPE_ARRAY:
+		# building project
+		var key = project_payload[0]
+		var type = project_payload[1]
+		start_colony_project(colony, key, type, position)
+		pass
+	pass
+
 static func start_colony_project(colony, project_key, type, position):
 	var planet = colony.planet
 	var player = planet.owner
@@ -106,7 +119,7 @@ static func start_ship_project(colony, ship_design, position):
 			# TODO: grab all new modules and sum their cost
 			new_project.total_cost = project_cost
 			new_project.remaining_industry = project_cost
-			new_project.project = "missiles_dummy"
+			new_project.project = "ship_placeholder"
 			new_project.ship_name = ship_design.ship_name
 			new_project.resulting_ship = ShipFactory.initialize_ship(ship_design.size, ship_design.modules, ship_design.ship_name, colony.owner)
 			new_project.position = position
@@ -190,6 +203,14 @@ static func start_orbital_building(colony, new_project):
 	#orbital.orbital_name = orbital.type.orbital_name
 	colony.project = new_project
 	pass
+
+static func abandon_surface_building(colony, position):
+	# TODO: if automation is pointed at the abandoned building, cancel the project
+	pass
+
+static func abandon_orbital(colony, position):
+	pass
+
 
 static func finish_project(colony):
 	var project = colony.project
@@ -350,11 +371,15 @@ static func refresh_colony(colony):
 	colony.research = total_res
 	colony.prosperity = total_prosp
 
+	# check for booster buildings
 	var internet = "internet" in existing_building_types
 	var hyperpower = "hyperpower_plant" in existing_building_types
 	var fertilized = "fertilization_plant" in existing_building_types
+
+	# remember living population for later use
 	var pop = planet.population.alive
 	
+	# booster buildings always add 50% to raw values
 	if internet:
 		total_res = int(floor(float(total_res) * 1.5))
 		
@@ -362,8 +387,10 @@ static func refresh_colony(colony):
 		total_ind = int(floor(float(total_ind) * 1.5))
 		
 	if fertilized:
-		total_prosp += int(floor(float(total_prosp) * 1.5))
+		total_prosp = int(floor(float(total_prosp) * 1.5))
 
+	# check for party projects
+	# party projects add 25% of (boosted) raw industry to their own production
 	if colony.project != null:
 		if colony.project extends TechProject:
 			if colony.project.project == "scientist_takeover":
@@ -371,24 +398,29 @@ static func refresh_colony(colony):
 			elif colony.project.project == "endless_party":
 				total_prosp += int(floor(float(total_ind) / 4))
 
-	# no diminishing returns for research
+	# apply no diminishing returns for research
 	colony.adjusted_research = total_res
 
 	# apply diminishing returns to industry
 	colony.adjusted_industry = int(pow(float(total_ind + 1), 0.85))
 
-	# apply diminishing returns to prosperity
+	# apply diminishing returns to prosperity (includes current population)
 	colony.adjusted_prosperity = int(pow(float(total_prosp + 1), 0.85)) - int(float(pop) / 4)
+
+	# prevent negative growth
 	if colony.adjusted_prosperity <= 0:
 		colony.adjusted_prosperity = 0
 	
+	# apply growth bomb to population slots
 	if planet.growth_bombed == true:
 		extra_slots += 10
 	
+	# refresh public population slots numbers
 	planet.population.work = working_pop
 	planet.population.idle = planet.population.alive - working_pop
 	planet.population.slots = planet.base_population + extra_slots
 	planet.population.free = planet.population.slots - planet.population.alive
 
+	# store currently active, unique surface & orbital buildings
 	colony.unique_buildings = existing_building_types
 	colony.unique_orbitals = existing_orbital_types

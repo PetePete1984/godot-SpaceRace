@@ -127,7 +127,8 @@ func _ready():
 			"text": r_hist.text,
 			"peace": r_hist.peace,
 			"neutral": r_hist.neutral,
-			"hostile": r_hist.hostile
+			"hostile": r_hist.hostile,
+			"index": r_index
 		}
 		
 		rdef.home_size = home_planets[r].size

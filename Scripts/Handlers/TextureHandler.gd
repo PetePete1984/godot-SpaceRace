@@ -32,25 +32,25 @@ func get_texture(path):
 
 func get_race_flag(player):
 	var race = _type(player)
-	var path = "res://Images/Races/FlagsBW/raceflag.shp_%02d.png" % [race.index + 1]
+	var path = "res://Images/Races/FlagsBW/raceflag.ascshp_%03d.png" % [race.index]
 	return get_texture(path)
 	pass
 	
 func get_race_icon(player):
 	var race = _type(player)
 	var index = race.index
-	var path = "res://Images/Races/Icons/smrace%02d/smrace%02d.shp_1.png" % [index, index]
+	var path = "res://Images/Races/Icons/smrace%02d/smrace%02d.ascshp_000.png" % [index, index]
 	return get_texture(path)
 	pass
 
 func get_race_ring_neutral():
-	var path = "res://Images/Races/Rings/racering.shp_8.png"
+	var path = "res://Images/Races/Rings/racering.ascshp_007.png"
 	return get_texture(path)
 	
 func get_home_planet(player):
 	var race = _type(player)
 	var index = race.index
-	var path = "res://Images/Races/HomePlanets/smhome.shp_%02d.png" % [index + 1]
+	var path = "res://Images/Races/HomePlanets/smhome.ascshp_%03d.png" % [index]
 	return get_texture(path)
 	pass
 	
@@ -59,8 +59,8 @@ func get_star(system, small = false):
 	var image_index = mapdefs.stars.find(system.star_type)
 	if image_index != -1:
 		if small:
-			image_index = (image_index + 1) * 4
-			path = "res://Images/Screens/Galaxy/Stars/cos_star.shp_%02d.png" % image_index
+			image_index = image_index * 4 + 3 # offset by 3 to get 3, 7, 11 etc
+			path = "res://Images/Screens/Galaxy/Stars/cos_star.ascshp_%03d.png" % image_index
 		else:
 			path = "res://Images/Screens/Battle/Suns/%02d_%s.png" % [image_index+1, system.star_type]
 		
@@ -77,15 +77,14 @@ func get_planet(planet, small = false):
 	var type = planet.type
 	var type_index = mapdefs.planet_types.find(type)
 	var size = planet.size
-	# offset by +1 because images start at 1
-	var size_index = mapdefs.planet_sizes.find(size) + 1
+	var size_index = mapdefs.planet_sizes.find(size)
 	if type_index != -1 and size_index != -1:
 		var path = null
 		if small == true:
 			var small_planet_index = (type_index * mapdefs.planet_sizes.size()) + size_index
-			path = "res://Images/Screens/Battle/Planets/planets.shp_%02d.png" % [small_planet_index]
+			path = "res://Images/Screens/Battle/Planets/planets.ascshp_%03d.png" % [small_planet_index]
 		else:
-			path = "res://Images/Planets/planal%02d/planal%02d.shp_%d.png" % [type_index, type_index, size_index]
+			path = "res://Images/Planets/planal%02d/planal%02d.ascshp_%03d.png" % [type_index, type_index, size_index]
 		if path != null:
 			return get_texture(path)
 	else:
@@ -108,9 +107,9 @@ func get_ship(player, ship_size = "small", docked = false):
 	if ship_index != -1:
 		var path = null
 		if docked == true:
-			path = "res://Images//Screens//ShipDesign//Ships//dkship%02d//dkship%02d.shp_%d.png" % [race_index, race_index, ship_index + 1]
+			path = "res://Images/Screens/ShipDesign/Ships/dkship%02d/dkship%02d.ascshp_%03d.png" % [race_index, race_index, ship_index]
 		else:
-			path = "res://Images//Races//Ships//smship%02d//smship%02d.shp_%d.png" % [race_index, race_index, ship_index + 1]
+			path = "res://Images/Races/Ships/smship%02d/smship%02d.ascshp_%03d.png" % [race_index, race_index, ship_index]
 		if path != null:
 			return get_texture(path)
 	else:
@@ -127,9 +126,10 @@ func get_ship_for_planet(ship, sprite):
 		sprite.set_offset(offset)
 
 func get_ship_module(ship_module):
-	var index = ShipModuleDefinitions.ship_module_defs[ship_module].index
-	if index > 0:
-		var path = "res://Images/Ship/Equipment/gizmos.shp_%02d.png" % [index]
+	# TODO: this is no longer the image index, maybe just offset by -1
+	var index = ShipModuleDefinitions.ship_module_defs[ship_module].index - 1
+	if index > -1:
+		var path = "res://Images/Ship/Equipment/gizmos.ascshp_%03d.png" % [index]
 		#printt(ship_module, path)
 		return get_texture(path)
 
@@ -159,7 +159,7 @@ func get_tech_project(project):
 
 func get_research_icon(research):
 	var resDef = ResearchDefinitions.research_defs[research]
-	var path = "res://Images/Screens/Research/Research/restree.shp_%02d.png" % (resDef.index+1)
+	var path = "res://Images/Screens/Research/Research/restree.ascshp_%03d.png" % (resDef.index)
 	return get_texture(path)
 	pass
 	

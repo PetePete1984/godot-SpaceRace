@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=1]
 
-[ext_resource path="res://Images/Help/help.shp_1.png" type="Texture" id=1]
+[ext_resource path="res://Images/Help/help.ascshp_000.png" type="Texture" id=1]
 
 [node name="Container" type="Container"]
 

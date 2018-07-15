@@ -10,6 +10,8 @@ var tilemap_x = 0
 var tilemap_y = 0
 var used_pop = 0
 
+# TODO: needs a reference to a combat-capable tile's stats (missile launcher, shield etc)
+
 func reset():
 	type = null
 	#building_name = ""

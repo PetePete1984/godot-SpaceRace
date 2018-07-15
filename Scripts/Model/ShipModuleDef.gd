@@ -1,8 +1,11 @@
 # Ship Module definition
 
+# the string type of the module, from ShipModuleDefinitions.gd
 var type = ""
 var ship_module_name = ""
 
+# the module's category, assigned from the defs
+# one of ["weapon", "shield", "drive", "scanner", "generator", "special"]
 var category
 var power_drain
 var uses

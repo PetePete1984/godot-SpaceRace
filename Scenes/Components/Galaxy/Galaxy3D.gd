@@ -61,7 +61,6 @@ func _process(delta):
 		zoom(delta, zoom_direction)
 	pass
 
-
 func rotate_h(delta, direction):
 	rotate(delta, direction)
 	pass

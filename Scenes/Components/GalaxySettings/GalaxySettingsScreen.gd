@@ -43,6 +43,7 @@ func _ready():
 	reset()
 	
 func reset():
+	# TODO: scroll the container to the top
 	for option in defaults:
 		current_settings[option] = defaults[option]
 	set_race(mapdefs.default_race)

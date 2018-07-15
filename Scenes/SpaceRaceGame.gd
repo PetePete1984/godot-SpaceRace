@@ -23,7 +23,8 @@ func _ready():
 	set_process(true)
 	set_process_input(true)
 	pass
-	
+
+# TODO: use _unhandled_input so UI can intercept events
 func _input(event):
 	# check for unicode of accents and discard them
 	if event.type == InputEvent.KEY and event.scancode == KEY_ESCAPE and event.is_pressed():
@@ -41,9 +42,11 @@ func _input(event):
 		if event.scancode == KEY_E:
 			pass
 		if event.scancode == KEY_S:
-			GameStateHandler.save_game_state("user://debug_save.json")
+			#GameStateHandler.save_game_state("user://debug_save.json")
+			pass
 		if event.scancode == KEY_L:
-			GameStateHandler.load_game_state("user://debug_save.json")
+			#GameStateHandler.load_game_state("user://debug_save.json")
+			pass
 
 func _process(delta):
 	pass

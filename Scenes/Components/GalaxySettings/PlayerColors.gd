@@ -1,6 +1,5 @@
 extends HBoxContainer
 
-var base_path = "res://Images/Races/Flags/raceflag.shp_%02d.png"
 onready var color_cursor = get_node("../PlayerColorCursor")
 const cursor_pos = Vector2(2, 52)
 
@@ -14,8 +13,9 @@ func _ready():
 	pass
 
 func set_race(race_key):
+	# TODO: use texturehandler
 	var index = RaceDefinitions.races.find(race_key)
-	var path = "res://Images/Races/FlagsBW/raceflag.shp_%02d.png" % [index + 1]
+	var path = "res://Images/Races/FlagsBW/raceflag.ascshp_%03d.png" % [index]
 	var texture = load(path)
 	for c in get_children():
 		c.set_normal_texture(texture)

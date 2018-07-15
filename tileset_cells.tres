@@ -1,7 +1,7 @@
 [gd_resource type="TileSet" load_steps=3 format=1]
 
-[ext_resource path="res://Images/AscendancyPlanetTile3.png" type="Texture" id=1]
-[ext_resource path="res://Images/AscendancySmallPlanetTile.png" type="Texture" id=2]
+[ext_resource path="res://Images/SpaceRace/planet_tile.png" type="Texture" id=1]
+[ext_resource path="res://Images/SpaceRace/planet_tile_small.png" type="Texture" id=2]
 
 [resource]
 

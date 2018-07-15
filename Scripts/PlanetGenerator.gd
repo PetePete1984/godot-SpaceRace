@@ -69,6 +69,7 @@ static func generate_planet_grid(planet):
 	planet.buildings.clear()
 	
 	# init empty grid
+	# TODO: consider using Array.resize()
 	for x in range(planet_max_grid):
 		planet.grid.append([])
 		planet.buildings.append([])

@@ -10,5 +10,6 @@ var events = {
 	"warning_idle_ship": true,
 	"skip_zero_population": false
 }
+# TODO: include stuff like skipping tile information panels before picking buildings
 var automation = {}
 var debug = {}

@@ -18,11 +18,14 @@ var BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 
 var PlanetShipSprite = preload("res://Scenes/Components/Planet/PlanetShipSprite.tscn")
 var BasicPopup = preload("res://Scenes/Components/Planet/Popup/BasicPopup.tscn")
+var RenamePopup = preload("res://Scenes/Components/RenamePopup.tscn")
 
 var ShipCommandPopup = preload("res://Scenes/Components/Planet/Popup/ShipCommandPopup.gd")
 var ExistingBuildingPopup = preload("res://Scenes/Components/Planet/Popup/ExistingBuildingPopup.gd")
 var OrbitalTilePopup = preload("res://Scenes/Components/Planet/Popup/OrbitalTilePopup.gd")
 var SurfaceTilePopup = preload("res://Scenes/Components/Planet/Popup/SurfaceTilePopup.gd")
+
+var ShipController = preload("res://Scripts/Controller/ShipController.gd")
 
 onready var tilemap_cells = get_node("TileMapAnchor/TileMapCells")
 onready var tilemap_buildings = get_node("TileMapAnchor/TileMapBuildings")
@@ -54,6 +57,7 @@ signal help_requested
 signal ship_named(size, modules, ship_name)
 signal ship_finalized
 
+# TODO: refactor to current_planet
 var currentPlanet = null
 var current_control_mode = control_mode.NORMAL
 var current_ship_design
@@ -89,19 +93,18 @@ func _on_project_picked(key, tile, type):
 	# - start the new project at the specified position, setting the proper building tile
 	# afterwards, the tilemap refresh should happen
 	# TODO: special handling for ship building required
-	if type == "Orbital" and key == "missiles_dummy":
+	if type == "Orbital" and key == "ship_placeholder":
 		# TODO: hide popup first
 		popup.hide()
-		print(emit_signal("design_new_ship"))
+		emit_signal("design_new_ship")
 		# wait for return from ship design screen
 		# TODO: I don't know if this is nice, needs to be basically skipped if the ship is empty
 		yield(self, "ship_finalized")
 		if current_ship_design != null:
-			print("hello")
-			ColonyController.start_ship_project(currentPlanet.colony, current_ship_design, Vector2(tile.tilemap_x, tile.tilemap_y))
+			ColonyController.start_project(currentPlanet.colony, Vector2(tile.tilemap_x, tile.tilemap_y), current_ship_design)
 			current_ship_design = null
 	else:
-		ColonyController.start_colony_project(currentPlanet.colony, key, type, Vector2(tile.tilemap_x, tile.tilemap_y))
+		ColonyController.start_project(currentPlanet.colony, Vector2(tile.tilemap_x, tile.tilemap_y), [key, type])
 	project_grid.clear_buttons()
 	
 	# TODO: may be obsolete
@@ -113,7 +116,12 @@ func _on_left_ship_design_screen(size, modules):
 	# triggered when the player leaves the ship design screen
 	# TODO: show a popup asking for a name, with default being the ship's size
 	# TODO: I don't think you get a name popup on refits?
-	var ship_name = size.capitalize()
+	# TODO: have the rename_popup be a persistent element
+	var rename_popup = RenamePopup.instance()
+	add_child(rename_popup)
+	var result = yield(rename_popup, "popup_closed")
+	print(result)
+	var ship_name = result
 	emit_signal("ship_named", size, modules, ship_name)
 	pass
 
@@ -126,14 +134,18 @@ func _on_ship_named(size, modules, ship_name):
 	emit_signal("ship_finalized")
 
 func _on_ship_leave_orbit(ship, tile):
-	#ShipController.leave_orbit(currentPlanet, ship)
-	var exitPosition = currentPlanet.position + Vector3(1, 0, 0)
-	ship.position = exitPosition
-	ship.location_planet = null
-	ship.location_system = currentPlanet.system
-	currentPlanet.system.ships.append(ship)
+	ShipController.leave_orbit(currentPlanet, ship)
 	tile.orbiting_ship = null
 	_notify_displays()
+
+func _on_ship_colonize(ship, planet):
+	var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
+	var position = ColonyGenerator.generate_colony(planet, "initial")
+	#ColonyGenerator.initialize_colony(GameStateHandler.game_state.human_player, currentPlanet)
+	ColonyController.colonize_planet(planet, ship.owner, position, "New Colony")
+	ShipController.remove_modules(ship, "colonizer")
+	_notify_displays()
+	#set_planet(currentPlanet)
 
 func set_payload(payload):
 	set_planet(payload)
@@ -222,6 +234,7 @@ func _on_hidden():
 func _process(delta):
 	pass
 
+# TODO: swap to _unhandled_input to let UI intercept inputs
 func _input(event):
 	# TODO: when there is already a project picked and stuck to the mouse, the behavior changes
 	# fields that can't be built on don't react to the cursor
@@ -359,8 +372,9 @@ func _on_orbital_clicked(cell, pos):
 			ship_popup.set_script(ShipCommandPopup)
 			ship_popup.add_to_group("overlay_popup")
 			add_child(ship_popup)
-			ship_popup.setup_for_ship(ship)
+			ship_popup.setup_for_ship(ship, currentPlanet)
 			ship_popup.connect("leave_orbit", self, "_on_ship_leave_orbit", [ship, orbital_cell])
+			ship_popup.connect("colonize", self, "_on_ship_colonize", [ship, currentPlanet])
 			pass
 		elif orbital_cell.type != null:
 			# occupied tile

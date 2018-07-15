@@ -8,7 +8,7 @@
 [ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/06_orbital_mega_shield.png" type="Texture" id=6]
 [ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/08_short_whopper.png" type="Texture" id=7]
 [ext_resource path="res://Images/Screens/Planet/Buildings/Orbital/09_long_whopper.png" type="Texture" id=8]
-[ext_resource path="res://Images/Races/Ships/smship20/smship20.shp_4.png" type="Texture" id=9]
+[ext_resource path="res://Images/Races/Ships/smship20/smship20.ascshp_003.png" type="Texture" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 

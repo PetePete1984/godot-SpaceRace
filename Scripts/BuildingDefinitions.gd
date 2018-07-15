@@ -160,7 +160,7 @@ var building_defs = {
 	}
 }
 
-#var orbital_types = ["shipyard", "missiles", "dock", "cloaker", "shield", "mega_shield", "missiles_dummy", "short_whopper", "long_whopper"]
+#var orbital_types = ["shipyard", "missiles", "dock", "cloaker", "shield", "mega_shield", "ship_placeholder", "short_whopper", "long_whopper"]
 #var orbital_def = {}
 
 #var planetwide_project_types = ["hospitality", "party", "science", "automation", "growth_bomb"]

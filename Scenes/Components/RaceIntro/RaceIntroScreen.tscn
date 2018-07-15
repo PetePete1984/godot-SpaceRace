@@ -3,8 +3,8 @@
 [ext_resource path="res://Scenes/Components/RaceIntro/RaceIntroScreen.gd" type="Script" id=1]
 [ext_resource path="res://Images/Screens/RaceIntro/border.png" type="Texture" id=2]
 [ext_resource path="res://Images/Placeholder/ascend_052.png" type="Texture" id=3]
-[ext_resource path="res://Images/Screens/RaceIntro/Races/lgrace00/lgrace00.shp_1.png" type="Texture" id=4]
-[ext_resource path="res://Images/Races/FlagsBW/raceflag.shp_01.png" type="Texture" id=5]
+[ext_resource path="res://Images/Screens/RaceIntro/Races/lgrace00/lgrace00.ascshp_000.png" type="Texture" id=4]
+[ext_resource path="res://Images/Races/FlagsBW/raceflag.ascshp_000.png" type="Texture" id=5]
 [ext_resource path="res://Materials/Tint.tres" type="CanvasItemMaterial" id=6]
 
 [node name="RaceIntroScreen" type="Node2D"]

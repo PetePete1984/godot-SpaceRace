@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://Scenes/Components/PlanetList/SinglePlanetDisplay.gd" type="Script" id=1]
-[ext_resource path="res://Images/Races/Flags/raceflag.shp_01.png" type="Texture" id=2]
+[ext_resource path="res://Images/Races/Flags/raceflag.ascshp_000.png" type="Texture" id=2]
 [ext_resource path="res://Images/Screens/Battle/Suns/11_blue_dwarf.png" type="Texture" id=3]
-[ext_resource path="res://Images/Screens/Battle/Planets/planets.shp_01.png" type="Texture" id=4]
+[ext_resource path="res://Images/Screens/Battle/Planets/planets.ascshp_000.png" type="Texture" id=4]
 [ext_resource path="res://Images/Screens/Planet/Research/00.png" type="Texture" id=5]
 [ext_resource path="res://Images/Screens/Planet/Industry/01.png" type="Texture" id=6]
 [ext_resource path="res://Images/Screens/Planet/Prosperity/01.png" type="Texture" id=7]
@@ -33,6 +33,7 @@ __meta__ = {
 
 [node name="Flag" type="TextureFrame" parent="FlagAnchor"]
 
+material/material = ExtResource( 8 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2

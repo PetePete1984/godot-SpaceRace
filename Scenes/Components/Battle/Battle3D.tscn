@@ -3,9 +3,9 @@
 [ext_resource path="res://Scenes/Components/Battle/Battle3D.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Components/Battle/BattleLines.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Components/Battle/BattleGrid.gd" type="Script" id=3]
-[ext_resource path="res://Images/Races/Ships/smship00/smship00.shp_4.png" type="Texture" id=4]
+[ext_resource path="res://Images/Races/Ships/smship00/smship00.ascshp_003.png" type="Texture" id=4]
 [ext_resource path="res://Images/Screens/Battle/Lanes/blue.png" type="Texture" id=5]
-[ext_resource path="res://Images/Nebulae/nebulae.shp_7.png" type="Texture" id=6]
+[ext_resource path="res://Images/Nebulae/nebulae.ascshp_006.png" type="Texture" id=6]
 [ext_resource path="res://Scenes/Components/Battle/BattleCamera.gd" type="Script" id=7]
 
 [sub_resource type="FixedMaterial" id=1]
@@ -165,8 +165,6 @@ geometry/visible_in_all_rooms = false
 geometry/use_baked_light = false
 geometry/baked_light_tex_id = 0
 script/script = ExtResource( 3 )
-lines = 28
-line_dist = 3
 
 [node name="SmallGrid" type="ImmediateGeometry" parent="battle_center/Grid"]
 
@@ -321,17 +319,58 @@ _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 [node name="camera" type="Camera" parent="."]
 
 _import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
-transform/local = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 10 )
+transform/local = Transform( 1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 15, 25 )
 projection = 0
-fov = 65.0
+fov = 60.0
 near = 0.1
 far = 100.0
 keep_aspect = 1
-current = false
+current = true
 visible_layers = -1
 environment = null
 h_offset = 0.0
 v_offset = 0.0
 script/script = ExtResource( 7 )
+
+[node name="move_spatial" type="Spatial" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="TestCube" type="TestCube" parent="move_spatial"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform/local = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0 )
+layers = 1
+geometry/visible = true
+geometry/material_override = null
+geometry/cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
+
+[node name="movement_line" type="ImmediateGeometry" parent="move_spatial"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+layers = 1
+geometry/visible = true
+geometry/material_override = SubResource( 1 )
+geometry/cast_shadow = 0
+geometry/receive_shadows = false
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+geometry/extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+geometry/use_baked_light = false
+geometry/baked_light_tex_id = 0
 
 

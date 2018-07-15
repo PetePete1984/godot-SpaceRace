@@ -107,7 +107,8 @@ func show_research(player):
 		research_icon.depth_cue = false
 		# get research image
 		
-		var path = "res://Images/Screens/Research/Research/restree.shp_%02d.png" % (research.index+1)
+		# TODO: use texturehandler
+		var path = "res://Images/Screens/Research/Research/restree.ascshp_%03d.png" % (research.index)
 		if File.new().file_exists(path):
 			research_icon.set_texture(load(path))
 		

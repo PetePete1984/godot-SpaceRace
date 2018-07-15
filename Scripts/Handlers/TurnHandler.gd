@@ -4,6 +4,7 @@ onready var EventGenerator = preload("res://Scripts/EventGenerator.gd")
 var AlienRaceHandler = preload("res://Scripts/Handlers/AlienRaceHandler.gd")
 var ColonyManager = preload("res://Scripts/ColonyManager.gd")
 var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
+var ShipController = preload("res://Scripts/Controller/ShipController.gd")
 var TurnTimer
 
 signal turn_finished
@@ -156,10 +157,13 @@ func turn_maintenance():
 			
 			# for all ships in star lanes: move along the lane according to speed & specials (race factor)
 			for ship in player.ships:
-				# TODO: use ship controller
-				if ship.in_starlane():
-					ship.move_in_starlane(ship.starlane_speed * player.stats.starlane_factor)
+				if ship.starlane != null:
+					# TODO: check if just entered, if yes wait a turn
+					ShipController.move_in_starlane(ship)
+					if ship.starlane_progress >= 1.0:
+						ShipController.exit_starlane(ship)
+						# TODO: trigger "ship reports arrival" event
 				# TODO: check arrivals and system discoveries
 				else:
 					# for all ships in systems and orbits: recharge ship energy
-					ship.recharge_power()
+					ShipController.recharge_power(ship)

@@ -27,8 +27,10 @@ func setup_display(galaxy_settings, race_key, color):
 	desc.set_text("%s" % race.race_history.intro + str(flavor))
 	hist.set_text("%s" % race.race_history.text)
 	
-	var flag_path = "res://Images/Races/FlagsBW/raceflag.shp_%02d.png" % [race.index + 1]
-	var pic_path = "res://Images/Races/Pictures/lgrace%02d/lgrace%02d.shp_1.png" % [race.index, race.index]
+	# TODO: Use TextureHandler
+	var flag_path = "res://Images/Races/FlagsBW/raceflag.ascshp_%03d.png" % [race.index]
+	# TODO: Use Texturehandler and use proper texture location (Screens/RaceIntro/Races)
+	var pic_path = "res://Images/Screens/RaceIntro/Races/lgrace%02d/lgrace%02d.ascshp_000.png" % [race.index, race.index]
 
 	var file = File.new()
 	if file.file_exists(flag_path):

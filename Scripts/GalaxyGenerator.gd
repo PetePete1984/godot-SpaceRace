@@ -57,6 +57,7 @@ static func generate_star_systems(galaxy):
 	
 static func connect_star_systems(galaxy):
 	var first = true
+	# TODO: simple connections first. find highest planet on y and then connect to the closest until all have been walked
 	# TODO: walk through the systems and spawn connections
 	# TODO: maybe connect second closest too
 	# TODO: otherwise delaunay, gabriel, urquhart, relative neighborhood

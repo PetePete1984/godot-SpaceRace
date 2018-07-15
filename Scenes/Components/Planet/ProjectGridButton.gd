@@ -12,7 +12,7 @@ func _init(project, tile, type = "Surface", player = null):
 		init_surface(project, tile)
 		tooltip = BuildingDefinitions.building_defs[project].building_name
 	elif type == "Orbital":
-		if project == "missiles_dummy":
+		if project == "ship_placeholder":
 			set_normal_texture(TextureHandler.get_ship(player))
 			tooltip = "Ship"
 		else:
