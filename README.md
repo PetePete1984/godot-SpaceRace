@@ -5,7 +5,7 @@ The codebase currently consists of Godot 2.1.4-styled GDScript and will likely m
 
 ## Some important caveats:
 
-- The game is incomplete as of March 2018
+- The game is incomplete as of August 2018
   - With the amount of features missing, it's not even in the typical alpha stage of development
   - There is no music. It's just not Ascendancy without the music..
   - There is no space travel in this space game.. yet. But ships can be ejected from planets, to be stuck in space forever.
@@ -17,6 +17,9 @@ The codebase currently consists of Godot 2.1.4-styled GDScript and will likely m
 - Wherever math is involved there might be inaccuracies - this is where the source would help, again
 - Many of the UI elements are barely-reskinned Godot Engine default elements, although this does come with the benefit of supporting the mousewheel for scrollable containers natively \o/
 - This repository does not contain the graphical assets required to run it to avoid copyright problems.
+  - TODO: The extraction process is now the first step before running the game, unless it finds all files where it expects them.
+  - To enable extraction of the original files, place Ascendancy's .COB files in the Cob folder (uppercase names and extensions, just as they came on the disc) and run \<insert appropriate godot script here\>
+  
   - The extractor used during development has been modified by me to fix some minor bugs, I will likely have to find it again and fork it
   - These can be extracted from the original's data files, but the code's current organization is not prepared for a raw dump of index-based filenames.
   - This will require either a mapping file (which sounds like a candidate for making the game more moddable, ie texture packs), or a switch to a global texture manager (or both)
@@ -48,3 +51,9 @@ The codebase currently consists of Godot 2.1.4-styled GDScript and will likely m
 - mapping the renamed texture files back to the original names and / or providing an extractor for the .cob files that just does the work
 - colony management will need improvements so AIs build ships, too
 - slowly getting to feature parity for each of the game's screens
+
+## Early game screenshots
+![Options Screen](https://github.com/PetePete1984/godot-SpaceRace-media/blob/master/gif/2018-08-02_22-50-18.gif)
+![Galaxy View, Planet List](https://github.com/PetePete1984/godot-SpaceRace-media/blob/master/gif/2018-08-02_22-50-39.gif)
+![Planet View, Building Projects](https://github.com/PetePete1984/godot-SpaceRace-media/blob/master/gif/2018-08-02_22-51-03.gif)
+![Passing Turns, Event Popups](https://github.com/PetePete1984/godot-SpaceRace-media/blob/master/gif/2018-08-02_22-51-27.gif)
