@@ -67,7 +67,9 @@ static func read_history():
 				if line != "":
 					if buffering:
 						buffer.append(line)
-						
+	
+	else:
+		print("File not found: Data/history.txt")
 	return {
 		"races": races,
 		"races_in_order": races_in_order

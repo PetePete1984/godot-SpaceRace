@@ -8,7 +8,9 @@ class FileInCob:
 static func unpack(cob, source, destination):
 	var file = File.new()
 	var dir = Directory.new()
-	file.open(source, File.READ)
+	prints("attempting to open", source)
+	var status = file.open(source, File.READ)
+	prints("result", status, OK)
 	var num_files = file.get_32()
 	var files = []
 

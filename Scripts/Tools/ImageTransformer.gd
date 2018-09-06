@@ -14,6 +14,7 @@ static func to_grayscale_directory(source, destination):
 					if file_name.extension() == "png":
 						to_grayscale(dir.get_current_dir().plus_file(file_name), destination.plus_file(file_name))
 				file_name = dir.get_next()
+			dir.list_dir_end()
 
 static func to_grayscale(source, destination, method = 1):
 	var original = load(source)
