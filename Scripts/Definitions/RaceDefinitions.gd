@@ -9,7 +9,8 @@ var race = {
 	"minions": {
 		race_name = "Minions",
 		race_description = "The %s are a race of robotic beings",
-		special_ability = "special_ability_minions"
+		special_ability = "special_ability_minions",
+		index = 0
 	}
 }
 
@@ -137,7 +138,8 @@ func _ready():
 		rdef.index = r_index
 		
 		race[r] = rdef
-	save_as_json()
+	if get_tree().is_editor_hint():
+		save_as_json()
 	
 func save_as_json():
 	var racepath = "res://Data/races.json"

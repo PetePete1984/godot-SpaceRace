@@ -1,5 +1,8 @@
 extends Node
 
+const csv2dict = preload("res://Scripts/Tools/CSVtoDict.gd")
+const file_utils = preload("res://Scripts/Tools/FileUtils.gd")
+
 var ShipModuleDef = preload("res://Scripts/Model/ShipModuleDef.gd")
 
 var ship_module_categories = ["weapon", "shield", "drive", "scanner", "generator", "special"]
@@ -155,23 +158,33 @@ var ship_module_defs = {
 	},
 	"tonklin_motor": {
 		"category": "drive",
-		"requires_research": "tonklin_diary"
+		"requires_research": "tonklin_diary",
+		"strength": 2,
+		"power": 1
 	},
 	"ion_banger": {
 		"category": "drive",
-		"requires_research": "advanced_chemistry"
+		"requires_research": "advanced_chemistry",
+		"strength": 4,
+		"power": 1
 	},
 	"graviton_projector": {
 		"category": "drive",
-		"requires_research": "gravimetric_combustion"
+		"requires_research": "gravimetric_combustion",
+		"strength": 6,
+		"power": 3
 	},
 	"inertia_negator": {
 		"category": "drive",
-		"requires_research": "inertial_control"
+		"requires_research": "inertial_control",
+		"strength": 6,
+		"power": 1
 	},
 	"nanowave_space_bender": {
 		"category": "drive",
-		"requires_research": "nanopropulsion"
+		"requires_research": "nanopropulsion",
+		"strength": 10,
+		"power": 5
 	},
 	"tonklin_frequency_analyzer": {
 		"category": "scanner",
@@ -399,12 +412,21 @@ var ship_module_defs = {
 
 func _ready():
 	var real_defs = {}
+	var sim_defs = csv2dict.get_keyed_dict_from_CSV("res://Data/ShipModules.csv", "type")
+	#file_utils.write_dict_to_json_file(sim_defs, "res://Data/ShipModules.json")
 	var index = 0
 	for key in ship_module_types:
-		var data = ship_module_defs[key]
+		var data
+		if sim_defs.has(key):
+			data = sim_defs[key]
+		else:
+			data = ship_module_defs[key]
 		var def = ShipModuleDef.new()
 		def.type = key
-		def.index = index
+		if data.index:
+			def.index = data.index
+		else:
+			def.index = index
 		index += 1
 		for data_key in data:
 			def[data_key] = data[data_key]

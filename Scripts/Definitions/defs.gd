@@ -51,7 +51,7 @@ var max_planets = 5
 # galaxy defs
 var default_galaxy_settings = {
 	"galaxy_size": "average",
-	"atmosphere": "neutral", # "neutral", "hostile"
+	"atmosphere": "neutral", # "peaceful", "neutral", "hostile"
 	"races": 5
 }
 

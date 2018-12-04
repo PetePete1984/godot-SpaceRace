@@ -412,6 +412,7 @@ func _ready():
 			rDef.research_name = rkey.capitalize()
 		var cost_factor = max(1, (rDef.index-10)*2)
 		rDef.cost = rDef.cost * cost_factor
+		rDef.position_set = false
 		real_defs[rkey] = rDef
 
 	for bkey in BuildingDefinitions.building_defs:
