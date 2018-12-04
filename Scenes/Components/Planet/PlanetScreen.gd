@@ -11,9 +11,11 @@ extends "res://Scripts/Model/Screen.gd"
 # TODO: use control mode to change input behavior
 enum control_mode {NONE, COLONY, NORMAL}
 
-var PlanetMap = preload("res://Scripts/Planetmap.gd")
-var ColonyManager = preload("res://Scripts/ColonyManager.gd")
-var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
+var Planetmap = Classes.Planetmap
+var ColonyManager = Classes.model.ColonyManager
+#var ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
+var ColonyController = Classes.model.ColonyController
+var ColonyGenerator = preload("res://Scripts/Generator/ColonyGenerator.gd")
 var BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 
 var PlanetShipSprite = preload("res://Scenes/Components/Planet/PlanetShipSprite.tscn")
@@ -49,6 +51,8 @@ onready var orbital_cursor = get_node("OrbitalAnchor/orbital_cursor")
 onready var popup = get_node("PlanetUI/AcceptDialog")
 onready var project_button = get_node("PlanetUI/ProjectButton")
 onready var project_grid = popup.get_node("ProjectGrid")
+
+var rename_popup
 
 # TODO: evaluate using a signal to communicate "dirty" state to planet list screen
 signal design_new_ship
@@ -108,19 +112,23 @@ func _on_project_picked(key, tile, type):
 	project_grid.clear_buttons()
 	
 	# TODO: may be obsolete
-	PlanetMap.get_tilemap_from_planet(currentPlanet, tilemap_cells, tilemap_buildings, tilemap_orbitals)
+	Planetmap.get_tilemap_from_planet(currentPlanet, tilemap_cells, tilemap_buildings, tilemap_orbitals)
 	_notify_displays()
 	popup.hide()
 
+# TODO: maybe add a third parameter for the signal mode (NONE, BUILD, REFIT?)
+# and a fourth for the ship parameter?
 func _on_left_ship_design_screen(size, modules):
-	# triggered when the player leaves the ship design screen
+	# triggered when the player leaves the ship design screen, but shouldn't be triggered when coming from the list screen
 	# TODO: show a popup asking for a name, with default being the ship's size
 	# TODO: I don't think you get a name popup on refits?
 	# TODO: have the rename_popup be a persistent element
 	var rename_popup = RenamePopup.instance()
 	add_child(rename_popup)
+	rename_popup.set_name("RenamePopup")
+	rename_popup.set_ship_size(size)
 	var result = yield(rename_popup, "popup_closed")
-	print(result)
+	#print(result)
 	var ship_name = result
 	emit_signal("ship_named", size, modules, ship_name)
 	pass
@@ -136,16 +144,16 @@ func _on_ship_named(size, modules, ship_name):
 func _on_ship_leave_orbit(ship, tile):
 	ShipController.leave_orbit(currentPlanet, ship)
 	tile.orbiting_ship = null
+	trigger_update = true
 	_notify_displays()
 
 func _on_ship_colonize(ship, planet):
-	var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
 	var position = ColonyGenerator.generate_colony(planet, "initial")
 	#ColonyGenerator.initialize_colony(GameStateHandler.game_state.human_player, currentPlanet)
 	ColonyController.colonize_planet(planet, ship.owner, position, "New Colony")
 	ShipController.remove_modules(ship, "colonizer")
-	_notify_displays()
-	#set_planet(currentPlanet)
+	# TODO: maybe notify_displays can be expanded to incorporate the stuff needed here
+	set_planet(currentPlanet)
 
 func set_payload(payload):
 	set_planet(payload)
@@ -175,7 +183,7 @@ func update_control_mode():
 
 func generate_planet_display(planet):
 	planet_sprite.set_planet(planet)
-	PlanetMap.get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings, tilemap_orbitals)
+	Planetmap.get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings, tilemap_orbitals)
 	_notify_displays()
 	pass
 
@@ -245,13 +253,16 @@ func _input(event):
 			popup.hide()
 			get_tree().set_input_as_handled()
 		return
+	if has_node("RenamePopup"):
+		if event.is_action_pressed("ui_cancel"):
+			get_node("RenamePopup")._on_confirm_name()
+			get_tree().set_input_as_handled()
 	
 	# DEBUG
 	if event.is_action_pressed("ui_down"):
 		print(ColonyManager.manage(currentPlanet.colony))
 	if event.is_action_pressed("ui_up"):
 		if currentPlanet.colony == null:
-			var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
 			ColonyGenerator.initialize_colony(GameStateHandler.game_state.human_player, currentPlanet)
 			set_planet(currentPlanet)
 	if event.is_action_pressed("ui_right"):
