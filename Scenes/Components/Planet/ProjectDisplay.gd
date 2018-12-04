@@ -4,8 +4,6 @@ onready var title = get_node("Stack/ProjectTitle")
 onready var icon = get_node("Stack/ProjectIcon")
 onready var days = get_node("Stack/ProjectDays")
 
-const image_base_path = "res://Images/Screens/Planet/Buildings"
-
 func _ready():
 	
 	pass
