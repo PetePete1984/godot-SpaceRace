@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://Scenes/Components/PlanetList/SinglePlanetDisplay.gd" type="Script" id=1]
-[ext_resource path="res://Images/Races/Flags/raceflag.ascshp_000.png" type="Texture" id=2]
-[ext_resource path="res://Images/Screens/Battle/Suns/11_blue_dwarf.png" type="Texture" id=3]
-[ext_resource path="res://Images/Screens/Battle/Planets/planets.ascshp_000.png" type="Texture" id=4]
-[ext_resource path="res://Images/Screens/Planet/Research/00.png" type="Texture" id=5]
-[ext_resource path="res://Images/Screens/Planet/Industry/01.png" type="Texture" id=6]
-[ext_resource path="res://Images/Screens/Planet/Prosperity/01.png" type="Texture" id=7]
-[ext_resource path="res://Materials/Tint.tres" type="CanvasItemMaterial" id=8]
+[ext_resource path="res://Materials/Tint.tres" type="CanvasItemMaterial" id=2]
+[ext_resource path="res://Images/Races/Flags/raceflag.ascshp_000.png" type="Texture" id=3]
+[ext_resource path="res://Images/Screens/Battle/Suns/11_blue_dwarf.png" type="Texture" id=4]
+[ext_resource path="res://Images/Screens/Battle/Planets/planets.ascshp_000.png" type="Texture" id=5]
+[ext_resource path="res://Images/Screens/Planet/Research/00.png" type="Texture" id=6]
+[ext_resource path="res://Images/Screens/Planet/Industry/01.png" type="Texture" id=7]
+[ext_resource path="res://Images/Screens/Planet/Prosperity/01.png" type="Texture" id=8]
 
 [node name="SinglePlanetDisplay" type="Control"]
 
@@ -33,7 +33,7 @@ __meta__ = {
 
 [node name="Flag" type="TextureFrame" parent="FlagAnchor"]
 
-material/material = ExtResource( 8 )
+material/material = ExtResource( 2 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -42,7 +42,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 0
 
 [node name="SunAnchor" type="Position2D" parent="."]
@@ -62,7 +62,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 stretch_mode = 0
 
 [node name="PlanetAnchor" type="Position2D" parent="."]
@@ -82,7 +82,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 100.0
 margin/bottom = 100.0
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 stretch_mode = 0
 
 [node name="ResearchAnchor" type="Position2D" parent="."]
@@ -103,7 +103,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 stretch_mode = 0
 
 [node name="IndustryAnchor" type="Position2D" parent="."]
@@ -124,7 +124,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 stretch_mode = 0
 
 [node name="ProsperityAnchor" type="Position2D" parent="."]
@@ -145,7 +145,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 stretch_mode = 0
 
 [node name="WorkersAnchor" type="Position2D" parent="."]
@@ -157,7 +157,7 @@ __meta__ = {
 
 [node name="SystemName" type="Label" parent="."]
 
-material/material = ExtResource( 8 )
+material/material = ExtResource( 2 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2

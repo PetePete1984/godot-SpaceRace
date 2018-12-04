@@ -70,7 +70,7 @@ func update():
 	pass
 	
 func connect_buttons(planet):
-	# TODO: check for prior connection
+	# TODO: check for prior connection before connecting, don't disconnect
 	if SystemButton.is_connected("pressed", self, "_on_system_pressed"):
 		SystemButton.disconnect("pressed", self, "_on_system_pressed")
 	SystemButton.connect("pressed", self, "_on_system_pressed", [planet.system])
