@@ -1436,7 +1436,7 @@ cob1\data\st74bull\st74bull.ascshp_005.png,Screens\Battle\Bullets\st74bull\st74b
 cob1\data\st74bull\st74bull.ascshp_006.png,Screens\Battle\Bullets\st74bull\st74bull.ascshp_006.png
 cob1\data\st74bull\st74bull.ascshp_007.png,Screens\Battle\Bullets\st74bull\st74bull.ascshp_007.png
 cob1\data\suns\suns.ascshp_000.png,Screens\Battle\Suns\01_blue_giant.png
-cob1\data\suns\suns.ascshp_001.png,Screens\Battle\Suns\02_pink_red_giant.png
+cob1\data\suns\suns.ascshp_001.png,Screens\Battle\Suns\02_pink-red_giant.png
 cob1\data\suns\suns.ascshp_002.png,Screens\Battle\Suns\03_red_giant.png
 cob1\data\suns\suns.ascshp_003.png,Screens\Battle\Suns\04_orange_giant.png
 cob1\data\suns\suns.ascshp_004.png,Screens\Battle\Suns\05_blue_medium.png
@@ -1566,3 +1566,5 @@ cob2\data\lgrace17\lgrace17.ascshp_000.png,Screens\RaceIntro\Races\lgrace17\lgra
 cob2\data\lgrace18\lgrace18.ascshp_000.png,Screens\RaceIntro\Races\lgrace18\lgrace18.ascshp_000.png
 cob2\data\lgrace19\lgrace19.ascshp_000.png,Screens\RaceIntro\Races\lgrace19\lgrace19.ascshp_000.png
 cob2\data\lgrace20\lgrace20.ascshp_000.png,Screens\RaceIntro\Races\lgrace20\lgrace20.ascshp_000.png
+cob1\data\0opening_gif.png,Screens\Title\opening.png
+cob2\data\logo_gif.png,Screens\Title\logo.png
