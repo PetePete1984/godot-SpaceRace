@@ -37,7 +37,14 @@ static func attempt_orbit(planet, ship):
 		return false
 
 static func enter_starlane(lane, ship):
-
+	ship.position = null
+	ship.location_planet = null
+	var system = ship.location_system
+	ship.location_system = null
+	system.ships.erase(ship)
+	ship.starlane_progress = 0.0
+	ship.starlane = lane
+	ship.starlane_target = lane.from_to(system)
 	pass
 
 static func exit_starlane(ship):
@@ -49,6 +56,9 @@ static func exit_starlane(ship):
 			var system_index = ship.starlane.connects.find(arrives_in)
 			# TODO: evaluate putting all ships in the direction of the system's star
 			var arrives_at = ship.starlane.positions[system_index] + BATTLE_OFFSET.normalized()
+			arrives_in.ships.append(ship)
+			ship.location_system = arrives_in
+			ship.position = arrives_at
 			pass
 	pass
 
@@ -81,11 +91,17 @@ static func command_move_in_system(ship, target):
 	move_command.command_type = BattleCommand.COMMAND.MOVE
 	move_command.target = target
 	ship.command = move_command
-	pass
 
 static func command_move_to_planet(ship, planet):
 	var move_command = BattleCommand.new()
 	move_command.command_type = BattleCommand.COMMAND.MOVE
 	move_command.target = planet.position
 	move_command.target_object = planet
+	ship.command = move_command
+
+static func command_move_to_starlane(ship, lane):
+	var move_command = BattleCommand.new()
+	move_command.command_type = BattleCommand.COMMAND.MOVE
+	move_command.target = lane.positions[lane.connects.find(ship.location_system)]
+	move_command.target_object = lane
 	ship.command = move_command

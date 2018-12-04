@@ -34,7 +34,9 @@ func setup(system, signal_handler, interaction = true):
 		#spr3d.add_child(area3d)
 		# connect to area's picked signal
 		area.connect("clicked", signal_handler, "system_clicked", [system])
-	
+		area.connect("hover_begin", signal_handler, "system_hover_begin", [system])
+		area.connect("hover_end", signal_handler, "system_hover_end", [system])
+		
 	#spr3d.set_name(system.system_name)
 	
 	# add Depth Cueing

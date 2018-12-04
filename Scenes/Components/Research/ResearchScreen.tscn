@@ -270,8 +270,8 @@ size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 148.0
-margin/bottom = 287.0
+margin/right = 135.0
+margin/bottom = 270.0
 alignment = 0
 
 [node name="Buttons" type="Position2D" parent="."]

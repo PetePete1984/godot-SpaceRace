@@ -16,8 +16,8 @@ static func initialize_ship(size, modules, ship_name, player):
 		module_tile.previous_module = module_type
 		ship.modules[position] = module_tile
 	# FIXME: derive real stats
+	ship.update_stats()
 	ship.shield = 20
 	ship.maximum_shield = 20
-	ship.drive = 20
 	ship.lane_speed = 4
 	return ship

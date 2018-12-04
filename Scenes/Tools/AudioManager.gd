@@ -11,11 +11,17 @@ var music_pos = 0.0
 var sounds_path = "res://Audio/Sounds"
 var music_path = "res://Audio/Music"
 
+var sounds_volume = 0.0
+var music_volume = 0.0
+
 onready var sample_player = get_node("SamplePlayer")
 onready var stream_player = get_node("StreamPlayer")
 onready var music_player = get_node("MusicPlayer")
 
 func _ready():
+	AudioServer.set_fx_global_volume_scale(sounds_volume)
+	AudioServer.set_stream_global_volume_scale(music_volume)
+	yield(get_tree(), "idle_frame")
 	load_samples(sounds_path, sample_player)
 	load_streams(music_path)
 	#load_samples(music_path, music_player)
@@ -32,7 +38,8 @@ func _process(delta):
 		stream_player.set_volume(vol)
 
 func bleep():
-	sample_player.play("button")
+	if sample_player.get_sample_library().has_sample("button"):
+		sample_player.play("button")
 
 func load_samples(path, player):
 	var dir = Directory.new()
@@ -75,6 +82,10 @@ func play_music(which):
 	if music.has(which):
 		# if already playing music
 		if stream_player.is_playing():
+			# TODO: if it's race music that's playing and other race music that's requested, don't fall back to previous race music
+			# TODO: if it's the same race music that's already playing, restart
+			# TODO: so basically unless it's theme music, shelf the theme music and play whatever's requested
+			# making previous_track basically previous_theme
 			# if it's not the same request
 			if previous_track != current_track:
 				# keep the previous track

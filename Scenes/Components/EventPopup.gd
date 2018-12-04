@@ -38,38 +38,27 @@ func set_event(event):
 	
 func spawn_button(type, target = null):
 	if type == "OK":
-		# TODO: new button type / scene for common attributes
-		var btn = Button.new()
-		btn.set_h_size_flags(SIZE_EXPAND_FILL)
-		btn.set_text("OK")
-		buttons.add_child(btn)
-		btn.connect("pressed", self, "_on_ok_button")
+		make_button("OK")
 	elif type == "construction":
-		var btn = Button.new()
-		btn.set_h_size_flags(SIZE_EXPAND_FILL)
-		btn.set_text("Go to Planet")
-		buttons.add_child(btn)
-		btn.connect("pressed", self, "_on_planet_button", [target])
+		make_button("Go to Planet", "planet_picked", target)
 	elif type == "research":
-		var btn = Button.new()
-		btn.set_h_size_flags(SIZE_EXPAND_FILL)
-		btn.set_text("Go to Research")
-		buttons.add_child(btn)
-		btn.connect("pressed", self, "_on_research_button", [target])
+		make_button("Go to Research", "research", target)
 	pass
-	
-func _on_ok_button():
+
+func make_button(text_label, signal_name = null, signal_target = null):
+	var btn = Button.new()
+	btn.set_h_size_flags(SIZE_EXPAND_FILL)
+	btn.set_text(text_label)
+	buttons.add_child(btn)
+	btn.connect("pressed", self, "on_button", [signal_name, signal_target])
+
+func on_button(signal_name = null, target = null):
 	hide()
-	dismiss()
-	
-func _on_planet_button(planet):
-	hide()
-	emit_signal("planet_picked", planet)
-	dismiss()
-	
-func _on_research_button(player):
-	hide()
-	emit_signal("research", player)
+	if signal_name != null:
+		if target != null:
+			emit_signal(signal_name, target)
+		else:
+			emit_signal(signal_name)
 	dismiss()
 	
 func dismiss():

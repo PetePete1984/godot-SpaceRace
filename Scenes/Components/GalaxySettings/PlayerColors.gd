@@ -13,10 +13,7 @@ func _ready():
 	pass
 
 func set_race(race_key):
-	# TODO: use texturehandler
-	var index = RaceDefinitions.races.find(race_key)
-	var path = "res://Images/Races/FlagsBW/raceflag.ascshp_%03d.png" % [index]
-	var texture = load(path)
+	var texture = TextureHandler.get_race_flag(race_key)
 	for c in get_children():
 		c.set_normal_texture(texture)
 	pass

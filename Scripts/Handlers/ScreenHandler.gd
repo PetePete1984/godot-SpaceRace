@@ -18,6 +18,8 @@ signal leaving_screen(old_screen)
 signal showing_screen(new_screen)
 signal quit_requested
 
+# TODO: Screens should be states. The ScreenHandler should be the one taking input and/or unhandled input and passing it down to a common input interface. Enter, Exit and Return transitions should be possible.
+# TODO: Screens that have Substates should perform like a hierarchical FSM and, where needed, run concurrent FSMs.
 # screen stack
 var screens = []
 var current_screen
@@ -56,14 +58,21 @@ func connect_signals():
 	PlanetListScreen.connect("system_clicked", self, "_system_view")
 	PlanetListScreen.connect("planet_clicked", self, "_planet_view")
 
-	# Ship Design signals
 	# right-click on ship in ship list
 	ShipListScreen.connect("view_ship_layout", self, "_ship_design_view")
+	# left clicks
+	ShipListScreen.connect("system_clicked", self, "_system_view")
+	ShipListScreen.connect("planet_clicked", self, "_planet_view")
+	ShipListScreen.connect("ship_clicked", self, "return_screen")
+	
+	# Ship Design signals
 	# new ship project
 	PlanetScreen.connect("design_new_ship", self, "_ship_design_view")
 	# refit project
 	PlanetScreen.connect("refit_ship", self, "_ship_design_view")
+
 	# TODO: maybe connect PlanetScreen to ShipDesign screen here, realistically the planet screen is the only one who needs to know about changes in design
+	# FIXME: this opens the popup even when opening the shipdesign from somewhere else, maybe only react when the planet screen is visible
 	ShipDesignScreen.connect("leaving_with_ship_design", PlanetScreen, "_on_left_ship_design_screen")
 
 	# gameplay signals
@@ -78,10 +87,13 @@ func return_screen():
 	elif screens.size() > 1:
 		emit_signal("leaving_screen", screens.back())
 		screens.back().hide()
+		var dirty_flag = screens.back().trigger_update
+		screens.back().trigger_update = false
 		screens.pop_back()
 		# TODO: if multiple are visible (galaxy + species < intelligence), find something else
 		# TODO: returning from planet to planet list after starting a project must update planet list
 		emit_signal("showing_screen", screens.back())
+		screens.back().trigger_update = dirty_flag
 		screens.back().show()
 	else:
 		emit_signal("quit_requested")
@@ -96,6 +108,8 @@ func use_galaxy_options_and_show_intro(galaxy_options, race_key, color):
 	GameStateHandler.initialize_galaxy(galaxy_options, race_key, color)
 	GalaxyScreen.set_color(color)
 	move_to_screen(RaceIntroScreen)
+	var race_index = RaceDefinitions.race[race_key].index
+	AudioManager.play_race_music(race_index)
 	
 func _next_turn_requested():
 	TurnHandler.game_turn()

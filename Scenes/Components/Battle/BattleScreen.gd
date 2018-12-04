@@ -16,6 +16,7 @@ var PlanetModule = preload("res://Scripts/Model/OrbitalTile.gd")
 var ShipModule = preload("res://Scripts/Model/ShipModuleTile.gd")
 
 var ShipController = preload("res://Scripts/Controller/ShipController.gd")
+var StarSystemController = preload("res://Scripts/Controller/StarSystemController.gd")
 var BattleCommand = preload("res://Scripts/Model/BattleCommand.gd")
 
 # Viewport for the 3D screen
@@ -112,7 +113,7 @@ func _ready():
 	grid.connect("toggled", battle_root, "display_grid")
 	
 	# this will break when I drill down to the planet
-	# connect("visibility_changed", self, "_maybe_refresh")
+	connect("visibility_changed", self, "_maybe_refresh")
 
 	# connect to battle3d events
 	battle_root.connect("battle_object_clicked", self, "_on_battle_object_picked")
@@ -144,16 +145,21 @@ func _process(delta):
 			current_animation_mode = animation_mode.WAIT
 			currently_animated = battle_object
 	
-	#if current_animation_mode == animation_mode.WAIT:
-	if current_animation_mode == WAIT:
+	if current_animation_mode == animation_mode.WAIT:
 		if currently_animated != null:
 			if currently_animated.command.command_type == BattleCommand.COMMAND.MOVE:
+				# TODO: check for null position
+				if currently_animated.position == null:
+					print("arrived")
+				
 				var movement_vector = currently_animated.command.target - currently_animated.position
-				if movement_vector.length() > 0.001:#0.00001:
+				StarSystemController.move_ship(currently_animated)
+				#print(movement_vector.length())
+				if movement_vector.length() > delta:
 					movement_vector = movement_vector.normalized()
-					currently_animated.position += movement_vector * delta
+					currently_animated.position += movement_vector * 3 * delta
 					#battle_root.animate_object(currently_animated.command, movement_vector)
-					battle_root.object_map[currently_animated].translate(movement_vector * delta)
+					battle_root.object_map[currently_animated].translate(movement_vector * 3 * delta)
 					#currently_animated.command.actor.translate(movement_vector * delta)
 				else:
 					# TODO: finish command, whatever that means (chain into explosion, deal damage etc)
@@ -161,33 +167,50 @@ func _process(delta):
 					if currently_animated.command.target_object != null:
 						var from = currently_animated
 						var to = from.command.target_object
-						if (from.position - to.position).length() <= 0.001 and to extends Planet:
-							ShipController.attempt_orbit(to, from)
+						var arrived = false
+						if to extends StarLane:
+							if (from.position - from.command.target).length() <= 0.01:
+								var entered_starlane = ShipController.enter_starlane(to, from)
+								if entered_starlane:
+									current_selection.reset()
+									battle_root.remove_display_for_object(currently_animated)
+									arrived = true
+
+						elif to extends Planet:
+							if (from.position - to.position).length() <= 0.01:
+								var docked = ShipController.attempt_orbit(to, from)
+								if docked:
+									current_selection.reset()
+									battle_root.remove_display_for_object(currently_animated)
+									#battle_root.object_map[currently_animated].queue_free()
+									arrived = true
+
+						if arrived:
+							current_animation_mode = animation_mode.NONE
+							currently_animated.command.reset()
+							currently_animated = null
 
 					current_animation_mode = animation_mode.NONE
 					currently_animated.command.reset()
 					currently_animated = null
-
-
 		else:
 			current_animation_mode = animation_mode.NONE
-
-
 	pass
 
 func set_payload(payload):
 	set_system(payload)
 
 # TODO: update when returning from planet screen, for example because of colonies cheated in or ships entering / leaving orbit
+# probably will be using a signal
 func _maybe_refresh():
 	# multiple possible entry points exist for the battle screen
 	# 1: from the galaxy view, player clicked on a star system
 	# 2: from the planet list, player clicked on the star
 	# 3: from an event, ship entered a player system
 	# 4: from an event, a hostile ship entered or still is in a player system
-	if current_system != null:
+	if current_system != null and trigger_update:
 		if is_visible() == true:
-				set_system(current_system)
+			set_system(current_system)
 	pass
 
 func set_system(system):
@@ -202,6 +225,7 @@ func set_system(system):
 	# TODO: reset selection
 	current_selection.reset()
 	#print(get_tree().get_nodes_in_group("battlescreen_vp_hover").size())
+	trigger_update = false
 	pass
 	
 func update_ui(system):
@@ -253,14 +277,29 @@ func planet_clicked(planet):
 				current_selection.sprite = sprite
 				current_selection.battle_object = planet
 		elif current_selection.battle_object extends Ship:
+			# TODO: issuing a command deselects the ship
 			if current_control_mode == control_mode.SHIP:
+				# FIXME: this can fill the command queue if you click very quickly, have to rethink the whole thing
 				ShipController.command_move_to_planet(current_selection.battle_object, planet)
+				# this would be clever but those areas don't exist unless we're on this screen, but ships can and will move through systems even when not visible
+				# var ship_sprite = current_selection.sprite
+				# ship_sprite.click_area.connect("area_enter", self, "_on_ship_area_entered", [sprite.click_area])
 				command_queue.append(current_selection.battle_object)
 			pass
 	else:
 		current_selection.sprite = sprite
 		current_selection.battle_object = planet
 		pass
+	pass
+
+func starlane_clicked(starlane):
+	var sprite = battle_root.object_map[starlane]
+	if current_selection.battle_object != null:
+		if current_selection.battle_object extends Ship:
+			if current_control_mode == control_mode.SHIP:
+				# FIXME: this can fill the command queue if you click very quickly, have to rethink the whole thing
+				ShipController.command_move_to_starlane(current_selection.battle_object, starlane)
+				command_queue.append(current_selection.battle_object)
 	pass
 
 func ship_clicked(ship):
@@ -307,8 +346,7 @@ func space_clicked(event, coords, rotation):
 			# empty space click = deselect planet
 			update_screen_mode(screen_mode.NONE)
 			item_list.view_own_items(GameStateHandler.game_state.human_player, current_system)
-			current_selection.sprite = null
-			current_selection.battle_object = null
+			current_selection.reset()
 			pass
 		elif current_selection.battle_object extends PlanetModule:
 			# check if it can be targeted and fired
@@ -323,7 +361,7 @@ func space_clicked(event, coords, rotation):
 
 func _on_any_click(event, coords, rotation):
 	if currently_hovering == false:
-		print(coords)
+		#print(coords)
 		space_clicked(event, coords, rotation)
 
 func _on_rotate(direction):
@@ -337,6 +375,8 @@ func _on_battle_object_picked(object):
 		planet_clicked(object)
 	elif object extends Ship:
 		ship_clicked(object)
+	elif object extends StarLane:
+		starlane_clicked(object)
 	pass
 
 func _on_battle_object_hover_begin(object):
@@ -385,3 +425,8 @@ func _on_list_own_clicked():
 
 func _on_list_other_clicked():
 	item_list.view_other_items(GameStateHandler.game_state.human_player, current_system)
+
+func _on_ship_area_entered(area, expected):
+	if area == expected:
+		# ship arrived at designated target
+		print("ship arrived at planet")

@@ -11,7 +11,7 @@ const ShipRefitProject = preload("res://Scripts/Model/ShipConstructionProject.gd
 const ShipProject = preload("res://Scripts/Model/ShipProject.gd")
 const ShipFactory = preload("res://Scripts/Factories/ShipFactory.gd")
 
-const Planetmap = preload("res://Scripts/Planetmap.gd")
+const Planetmap = Classes.Planetmap
 
 static func colonize_planet(planet, player, position, name = null):
 	# TODO: allow the player to rename planets (on colonize and later)
@@ -124,8 +124,10 @@ static func start_ship_project(colony, ship_design, position):
 			new_project.resulting_ship = ShipFactory.initialize_ship(ship_design.size, ship_design.modules, ship_design.ship_name, colony.owner)
 			new_project.position = position
 			# TODO: insert ship into list of player ships
+			colony.owner.ships.append(new_project.resulting_ship)
 			# deactivate ship while it's in construction
 			new_project.resulting_ship.active = false
+			new_project.resulting_ship.location_planet = colony.planet
 			tile.orbiting_ship = new_project.resulting_ship
 			colony.project = new_project
 			

@@ -40,19 +40,27 @@ var power
 var maximum_power
 
 # TODO: might need to be hull strength and shield separated
+# TODO: shields are module and each is individual?
 # recharged with repair modules
 var shield
 var maximum_shield
 
 var scanner
 
+# total drive speed
 var drive
+# list of drives, ordered by speed?
+var drives = []
+# total starlane speed
 var lane_speed
 
 # convenience dict
 var module_count
 # convenience list
 var unique_modules
+
+var experience
+var experience_level
 
 func has_module(module):
 	var result = false
@@ -73,3 +81,16 @@ func has_colonizer():
 func has_invader():
 	return has_module("invasion_module")
 	pass
+
+func update_stats(category = null):
+	var drive_temp = 0
+	for coords in modules:
+		var tile = modules[coords]
+		if tile != null:
+			if tile.module_type != null:
+				if tile.module_type.category == "drive":
+					drive_temp += tile.module_type.strength
+					drives.append(tile)
+	drive = drive_temp
+	pass
+

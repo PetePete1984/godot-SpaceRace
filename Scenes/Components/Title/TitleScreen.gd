@@ -4,8 +4,8 @@ signal new_game
 signal resume_game
 
 func _ready():
-	get_node("Button").connect("pressed", self, "_on_new_game")
-	get_node("Return").connect("pressed", self, "_on_resume_game")
+	get_node("VBoxContainer/Panel2/Button").connect("pressed", self, "_on_new_game")
+	get_node("VBoxContainer/Panel3/Return").connect("pressed", self, "_on_resume_game")
 	pass
 
 func set_payload(payload):

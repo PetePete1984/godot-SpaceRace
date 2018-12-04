@@ -85,12 +85,13 @@ size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 158.0
-margin/bottom = 112.0
+margin/bottom = 130.0
 texture = ExtResource( 2 )
 stretch_mode = 0
 
 [node name="Stats" type="VBoxContainer" parent="HBoxContainer"]
 
+editor/display_folded = true
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 0
@@ -98,7 +99,7 @@ size_flags/vertical = 2
 margin/left = 162.0
 margin/top = 0.0
 margin/right = 319.0
-margin/bottom = 112.0
+margin/bottom = 130.0
 custom_constants/separation = 2
 alignment = 0
 
@@ -326,7 +327,7 @@ size_flags/vertical = 2
 margin/left = 323.0
 margin/top = 0.0
 margin/right = 336.0
-margin/bottom = 112.0
+margin/bottom = 130.0
 alignment = 0
 
 [node name="HullStrengthBar" type="TextureFrame" parent="HBoxContainer/HullVBox"]
@@ -353,7 +354,7 @@ size_flags/vertical = 2
 margin/left = 340.0
 margin/top = 0.0
 margin/right = 353.0
-margin/bottom = 112.0
+margin/bottom = 130.0
 alignment = 0
 
 [node name="PowerBar" type="TextureFrame" parent="HBoxContainer/PowerVBox"]
@@ -379,21 +380,23 @@ size_flags/horizontal = 0
 size_flags/vertical = 2
 margin/left = 357.0
 margin/top = 0.0
-margin/right = 474.0
-margin/bottom = 112.0
+margin/right = 467.0
+margin/bottom = 130.0
 alignment = 0
 
 [node name="Location" type="Label" parent="HBoxContainer/LocationVBox"]
 
+rect/min_size = Vector2( 110, 112 )
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 117.0
-margin/bottom = 14.0
+margin/right = 110.0
+margin/bottom = 112.0
 text = "In Antares System"
+autowrap = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -405,9 +408,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
 margin/left = 0.0
-margin/top = 18.0
-margin/right = 117.0
-margin/bottom = 32.0
+margin/top = 116.0
+margin/right = 110.0
+margin/bottom = 130.0
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -418,10 +421,10 @@ focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 0
 size_flags/vertical = 2
-margin/left = 478.0
+margin/left = 471.0
 margin/top = 0.0
-margin/right = 628.0
-margin/bottom = 112.0
+margin/right = 621.0
+margin/bottom = 130.0
 alignment = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/SpriteVBox"]
@@ -452,6 +455,23 @@ margin/right = 150.0
 margin/bottom = 112.0
 texture = ExtResource( 9 )
 expand = true
-stretch_mode = 2
+stretch_mode = 7
+
+[node name="TextureButton" type="TextureButton" parent="."]
+
+rect/min_size = Vector2( 610, 124 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
 
 

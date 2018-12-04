@@ -86,12 +86,10 @@ func _ready():
 		if shapes.size() > 0 or templates.size() > 0:
 			default_palette = PalToColors.get_palette("res://Cob/cob1/data/game.pal")
 			#set_process(true)
+		
+		if shapes.size() > 0:
 
-			# TODO: implement custom modifications like greyscale race flags
-
-			# change paths to fit with renamed files
-			# TODO: maybe move this outside? (to include gifs and fnts)
-			ImageMapper.map_all()
+			pass
 		if raws.size() > 0:
 			var dir = Directory.new()
 			for next_raw in raws:
@@ -105,11 +103,11 @@ func _ready():
 				var os_name = OS.get_name()
 				if os_name == "Windows":
 					var output = []
-					var pid = OS.execute(Globals.globalize_path(ffmpeg_windows), ["-i", Globals.globalize_path("res://Audio/Music".plus_file(file_from)), "-acodec", "libvorbis", Globals.globalize_path("res://Audio/Music".plus_file(file_from).replace(".wav", ".ogg"))], true, output)
+					var pid = OS.execute(Globals.globalize_path(ffmpeg_windows), ["-hide_banner", "-loglevel", "panic", "-y", "-i", Globals.globalize_path("res://Audio/Music".plus_file(file_from)), "-acodec", "libvorbis", Globals.globalize_path("res://Audio/Music".plus_file(file_from).replace(".wav", ".ogg"))], true, output)
 					yield(get_tree(), "idle_frame")
 				elif os_name == "X11":
 					var output = []
-					var pid = OS.execute(Globals.globalize_path(ffmpeg_linux), ["-i", Globals.globalize_path("res://Audio/Music".plus_file(file_from)), "-acodec", "libvorbis", Globals.globalize_path("res://Audio/Music".plus_file(file_from).replace(".wav", ".ogg"))], true, output)
+					var pid = OS.execute(Globals.globalize_path(ffmpeg_linux), ["-hide_banner", "-loglevel", "panic", "-y", "-i", Globals.globalize_path("res://Audio/Music".plus_file(file_from)), "-acodec", "libvorbis", Globals.globalize_path("res://Audio/Music".plus_file(file_from).replace(".wav", ".ogg"))], true, output)
 					yield(get_tree(), "idle_frame")
 		if vocs.size() > 0:
 			for next_voc in vocs:
@@ -127,6 +125,19 @@ func _ready():
 				dir.copy(path_from, path_to)
 				yield(get_tree(), "idle_frame")
 		if gifs.size() > 0:
+			for next_gif in gifs:
+				var target = next_gif.replace(".gif", "_gif.png")
+				#print(target)
+				#continue
+				var os_name = OS.get_name()
+				if os_name == "Windows":
+					var output = []
+					var pid = OS.execute(Globals.globalize_path(ffmpeg_windows), ["-hide_banner", "-loglevel", "panic", "-y", "-i", Globals.globalize_path(next_gif), Globals.globalize_path(target)], true, output)
+					yield(get_tree(), "idle_frame")
+				elif os_name == "X11":
+					var output = []
+					var pid = OS.execute(Globals.globalize_path(ffmpeg_linux), ["-hide_banner", "-loglevel", "panic", "-y", "-i", Globals.globalize_path(next_gif), Globals.globalize_path(target)], true, output)
+					yield(get_tree(), "idle_frame")
 			pass
 		if fnts.size() > 0:
 			var logo_palette
@@ -135,6 +146,14 @@ func _ready():
 			for next_fnt in fnts:
 				FntToPng.unfnt(next_fnt, logo_palette)
 			pass
+
+		if shapes.size() > 0 or templates.size() > 0 or gifs.size() > 0 or fnts.size() > 0:
+			# TODO: implement custom modifications like greyscale race flags
+
+			# change paths to fit with renamed files
+			# TODO: maybe move this outside? (to include gifs and fnts)
+			ImageMapper.map_all()
+	
 		emit_signal("processing_finished", true)
 	else:
 		print("Didn't Uncob")

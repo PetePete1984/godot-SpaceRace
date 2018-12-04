@@ -1,9 +1,9 @@
 # Non-Human player Handler
 extends Reference
 
-const ColonyManager = preload("res://Scripts/ColonyManager.gd")
+const ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
 const ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
-const ResearchManager = preload("res://Scripts/ResearchManager.gd")
+const ResearchManager = preload("res://Scripts/Manager/ResearchManager.gd")
 
 static func handle(player):
 	# TODO: get global situation, like research completed or in progress (mostly "all", but might have some special cases like "almost done with research campus, don't build labs")
@@ -12,6 +12,7 @@ static func handle(player):
 		var colony = player.colonies[c]
 		var build_next = ColonyManager.manage(colony)
 		if build_next != null:
+			# TODO: remove debug passage
 			if player.race.type == "fludentri":
 				#printt(build_next, colony.planet.planet_name, player.race.type, GameStateHandler.game_state.turn)
 				pass
@@ -26,7 +27,7 @@ static func handle(player):
 	# find available research project if none is running
 	# follow some research path
 	# pick research
-	# do black magic for cheaters, err, chamachies
+	# TODO: special handling for chamachies who might want to stagger their special ability if research is almost done
 	if player.total_research > 0:
 		var research_next = ResearchManager.manage(player)
 		if research_next != null:

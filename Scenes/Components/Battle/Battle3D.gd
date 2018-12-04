@@ -14,10 +14,10 @@ const ZOOM_SPEED = 10.0
 const SCALE_FACTOR = 1
 var DISPLAY_SCALE = Vector3(SCALE_FACTOR,SCALE_FACTOR,SCALE_FACTOR) #Vector3(0.2, 0.2, 0.2)
 
-#var StarSystemGenerator = preload("res://Scripts/StarSystemGenerator.gd")
+#var StarSystemGenerator = preload("res://Scripts/Generator/StarSystemGenerator.gd")
 
 var Planet = preload("res://Scripts/Model/Planet.gd")
-var Planetmap = preload("res://Scripts/Planetmap.gd")
+var Planetmap = Classes.Planetmap
 #var SmallPlanetSprite = preload("res://Scenes/Components/Battle/SmallPlanetSprite.gd")
 var BattlePick = preload("res://Scenes/Components/ClickableArea3D.gd")
 var BillboardSprite3D = preload("res://Scenes/Components/BillboardSprite3D.tscn")
@@ -79,6 +79,7 @@ func _process(delta):
 	pass
 
 func _unhandled_input(event):
+	# TODO: maybe use the Plane class and its intersects_ray method
 	if event.type == InputEvent.MOUSE_MOTION:
 		var x = event.pos.x
 		var y = event.pos.y
@@ -117,6 +118,7 @@ func display_lines(display = true):
 
 func clear_display():
 	# FIXME: clear sun sprite
+	# TODO: has trouble when undocking a ship for the second time
 	for spr in sprites:
 		#print(spr.get_name())
 		if spr.has_node("area"):
@@ -129,6 +131,12 @@ func clear_display():
 	sprites.clear()
 	object_map.clear()
 	emit_signal("sprites_cleared")
+
+func remove_display_for_object(battle_object):
+	var sprite = object_map[battle_object]
+	sprites.erase(sprite)
+	object_map.erase(battle_object)
+	sprite.call_deferred("queue_free")
 
 func set_system(system):
 	generate_starsystem_display(system)
@@ -154,6 +162,7 @@ func generate_starsystem_display(system):
 	object_map[system] = sun_sprite
 		
 	# draw the system's star lanes
+	# TODO: split lanes into lanes + lane exits
 	for lane_pos in sys.lanes:
 		var lane = sys.lanes[lane_pos]
 		#var lane_sprite = BillboardSprite3D.instance()
@@ -211,25 +220,33 @@ func get_clickable(obj_texture, obj_position, obj_name, obj_as_signal_param):
 	area3d.set_ray_pickable(true)
 	area3d.set_name("area")
 	
-	# clickable area shape
-	var collisionShape = CollisionShape.new()
-	var collisionBox3d = BoxShape.new()
-	
 	# sprite size * math = area shape
 	var sprite_x = new_sprite.get_texture().get_width()
 	var sprite_y = new_sprite.get_texture().get_height()
 	var unit_pixel_ratio = new_sprite.get_pixel_size()
+
+	# clickable area shape
+	var collisionShape = CollisionShape.new()
+	
+	# Box mode
+	#var assignedShape = BoxShape.new()
 	
 	# divide by 2 because extents are doubled size
-	collisionBox3d.set_extents(Vector3(sprite_x, sprite_y, 1) * unit_pixel_ratio / 2)
+	#assignedShape.set_extents(Vector3(sprite_x, sprite_y, 1) * unit_pixel_ratio / 2)
 
-	collisionShape.set_shape(collisionBox3d)
-	area3d.add_shape(collisionBox3d)
+	# Sphere mode
+	var assignedShape = SphereShape.new()
+	assignedShape.set_radius(max(sprite_x, sprite_y) * unit_pixel_ratio / 2)
+	# TODO: ships are images with lots of empty space because the max ship size dictates the max image size, so the sphere shape doesn't quite fit
+
+	collisionShape.set_shape(assignedShape)
+	area3d.add_shape(assignedShape)
 	area3d.add_child(collisionShape)
 	
 	# add collision area to object
 	new_sprite.add_child(area3d)
 	new_sprite.set_name(obj_name)
+	new_sprite.click_area = area3d
 	
 	# connect to area's click signal for object picking
 	# TODO: maybe need to pass more than the object upwards, because the screen needs to tell the specific sprite to move in process
@@ -251,7 +268,8 @@ func _on_battle_object_hover_begin(object):
 	emit_signal("battle_object_hover_begin", object)
 	
 func _on_battle_object_hover_end(object):
-	object_map[object].get_node("area").remove_from_group("battlescreen_vp_hover")
+	if object_map[object].get_node("area").is_in_group("battlescreen_vp_hover"):
+		object_map[object].get_node("area").remove_from_group("battlescreen_vp_hover")
 	emit_signal("battle_object_hover_end", object)
 
 #func _create_random_system():

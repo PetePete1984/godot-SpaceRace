@@ -12,7 +12,7 @@ const SYSTEMS = 100
 
 var DepthCue = preload("res://Scenes/Components/DepthCueSprite3D.gd")
 var StarSprite = preload("GalaxyStarSprite.tscn")
-var StarSystemGenerator = preload("res://Scripts/StarSystemGenerator.gd")
+var StarSystemGenerator = preload("res://Scripts/Generator/StarSystemGenerator.gd")
 
 onready var camera = get_node("camera")
 
@@ -24,6 +24,9 @@ var spin_v_direction = 0
 var zoom_direction = 0
 
 signal system_picked(system)
+signal system_hover_begin(system)
+signal system_hover_end(system)
+
 signal rotated
 signal zoomed
 
@@ -117,6 +120,23 @@ func draw_lines(game_state):
 	
 func system_clicked(sys):
 	emit_signal("system_picked", sys)
+	pass
+
+func system_hover_begin(sys):
+	var human_player = GameStateHandler.game_state.human_player
+	var human_home = null
+	for colony_key in human_player.colonies:
+		var colony = human_player.colonies[colony_key]
+		if colony.home == true:
+			human_home = colony
+	if human_home != null:
+		var human_system = human_home.planet.system
+		if sys != human_system:
+			#print(GalaxyNavigator.get_route(human_system, sys))
+			pass
+	pass
+
+func system_hover_end(sys):
 	pass
 	
 func clear_display():

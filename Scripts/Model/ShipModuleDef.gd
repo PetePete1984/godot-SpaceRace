@@ -7,14 +7,21 @@ var ship_module_name = ""
 # the module's category, assigned from the defs
 # one of ["weapon", "shield", "drive", "scanner", "generator", "special"]
 var category
-var power_drain
+# power drain for modules
+# power provided for generators
+var power
+# total uses - undefined in game data
 var uses
+# NumUses
 var uses_per_turn
 # game data: level
 var strength
+# weapon and scanner range
 var module_range
 
+# required research
 var requires_research = null
+# cost in industry points
 var cost
 
 var effect_function

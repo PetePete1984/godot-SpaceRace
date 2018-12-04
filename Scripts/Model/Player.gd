@@ -9,8 +9,8 @@ var extinct = false
 
 # set of owned colonies
 var colonies = {}
-# set of owned ships
-var ships = {}
+# list of owned ships
+var ships = []
 
 # set of running research
 var research = {}
@@ -57,14 +57,13 @@ func count_laboratories():
 	
 func is_space_travel_available():
 	var result = true
-	# TODO: move this list into research defs
+	# TODO: move this list into research defs, or game rules
 	for i in ["orbital_structures", "interplanetary_exploration", "tonklin_diary", "spacetime_surfing"]:
 		if not i in completed_research:
 			result = false
 			break
 	meta_info.space_travel_available = result
 	return result
-	pass
 	
 func get_total_research():
 	var sum = 0

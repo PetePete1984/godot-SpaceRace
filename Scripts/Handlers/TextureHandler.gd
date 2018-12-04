@@ -160,25 +160,36 @@ func get_tech_project(project):
 func get_research_icon(research):
 	var resDef = ResearchDefinitions.research_defs[research]
 	var path = "res://Images/Screens/Research/Research/restree.ascshp_%03d.png" % (resDef.index)
+	#prints("loading", path)
 	return get_texture(path)
-	pass
+
+func get_research_icon_by_index(index):
+	var path = "res://Images/Screens/Research/Research/restree.ascshp_%03d.png" % (index)
+	#prints("loading", path)
+	return get_texture(path)
+
+func get_research_ring(type):
+	var path = "res://Images/Screens/Research/Rings/%s.png" % type
+	return get_texture(path)
 	
 # research points display
 func get_research(planet):
 	return get_indexed_display("Research", planet.colony.adjusted_research)
-	pass
 
 func get_industry(planet):
 	return get_indexed_display("Industry", planet.colony.adjusted_industry)
-	pass
 
 func get_prosperity(planet):
 	return get_indexed_display("Prosperity", planet.colony.adjusted_prosperity)
-	pass
 	
+# for population displays
 func get_person(type, small = false):
 	pass
 	
+func get_turn_digit(digit):
+	var path = "res://Images/Screens/Galaxy/Layout/Numbers/%d.png" % digit
+	return get_texture(path)
+
 func get_indexed_display(type, points):
 	var index = -1
 	if type == "Research" or type == "Industry":

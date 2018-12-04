@@ -27,7 +27,7 @@ func set_preview(module):
 	#var def = ShipModuleDefinitions.ship_module_defs[module]
 	if ModulePreview != null:
 		ModulePreview.set_texture(TextureHandler.get_ship_module(module))
-		ModulePreview.set_offset(Vector2(0, 9.5))
+		ModulePreview.set_offset(Vector2(0, 8.5))
 
 func set_module(position, module = null):
 	if module != null:

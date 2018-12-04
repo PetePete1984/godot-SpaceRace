@@ -11,10 +11,12 @@ var textures = {}
 
 func _ready():
 	for i in range(10):
-		textures[str(i)] = load(texture_path % i)
+		var preloading = TextureHandler.get_turn_digit(i)
+		#textures[str(i)] = load(texture_path % i)
 	pass
 
 func set_color(color):
+	# TODO: use materialhandler
 	_10k.get_material().set_shader_param("Color", color)
 	pass
 	
@@ -28,9 +30,14 @@ func set_turn(turn):
 		numbers.append(turn % 1000 / 100)
 		numbers.append(turn % 100 / 10)
 		numbers.append(turn % 10)
-	_10k.set_texture(textures[str(numbers[0])])
-	_1k.set_texture(textures[str(numbers[1])])
-	_100.set_texture(textures[str(numbers[2])])
-	_10.set_texture(textures[str(numbers[3])])
-	_1.set_texture(textures[str(numbers[4])])
+#	_10k.set_texture(textures[str(numbers[0])])
+#	_1k.set_texture(textures[str(numbers[1])])
+#	_100.set_texture(textures[str(numbers[2])])
+#	_10.set_texture(textures[str(numbers[3])])
+#	_1.set_texture(textures[str(numbers[4])])
+	_10k.set_texture(TextureHandler.get_turn_digit(numbers[0]))
+	_1k.set_texture(TextureHandler.get_turn_digit(numbers[1]))
+	_100.set_texture(TextureHandler.get_turn_digit(numbers[2]))
+	_10.set_texture(TextureHandler.get_turn_digit(numbers[3]))
+	_1.set_texture(TextureHandler.get_turn_digit(numbers[4]))
 	pass

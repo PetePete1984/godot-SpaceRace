@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://Scenes/Components/Title/TitleScreen.gd" type="Script" id=1]
-[ext_resource path="res://Images/Placeholder/ascend_017.png" type="Texture" id=2]
+[ext_resource path="res://Images/Screens/Title/opening.png" type="Texture" id=2]
 
 [node name="TitleScreen" type="Node2D"]
 
@@ -13,36 +13,149 @@ _is_overlay = false
 texture = ExtResource( 2 )
 centered = false
 
-[node name="Button" type="Button" parent="."]
+[node name="TextureButton" type="TextureButton" parent="."]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 276.0
-margin/top = 285.0
-margin/right = 358.0
-margin/bottom = 305.0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+params/resize_mode = 0
+params/stretch_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 159.0
+margin/top = 200.0
+margin/right = 478.0
+margin/bottom = 471.0
+custom_constants/separation = 9
+alignment = 0
+
+[node name="Panel" type="Panel" parent="VBoxContainer"]
+
+rect/min_size = Vector2( 0, 31 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 319.0
+margin/bottom = 31.0
+
+[node name="Panel1" type="Panel" parent="VBoxContainer"]
+
+rect/min_size = Vector2( 0, 31 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 40.0
+margin/right = 319.0
+margin/bottom = 71.0
+
+[node name="Panel2" type="Panel" parent="VBoxContainer"]
+
+rect/min_size = Vector2( 0, 31 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 80.0
+margin/right = 319.0
+margin/bottom = 111.0
+
+[node name="Button" type="Button" parent="VBoxContainer/Panel2"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 117.0
+margin/top = 5.0
+margin/right = 199.0
+margin/bottom = 25.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "New Game"
 flat = false
 
-[node name="Return" type="Button" parent="."]
+[node name="Panel3" type="Panel" parent="VBoxContainer"]
+
+rect/min_size = Vector2( 0, 31 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 120.0
+margin/right = 319.0
+margin/bottom = 151.0
+
+[node name="Return" type="Button" parent="VBoxContainer/Panel3"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 237.0
-margin/top = 325.0
-margin/right = 401.0
-margin/bottom = 345.0
+margin/left = 78.0
+margin/top = 5.0
+margin/right = 242.0
+margin/bottom = 25.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 text = "Return to Current Game"
 flat = false
+
+[node name="Panel4" type="Panel" parent="VBoxContainer"]
+
+rect/min_size = Vector2( 0, 31 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 160.0
+margin/right = 319.0
+margin/bottom = 191.0
+
+[node name="Panel5" type="Panel" parent="VBoxContainer"]
+
+rect/min_size = Vector2( 0, 31 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 200.0
+margin/right = 319.0
+margin/bottom = 231.0
+
+[node name="Panel6" type="Panel" parent="VBoxContainer"]
+
+rect/min_size = Vector2( 0, 31 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 240.0
+margin/right = 319.0
+margin/bottom = 271.0
 
 

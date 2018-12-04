@@ -4,6 +4,15 @@ const early_research = ["orbital_structures", "interplanetary_exploration", "ton
 # industrial mega facility, metroplex, research campus, hydroponifer, hyperpower, internet, terraforming, automation, growth_bomb
 const mid_research = ["positron_guidance", "large_scale_construction", "hyperlogic", "advanced_chemistry", "subatomics", "megagraph_theory", "planetary_replenishment"]
 
+const easy_guideline = []
+const medium_guideline = []
+const hard_guideline = []
+
+const industrialist = []
+const expansionist = []
+const researcher = []
+const warmonger = []
+
 static func manage(player):
 	var result = null
 	if player.research_project == null:
@@ -43,7 +52,8 @@ static func manage(player):
 		pass
 		#print("didn't pick research")
 	else:
-		print("%s picked %s" % [player.race.race_name, result])
+		#print("%s picked %s cost %s" % [player.race.race_name, result, ResearchDefinitions.research_defs[result].cost])
+		pass
 	return result
 
 static func get_available_research(player):

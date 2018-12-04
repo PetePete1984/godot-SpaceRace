@@ -9,12 +9,13 @@ var GameState = preload("res://Scripts/Model/GameState.gd")
 var Player = preload("res://Scripts/Model/Player.gd")
 var Colony = preload("res://Scripts/Model/Colony.gd")
 
-var GalaxyGenerator = preload("res://Scripts/GalaxyGenerator.gd")
-var RaceGenerator = preload("res://Scripts/RaceGenerator.gd")
-var ColonyGenerator = preload("res://Scripts/ColonyGenerator.gd")
+var GalaxyGenerator = preload("res://Scripts/Generator/GalaxyGenerator.gd")
+var RaceGenerator = preload("res://Scripts/Generator/RaceGenerator.gd")
+var ColonyGenerator = preload("res://Scripts/Generator/ColonyGenerator.gd")
 # FIXME: temp for debug
-var ColonyManager = preload("res://Scripts/ColonyManager.gd")
-var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
+var ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
+var KnowledgeFactory = preload("res://Scripts/Factories/KnowledgeFactory.gd")
+onready var ColonyController = Classes.model["ColonyController"]
 
 var GameStatePurger = preload("res://Scripts/Tools/GameStatePurger.gd")
 var GameStateTransformer = preload("res://Scripts/Transformer/GameStateTransformer.gd")
@@ -83,6 +84,9 @@ func initialize_galaxy(galaxy_options, race_key, color):
 		GalaxyGenerator.connect_star_systems(new_game_state.galaxy)
 		#print(new_game_state.galaxy.lanes)
 		
+		# initialize the navigator
+		GalaxyNavigator.get_astar_from_galaxy(new_game_state.galaxy)
+
 		# initialize player race
 		var player = RaceGenerator.generate_player(new_game_state, race_key)
 		player.color = color
@@ -138,7 +142,10 @@ func initialize_galaxy(galaxy_options, race_key, color):
 
 
 			#new_game_state.galaxy.races = new_game_state.races
-		
+		for r_key in new_game_state.races:
+			var participant = new_game_state.races[r_key]
+			#KnowledgeFactory.initialize_player_knowledge(participant, new_game_state)
+
 		# move everything into the normal game state
 		if game_state != null:
 			GameStatePurger.purge_game_state(game_state)

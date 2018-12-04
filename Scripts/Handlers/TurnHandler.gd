@@ -1,9 +1,9 @@
 extends Node
 
-onready var EventGenerator = preload("res://Scripts/EventGenerator.gd")
+onready var EventGenerator = preload("res://Scripts/Generator/EventGenerator.gd")
 var AlienRaceHandler = preload("res://Scripts/Handlers/AlienRaceHandler.gd")
-var ColonyManager = preload("res://Scripts/ColonyManager.gd")
-var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
+var ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
+onready var ColonyController = Classes.model.ColonyController
 var ShipController = preload("res://Scripts/Controller/ShipController.gd")
 var TurnTimer
 
@@ -52,7 +52,7 @@ func game_turn():
 			
 			if player.type == "human":
 				# start main player control
-				# might try yielding here
+				# might try yielding here, so the player can initiate all actions
 				pass
 				
 			if player.type == "ai":
@@ -64,6 +64,7 @@ func game_turn():
 	# player is done with control and decides to "next" or "auto"
 	#   this might be possible with yield and waiting for a signal
 	#	yield( get_tree(), "idle_frame" )
+	#	yield(GalaxyScreen, "_next_turn_requested()")
 	# collect all notifications and events that result from inaction: planets without projects, ships without orders etc
 			for colony_key in player.colonies:
 				var colony = player.colonies[colony_key]
@@ -72,6 +73,7 @@ func game_turn():
 					# no idle pop
 					if colony.planet.population.idle == 0:
 						if GameOptions.events.skip_zero_population == false:
+							# TODO: generate warning
 							pass
 				pass
 			for ship in player.ships:
@@ -106,8 +108,9 @@ func turn_maintenance():
 					#player.finish_research_project()
 					if space_travel_before_project != player.is_space_travel_available():
 						var ev = EventGenerator.generate_space_exploration(player)
+						var ev_info = EventGenerator.generate_space_exploration_info()
+						EventHandler.add_event(player, ev_info)
 						EventHandler.add_event(player, ev)
-						# TODO: include event page 2
 					var ev = EventGenerator.generate_research_complete(player, finished_research)
 					EventHandler.add_event(player, ev)
 			
@@ -145,8 +148,9 @@ func turn_maintenance():
 							var random_research = ResearchHandler.finish_random_research(player)
 							if space_travel_before_project != player.is_space_travel_available():
 								var ev = EventGenerator.generate_space_exploration(player)
+								var ev_info = EventGenerator.generate_space_exploration_info()
+								EventHandler.add_event(player, ev_info)
 								EventHandler.add_event(player, ev)
-								# TODO: include event page 2
 							var ev = EventGenerator.generate_research_complete(player, random_research)
 							EventHandler.add_event(player, ev)
 
@@ -162,7 +166,10 @@ func turn_maintenance():
 					ShipController.move_in_starlane(ship)
 					if ship.starlane_progress >= 1.0:
 						ShipController.exit_starlane(ship)
-						# TODO: trigger "ship reports arrival" event
+						# TODO: trigger "ship reports arrival" event if the system is unknown
+						# TODO: update knowledge
+						var ev = EventGenerator.generate_ship_system_arrival(ship)
+						EventHandler.add_event(player, ev)
 				# TODO: check arrivals and system discoveries
 				else:
 					# for all ships in systems and orbits: recharge ship energy

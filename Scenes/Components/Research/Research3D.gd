@@ -30,6 +30,8 @@ signal research_selected(player, research)
 signal research_enter(player, research)
 signal research_exit(player, research)
 
+# TODO: flatten the research nodes, put them in a grid, so they are clickable always
+
 func _ready():
 	set_process(true)
 	pass
@@ -68,6 +70,7 @@ func show_research(player):
 	# a player's current research project decides what icon is shown as "in progress" = "growing"
 	# a player's total research points change information about project length
 	var defs = ResearchDefinitions.research_defs
+	print(defs.keys().size())
 	for key in defs:
 		var research = defs[key]
 		
@@ -105,20 +108,17 @@ func show_research(player):
 		var research_icon = BillboardSprite3D.instance()
 		# disable depth cue on the image, otherwise it's modulated twice
 		research_icon.depth_cue = false
+
 		# get research image
-		
-		# TODO: use texturehandler
-		var path = "res://Images/Screens/Research/Research/restree.ascshp_%03d.png" % (research.index)
-		if File.new().file_exists(path):
-			research_icon.set_texture(load(path))
-		
+		research_icon.set_texture(TextureHandler.get_research_icon_by_index(research.index))
 		# TODO: find out how to set research sprite material to always on top (in front of lines)
 		# TODO: find proper positions for research icons
 		research_ring.add_child(research_icon)
 		if research.position_set == false:
 			research.position[0] = randi() % 20 - 10
 			#research.position[1] *= 
-			research.position[2] = randi() % 20 - 10
+			#research.position[2] = randi() % 20 - 10
+			research.position[2] = 0
 			research.position_set = true
 		var position = _arr_to_v3(research.position, true)
 		research_ring.set_translation(position)

@@ -6,7 +6,7 @@ const TILE_HEIGHT = 34
 const BUILDABLE_OFFSET = 5
 
 const Planet = preload("res://Scripts/Model/Planet.gd")
-const PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
+const PlanetGenerator = preload("res://Scripts/Generator/PlanetGenerator.gd")
 
 static func refresh_grids(planet):
 	var cells = mapdefs.cell_types
@@ -101,7 +101,6 @@ static func get_tilemap_from_planet(planet, tilemap_cells, tilemap_buildings, ti
 				if orbital_index != -1:
 					if orbital.active:
 						tilemap_orbitals.set_cell(x, y, orbital_index)
-				
 	
 static func count_cells(planet):
 	var cells = mapdefs.cell_types

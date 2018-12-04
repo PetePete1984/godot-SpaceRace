@@ -1,6 +1,6 @@
 extends "res://Scripts/Model/Screen.gd"
 
-var SingleModuleDisplay = preload("res://Scenes/Components/Shipdesign/SingleModuleDisplay.tscn")
+var SingleModuleDisplay = preload("res://Scenes/Components/ShipDesign/SingleModuleDisplay.tscn")
 
 onready var Flag = get_node("Flag")
 
@@ -51,6 +51,8 @@ var current_player
 var current_modules = {}
 var previous_modules = {}
 
+var current_ship
+
 var selected_module
 
 signal leaving_with_ship_design(size, modules)
@@ -92,7 +94,8 @@ func _on_visibility_changed():
 		# TODO: refitting one colonizer to a ship at 7 industry takes 10 days, might be double cost; undoing that still sets the cost to 5 days (on a medium)
 		# TODO: sanity check the design, a ship without drives can de-orbit but not move
 		if current_modules.keys().size() > 0:
-			emit_signal("leaving_with_ship_design", current_size, current_modules)
+			if current_ship == null:
+				emit_signal("leaving_with_ship_design", current_size, current_modules)
 	else:
 		# TODO: previous category is remembered, but not persisted
 		set_list_category("generator")
@@ -114,9 +117,11 @@ func set_ship(ship = null):
 	var size
 	if ship != null:
 		size = ship.size
+		current_ship = ship
 	else:
 		# TODO: use a default from defs
 		size = "small"
+		current_ship = null
 
 	# TODO: existing ship modules must be loaded
 	current_size = size
