@@ -2,10 +2,10 @@ extends Reference
 
 # creates a sensible colony based on a planet grid
 const BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
-const Planetmap = preload("res://Scripts/Planetmap.gd")
+const Planetmap = Classes.Planetmap
 const Colony = preload("res://Scripts/Model/Colony.gd")
-const ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
-const PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
+#const ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
+const PlanetGenerator = preload("res://Scripts/Generator/PlanetGenerator.gd")
 
 #var buildings = {}
 
@@ -22,6 +22,7 @@ const colony_plan = {
 }
 
 static func initialize_colony(player, planet, home = false):
+	var ColonyController = Classes.model.ColonyController
 	# TODO: use predefined sizes and types for home planets
 	if home == true:
 		var old_name = planet.planet_name

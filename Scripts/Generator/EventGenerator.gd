@@ -2,16 +2,23 @@
 extends Reference
 
 const GameplayEvent = preload("res://Scripts/Model/Event.gd")
-const POPULATION = "%s has %d free population for additional projects."
 const CONSTRUCTION = "Construction of %s is complete on %s."
+const POPULATION = "%s has %d free population for additional projects."
+const SPECIAL_ABILITY_INFO = ""
+const SPECIAL_ABILITY_READY = "Your species has amassed enough energy to use its special ability."
 const RESEARCH_AVAILABLE = "%s Scientist Report: A laboratory has been constructed and we are ready to begin researching new technologies."
 const RESEARCH_COMPLETE = "%s Science Report: Our researchers have discovered %s."
 const SPACE_EXPLORATION = "%s Scientist Report: We now have all technology needed to build our first ship to explore other stars. This includes generators, engines, and star lane drives."
-const SPACE_EXPLORATION_PAGE2 = ""
+const SPACE_EXPLORATION_INFO = "Generators provide power for all components on a ship, engines provide movement within star systems, and star drives provide movement through star lanes.\n\nWith continued research we'll be able to improve these.\n\nShips can be built by clicking on an empty orbital square on a planet that has a Shipyard."
+const RACE_SHIP_CONTACT = "An unidentified ship has entered the %s system which we occupy. They seem to be contacting us."
+const SHIP_ENTERED_ORBIT = "%s: We've entered orbit around %s. Awaiting orders."
+const SHIP_SYSTEM_ARRIVAL = ""
+const HOSTILE_SHIPS_REMAINING_MOVES = "There are remaining moves in the %s System, which contains hostile ships. Move to next day anyway?"
 #{CONSTRUCTION, FREE_POP, SPECIAL_ABILITY, 
-#	RESEARCH_COMPLETE, SPACE_EXPLORATION, RACE_SHIP_CONTACT}
+#	RESEARCH_COMPLETE, SPACE_EXPLORATION, RACE_SHIP_CONTACT, SHIP_SYSTEM_ARRIVAL}
 
 # FIXME: distinguish between project types
+# TODO: add custom event for ships "Construction of Ship 'Name' is complete"
 static func generate_construction(project, planet):
 	var ev = GameplayEvent.new()
 	ev.type = GameplayEvent.CONSTRUCTION
@@ -72,7 +79,6 @@ static func generate_research_complete(player, research):
 	ev.buttons = ["research", "OK"]
 	ev.targets = [player, null]
 	return ev
-	pass
 
 static func generate_space_exploration(player):
 	var ev = GameplayEvent.new()
@@ -84,10 +90,45 @@ static func generate_space_exploration(player):
 	ev.buttons = ["OK"]
 	ev.targets = [null]
 	return ev
-	pass
-	
+
 static func generate_space_exploration_info():
-	pass
-	
+	var ev = GameplayEvent.new()
+	ev.type = GameplayEvent.SPACE_EXPLORATION_INFO
+	var top_line = SPACE_EXPLORATION_INFO
+	ev.text = [top_line]
+	ev.buttons = ["OK"]
+	ev.targets = [null]
+	return ev
+		
 static func generate_race_ship_contact():
 	pass
+
+static func generate_ship_entered_orbit(ship):
+	pass
+
+static func generate_ship_system_arrival(ship):
+	var ev = GameplayEvent.new()
+	ev.type = GameplayEvent.SHIP_SYSTEM_ARRIVAL
+	var ship_image = TextureHandler.get_ship(ship.owner, ship.size)
+	var star_image = TextureHandler.get_star(ship.location_system)
+	ev.images = [ship_image, star_image]
+	var system_data = ship.location_system
+	var planets = 0
+	var lanes = 0
+	var enemies = []
+	var top_line = SHIP_SYSTEM_ARRIVAL % [ship.ship_name, ship.location_system]
+	ev.text = [top_line]
+	ev.buttons = ["system", "OK"]
+	ev.targets = [system_data, null]
+	return ev
+
+static func generate_warning_no_project(planet):
+	var ev = GameplayEvent.new()
+	ev.type = GameplayEvent.FREE_POP_NO_PROJECT
+	var planet_image = TextureHandler.get_planet(planet, true)
+	var top_line = "%s in the %s system has free population, but no project assigned"
+	ev.images = [planet_image]
+	ev.text = [top_line]
+	ev.buttons = ["planet", "auto", "manage", "OK"]
+	ev.targets = [planet, planet, planet, null]
+	return ev

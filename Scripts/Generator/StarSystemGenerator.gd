@@ -2,7 +2,7 @@
 extends Reference
 
 const StarSystem = preload("res://Scripts/Model/StarSystem.gd")
-const PlanetGenerator = preload("res://Scripts/PlanetGenerator.gd")
+const PlanetGenerator = preload("res://Scripts/Generator/PlanetGenerator.gd")
 
 static func generate_star(used_star_names, i = 0):
 	var sys = StarSystem.new()
@@ -18,6 +18,7 @@ static func generate_star(used_star_names, i = 0):
 
 static func generate_planets(system):
 	# TODO: keep planets a minimum distance away from the sun
+	# TODO: give planets an index
 	var num_planets = (randi() % mapdefs.max_planets) + mapdefs.min_planets
 	var used_positions = []
 	#print("planets: %02d" % num_planets)
