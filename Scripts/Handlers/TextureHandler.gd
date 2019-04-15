@@ -142,15 +142,21 @@ func get_surface_building(building):
 
 # TODO: implement ship graphics for ship building / refit / orbiting here or elsewhere
 func get_orbital_building(project, player = null):
-	var def = OrbitalDefinitions.orbital_defs[project]
-	if player != null and def.research_ship_size != null:
-		# get medium ship texture for player
-		return get_ship(player, def.research_ship_size)
-	else:
-		var project_index = OrbitalDefinitions.orbital_types.find(project)
-		if project_index != -1:
-			var path = "res://Images/Screens/Planet/Buildings/Orbital/%02d_%s.png" % [project_index + 1, project]
-			return get_texture(path)
+	if typeof(project) == TYPE_STRING:
+		var def = OrbitalDefinitions.orbital_defs[project]
+		if player != null and def.research_ship_size != null:
+			# get medium ship texture for player, as this is the display for research results
+			return get_ship(player, def.research_ship_size)
+		else:
+			var project_index = OrbitalDefinitions.orbital_types.find(project)
+			if project_index != -1:
+				var path = "res://Images/Screens/Planet/Buildings/Orbital/%02d_%s.png" % [project_index + 1, project]
+				return get_texture(path)
+	elif typeof(project) == TYPE_OBJECT:
+		if "sub_type" in project and project.sub_type.begins_with("Ship"):
+			# ship construction or refit project, load the actual ship sprite
+			return get_ship(player, project.resulting_ship.size)
+	pass
 
 func get_tech_project(project):
 	var index = TechProjectDefinitions.project_types.find(project)

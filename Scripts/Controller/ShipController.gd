@@ -3,6 +3,7 @@ const BattleCommand = preload("res://Scripts/Model/BattleCommand.gd")
 const BATTLE_OFFSET = Vector3(1, 1, 0)
 
 static func leave_orbit(planet, ship):
+	# TODO: if the ship has the recharging module, give it a burst of power
 	var system = planet.system
 	var exit_position = planet.position + BATTLE_OFFSET.normalized()
 	ship.position = exit_position
@@ -38,13 +39,14 @@ static func attempt_orbit(planet, ship):
 
 static func enter_starlane(lane, ship):
 	ship.position = null
-	ship.location_planet = null
+	#ship.location_planet = null
 	var system = ship.location_system
 	ship.location_system = null
 	system.ships.erase(ship)
 	ship.starlane_progress = 0.0
 	ship.starlane = lane
 	ship.starlane_target = lane.from_to(system)
+	return true
 	pass
 
 static func exit_starlane(ship):
@@ -57,6 +59,9 @@ static func exit_starlane(ship):
 			# TODO: evaluate putting all ships in the direction of the system's star
 			var arrives_at = ship.starlane.positions[system_index] + BATTLE_OFFSET.normalized()
 			arrives_in.ships.append(ship)
+			ship.starlane = null
+			ship.starlane_progress = null
+			ship.starlane_target = null
 			ship.location_system = arrives_in
 			ship.position = arrives_at
 			pass
@@ -66,9 +71,8 @@ static func move_in_starlane(ship):
 	var where = ship.starlane_progress * ship.starlane.length
 	var move = ship.lane_speed * ship.owner.stats.starlane_factor
 	var new_where = where + move
-	var new_progress = (where + move) / ship.starlane.length
+	var new_progress = (new_where) / ship.starlane.length
 	ship.starlane_progress = new_progress
-	pass
 
 static func recharge_power(ship):
 	ship.power = ship.maximum_power
@@ -90,6 +94,8 @@ static func command_move_in_system(ship, target):
 	var move_command = BattleCommand.new()
 	move_command.command_type = BattleCommand.COMMAND.MOVE
 	move_command.target = target
+	move_command.travel_distance = (target - ship.position).length()
+	move_command.direction = (target - ship.position).normalized()
 	ship.command = move_command
 
 static func command_move_to_planet(ship, planet):
@@ -97,6 +103,8 @@ static func command_move_to_planet(ship, planet):
 	move_command.command_type = BattleCommand.COMMAND.MOVE
 	move_command.target = planet.position
 	move_command.target_object = planet
+	move_command.travel_distance = (move_command.target - ship.position).length()
+	move_command.direction = (move_command.target - ship.position).normalized()
 	ship.command = move_command
 
 static func command_move_to_starlane(ship, lane):
@@ -104,4 +112,10 @@ static func command_move_to_starlane(ship, lane):
 	move_command.command_type = BattleCommand.COMMAND.MOVE
 	move_command.target = lane.positions[lane.connects.find(ship.location_system)]
 	move_command.target_object = lane
+	move_command.travel_distance = (move_command.target - ship.position).length()
+	move_command.direction = (move_command.target - ship.position).normalized()
+
 	ship.command = move_command
+
+static func command_reset(ship):
+	ship.command = null

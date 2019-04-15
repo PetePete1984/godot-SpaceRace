@@ -3,6 +3,9 @@ extends Reference
 #class StarSystem:
 var star_type = "" # pick from list
 var system_name = "Tonsberg" # pick from list
+
+# system's index in the galaxy, for save/load purposes
+var index
 # TODO: planets should probably just be an array and each should store their own position
 var planets = [] # list of v3, planet
 # same goes for lane endpoints

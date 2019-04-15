@@ -1,4 +1,4 @@
-# Sprite3D that darkens when moved globally and displays a radar line pointing towards y = 0
+# Sprite3D that optionally darkens (depth cue) when moved globally and displays a radar line pointing towards y = 0
 # TODO: Depth cueing could probably be done in a shader
 extends Sprite3D
 
@@ -8,6 +8,7 @@ export var radar_line = false
 onready var radar_geo = get_node("radar_line")
 
 var assigned_battle_object
+var click_area
 
 func _ready():
 	_on_update_pos()
@@ -37,3 +38,14 @@ func _on_update_pos():
 			var object_pos = assigned_battle_object.position
 			var zero_pos = Vector3(object_pos.x, 0, object_pos.z)
 			draw_line(object_pos, zero_pos)
+
+func _on_data_position_changed(old, new, factor = 1.0):
+	translate(new - old)
+
+func _on_data_arrived():
+	var pos3d = get_global_transform().origin
+	var pos0 = Vector3(pos3d.x, 0, pos3d.z)
+	draw_line(pos3d, pos0)
+
+func _on_data_removed():
+	queue_free()

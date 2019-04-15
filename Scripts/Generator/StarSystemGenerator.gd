@@ -13,6 +13,7 @@ static func generate_star(used_star_names, i = 0):
 		used_star_names.append(sys.system_name)
 	else:
 		sys.system_name = "%d - %s - %s" % [i, star, sys.system_name]
+	sys.index = i
 	return sys
 	pass
 
@@ -26,6 +27,7 @@ static func generate_planets(system):
 		var planet = PlanetGenerator.generate_planet()
 		planet.planet_name = "%s %02d" % [system.system_name, p]
 		planet.system = system
+		planet.index = p
 		# TODO: since Y is fixed, change to v2 in unit circle
 		var plan_pos = Utils.rand_v3_in_unit_sphere(10)
 		# FIXME: planet y pos has to be set some other way

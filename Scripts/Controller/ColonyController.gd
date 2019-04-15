@@ -11,7 +11,7 @@ const ShipRefitProject = preload("res://Scripts/Model/ShipConstructionProject.gd
 const ShipProject = preload("res://Scripts/Model/ShipProject.gd")
 const ShipFactory = preload("res://Scripts/Factories/ShipFactory.gd")
 
-const Planetmap = Classes.Planetmap
+const Planetmap = preload("res://Scripts/Planetmap.gd")
 
 static func colonize_planet(planet, player, position, name = null):
 	# TODO: allow the player to rename planets (on colonize and later)
@@ -85,6 +85,7 @@ static func start_colony_project(colony, project_key, type, position):
 		update_colony_stats(colony)
 	pass
 
+# TODO: make position nullable, find first free orbital slot?
 static func start_ship_project(colony, ship_design, position):
 	# if there's already a ship on the spot, load its modules and treat is as a refit project
 	# if there's a building on the spot, we should have never come here, but if we did then it's a new ship
@@ -286,11 +287,14 @@ static func grow_population(colony):
 	
 	if pop_growth > 0:
 		colony.planet.population.alive += pop_growth
+		# if a cloning plant would've produced 2 pops and there's one slot free, just fill the free slot
 		if colony.planet.population.alive >= colony.planet.population.slots:
 			colony.planet.population.alive = colony.planet.population.slots
 	
 	colony.remaining_growth = 50
 	refresh_colony(colony)
+	
+	# returns previous idle pop for tracking purposes
 	return previous_idle
 
 static func refresh_colony(colony):

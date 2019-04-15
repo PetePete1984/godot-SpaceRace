@@ -17,7 +17,7 @@ var DISPLAY_SCALE = Vector3(SCALE_FACTOR,SCALE_FACTOR,SCALE_FACTOR) #Vector3(0.2
 #var StarSystemGenerator = preload("res://Scripts/Generator/StarSystemGenerator.gd")
 
 var Planet = preload("res://Scripts/Model/Planet.gd")
-var Planetmap = Classes.Planetmap
+var Planetmap = preload("res://Scripts/Planetmap.gd")
 #var SmallPlanetSprite = preload("res://Scenes/Components/Battle/SmallPlanetSprite.gd")
 var BattlePick = preload("res://Scenes/Components/ClickableArea3D.gd")
 var BillboardSprite3D = preload("res://Scenes/Components/BillboardSprite3D.tscn")
@@ -67,6 +67,7 @@ func _process(delta):
 	# TODO: use enum
 	# TODO: use signals for mousemove input and don't update at 60 fps if unchanged
 	# TODO: the cursor moves in global space, so you can control it even if the view is rotated
+	# TODO: the cursor is hidden when the pointer is hovering over any battle object
 	if current_control_mode == "move1":
 		movement_spatial.set("geometry/visible", true)
 		# TODO: find out correct factor, include zoom
@@ -83,11 +84,10 @@ func _unhandled_input(event):
 	if event.type == InputEvent.MOUSE_MOTION:
 		var x = event.pos.x
 		var y = event.pos.y
-		# TODO: use viewport's size
-		x -= width2d / 2.0 # 230
-		y -= height2d / 2.0 # 233
-		x = x / (width2d / 2.0) # 230.0
-		y = y / (height2d / 2.0) # 233.0
+		x -= width2d / 2.0 # about 230
+		y -= height2d / 2.0 # about 233
+		x = x / (width2d / 2.0) # about 230.0
+		y = y / (height2d / 2.0) # about 233.0
 		current_coord = Vector3(x, 0, y)
 		#print(current_coord)
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -150,14 +150,6 @@ func generate_starsystem_display(system):
 	
 	# get and draw the star
 	var sun_sprite = get_clickable(TextureHandler.get_star(system), Vector3(0, mapdefs.system_default_y, 0), system.system_name, system)
-	# var sun_sprite = BillboardSprite3D.instance()
-	# sun_sprite.depth_cue = false
-	# sun_sprite.set_texture(TextureHandler.get_star(system))
-	# sun_sprite.set_scale(DISPLAY_SCALE)
-	# sun_sprite.set_translation(Vector3())
-	# sun_sprite.translate(Vector3(0, mapdefs.system_default_y, 0))
-	# sun_sprite.set_name(system.system_name)
-	# anchor.add_child(sun_sprite)
 	sprites.append(sun_sprite)
 	object_map[system] = sun_sprite
 		
@@ -171,13 +163,6 @@ func generate_starsystem_display(system):
 			if i != sys:
 				connects_to = i.system_name
 		var lane_sprite = get_clickable(TextureHandler.get_starlane(lane), lane_pos, "Star Lane to %s" % [connects_to], lane)
-		# lane_sprite.depth_cue = false
-		# lane_sprite.set_texture(TextureHandler.get_starlane(lane))
-		# lane_sprite.set_scale(DISPLAY_SCALE)
-		# lane_sprite.set_translation(lane_pos)
-
-		# lane_sprite.set_name("Star Lane to %s" % [connects_to])
-		# anchor.add_child(lane_sprite)
 		sprites.append(lane_sprite)
 		object_map[lane] = lane_sprite
 	
@@ -202,6 +187,8 @@ func generate_starsystem_display(system):
 	for ship in system.ships:
 		var ship_sprite = get_clickable(TextureHandler.get_ship(ship.owner, ship.size), ship.position, ship.ship_name, ship)
 		sprites.append(ship_sprite)
+		ship.connect("position_changed", ship_sprite, "_on_data_position_changed")
+		ship.connect("left_system", ship_sprite, "_on_data_removed")
 		object_map[ship] = ship_sprite
 	pass
 
@@ -250,29 +237,23 @@ func get_clickable(obj_texture, obj_position, obj_name, obj_as_signal_param):
 	
 	# connect to area's click signal for object picking
 	# TODO: maybe need to pass more than the object upwards, because the screen needs to tell the specific sprite to move in process
-	# also the entirety of sprite + 3d line needs to move
-	# TODO: the line isn't rendered during ship movement
-	area3d.connect("clicked", self, "_on_battle_object_clicked", [obj_as_signal_param])
-	area3d.connect("hover_begin", self, "_on_battle_object_hover_begin", [obj_as_signal_param])
-	area3d.connect("hover_end", self, "_on_battle_object_hover_end", [obj_as_signal_param])
+	# TODO: the line isn't rendered during ship movement, only briefly at waypoints
+	area3d.connect("clicked", self, "_on_battle_object_clicked", [new_sprite, obj_as_signal_param])
+	area3d.connect("hover_begin", self, "_on_battle_object_hover_begin", [new_sprite, obj_as_signal_param])
+	area3d.connect("hover_end", self, "_on_battle_object_hover_end", [new_sprite, obj_as_signal_param])
 	
 	# add object sprite to object anchor
 	anchor.add_child(new_sprite)
 	return new_sprite
 
-func _on_battle_object_clicked(object):
+func _on_battle_object_clicked(sprite, object):
 	emit_signal("battle_object_clicked", object)
 
-func _on_battle_object_hover_begin(object):
-	object_map[object].get_node("area").add_to_group("battlescreen_vp_hover")
+func _on_battle_object_hover_begin(sprite, object):
+	sprite.get_node("area").add_to_group("battlescreen_vp_hover")
 	emit_signal("battle_object_hover_begin", object)
 	
-func _on_battle_object_hover_end(object):
-	if object_map[object].get_node("area").is_in_group("battlescreen_vp_hover"):
-		object_map[object].get_node("area").remove_from_group("battlescreen_vp_hover")
+func _on_battle_object_hover_end(sprite, object):
+	if sprite.get_node("area").is_in_group("battlescreen_vp_hover"):
+		sprite.get_node("area").remove_from_group("battlescreen_vp_hover")
 	emit_signal("battle_object_hover_end", object)
-
-#func _create_random_system():
-#	var sys = StarSystemGenerator.generate_system()
-#	generate_starsystem_display(sys)
-#	pass

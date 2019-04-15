@@ -3,7 +3,7 @@ extends Node
 onready var EventGenerator = preload("res://Scripts/Generator/EventGenerator.gd")
 var AlienRaceHandler = preload("res://Scripts/Handlers/AlienRaceHandler.gd")
 var ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
-onready var ColonyController = Classes.model.ColonyController
+var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
 var ShipController = preload("res://Scripts/Controller/ShipController.gd")
 var TurnTimer
 

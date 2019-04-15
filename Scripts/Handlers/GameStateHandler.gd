@@ -4,6 +4,8 @@ extends Node
 signal new_stars_generated(game_state)
 signal new_game_prepared
 
+signal hook_debug_snapshot(player, planets)
+
 # imports
 var GameState = preload("res://Scripts/Model/GameState.gd")
 var Player = preload("res://Scripts/Model/Player.gd")
@@ -12,10 +14,8 @@ var Colony = preload("res://Scripts/Model/Colony.gd")
 var GalaxyGenerator = preload("res://Scripts/Generator/GalaxyGenerator.gd")
 var RaceGenerator = preload("res://Scripts/Generator/RaceGenerator.gd")
 var ColonyGenerator = preload("res://Scripts/Generator/ColonyGenerator.gd")
-# FIXME: temp for debug
-var ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
+
 var KnowledgeFactory = preload("res://Scripts/Factories/KnowledgeFactory.gd")
-onready var ColonyController = Classes.model["ColonyController"]
 
 var GameStatePurger = preload("res://Scripts/Tools/GameStatePurger.gd")
 var GameStateTransformer = preload("res://Scripts/Transformer/GameStateTransformer.gd")
@@ -120,26 +120,11 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			var planet = Utils.rand_pick_from_array(random_system.planets)
 
 			# give the planet a colony base
-			# FIXME: meeeeeeeeh?
 			# home = true
 			ColonyGenerator.initialize_colony(participant, planet, true)
-			# FIXME: remove this sometime or make it DEBUG-conditional
+			# let debug hooks set up a game state for testing
 			if participant == player and true:
-				player.completed_research = ["orbital_structures", "xenobiology", "environmental_encapsulation", "interplanetary_exploration", "tonklin_diary", "spacetime_surfing"]
-				planet.base_population += 20
-				planet.population.slots += 20
-				planet.population.free = planet.population.slots - planet.population.alive
-				
-				for i in range(planet.population.free):
-					var build_next = ColonyManager.manage(planet.colony)
-					if build_next != null:
-						if build_next.project != null:
-							ColonyController.start_project(planet.colony, build_next.square, [build_next.project, build_next.type])
-							ColonyController.finish_project(planet.colony)
-							ColonyController.grow_population(planet.colony)
-				ColonyController.grow_population(planet.colony)
-				ColonyController.grow_population(planet.colony)
-
+				emit_signal("hook_debug_snapshot", player, [planet])
 
 			#new_game_state.galaxy.races = new_game_state.races
 		for r_key in new_game_state.races:

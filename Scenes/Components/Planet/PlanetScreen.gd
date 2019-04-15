@@ -11,10 +11,9 @@ extends "res://Scripts/Model/Screen.gd"
 # TODO: use control mode to change input behavior
 enum control_mode {NONE, COLONY, NORMAL}
 
-var Planetmap = Classes.Planetmap
-var ColonyManager = Classes.model.ColonyManager
-#var ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
-var ColonyController = Classes.model.ColonyController
+var Planetmap = preload("res://Scripts/Planetmap.gd")
+var ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
+var ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
 var ColonyGenerator = preload("res://Scripts/Generator/ColonyGenerator.gd")
 var BuildingProject = preload("res://Scripts/Model/BuildingProject.gd")
 
@@ -133,6 +132,7 @@ func _on_left_ship_design_screen(size, modules):
 	emit_signal("ship_named", size, modules, ship_name)
 	pass
 
+# FIXME: this way of defining the ship design is really volatile, the simulator needs to know it, too
 func _on_ship_named(size, modules, ship_name):
 	current_ship_design = {
 		size = size,

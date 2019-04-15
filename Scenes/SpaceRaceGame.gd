@@ -1,5 +1,7 @@
 extends Node
 
+const SnapshotLoader = preload("res://Scripts/Debug/SnapshotLoader.gd")
+
 # Local Handlers
 onready var ScreenHandler = get_node("ScreenHandler")
 
@@ -8,11 +10,14 @@ onready var ScreenHandler = get_node("ScreenHandler")
 
 func _ready():
 	#randomize()
+	#game_state = GameStateHandler.get_most_current_game_state()
+
+	# have the snapshot loader handle setting up of early starts
+	GameStateHandler.connect("hook_debug_snapshot", SnapshotLoader, "debug_snapshot")
+	
 	# when the game starts from scratch, ask the game state handler for the most recent save
 	# if there is no recent save, initialize with galaxy defaults and pick first race
-	#game_state = GameStateHandler.get_most_current_game_state()
 	GameStateHandler.get_most_current_game_state()
-	
 	ScreenHandler.connect_signals()
 	ScreenHandler.connect("quit_requested", self, "quit_clean")
 	# TODO: events are basically global and can be shown anywhere, but anchor to the screen they're on (basically)

@@ -4,6 +4,9 @@ extends Reference
 # player owning this place, maybe it's enough if the colony knows it
 var owner
 
+# the planet's integer ID for save/load purposes
+var index
+
 var colony = null
 
 # which system this planet is in
@@ -12,7 +15,7 @@ var system
 var position
 # TODO: maybe store original position?
 
-# Usually system.system_name + planet index, but can be changed
+# Usually system.system_name + planet index (inside the system), but can be changed
 var planet_name
 
 # size template
@@ -24,9 +27,13 @@ var type = "cornucopia"
 # initial max population
 var base_population = 0
 
-# 
+# planet navigator instance
+var navigator = null
+
+# flag for the growth bomb project
 var growth_bombed = false
-# both cell and building grids could just as well be dictionaries
+
+# both cell and building grids could just as well be dictionaries (coordinate, cell/building)
 # initial cell grid
 var grid = []
 

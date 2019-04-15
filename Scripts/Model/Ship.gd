@@ -1,5 +1,12 @@
 # Ship in Space class (maybe also ship in orbit, we'll see)
 
+signal position_changed(old, new)
+signal arrived()
+signal docked()
+signal undocked()
+signal left_system()
+signal entered_system()
+
 var ship_name
 # TODO: get rid of references when cleaning up
 var owner
@@ -19,15 +26,15 @@ var template
 var previous_modules
 
 # maaaaybe store a general location
-var location_planet
+var location_planet setget _set_location_planet
 var location_system
 
-var starlane
+var starlane setget _set_starlane
 var starlane_target
 var starlane_progress
 
 # maaaaaybe store a position in battlescape space
-var position
+var position setget _set_position
 
 # most recent command
 var command
@@ -76,14 +83,13 @@ func has_module(module):
 
 func has_colonizer():
 	return has_module("colonizer")
-	pass
 
 func has_invader():
 	return has_module("invasion_module")
-	pass
 
 func update_stats(category = null):
 	var drive_temp = 0
+	var power_temp = 0
 	for coords in modules:
 		var tile = modules[coords]
 		if tile != null:
@@ -91,6 +97,36 @@ func update_stats(category = null):
 				if tile.module_type.category == "drive":
 					drive_temp += tile.module_type.strength
 					drives.append(tile)
+				if tile.module_type.category == "generator":
+					power_temp += tile.module_type.power
 	drive = drive_temp
+	maximum_power = power_temp
 	pass
 
+func _set_position(new_position):
+	if position != new_position:
+		if new_position == null:
+			# TODO: check if this is the correct behavior
+			position = new_position
+			emit_signal("arrived")
+		else:
+			var old_position = position
+			position = new_position
+			emit_signal("position_changed", old_position, position)
+
+func _set_location_planet(planet):
+	location_planet = planet
+	if position == null:
+		emit_signal("docked")
+		emit_signal("left_system")
+	else:
+		if location_planet == null:
+			emit_signal("undocked")
+			emit_signal("entered_system")
+
+func _set_starlane(lane):
+	starlane = lane
+	if starlane == null:
+		emit_signal("entered_system")
+	else:
+		emit_signal("left_system")
