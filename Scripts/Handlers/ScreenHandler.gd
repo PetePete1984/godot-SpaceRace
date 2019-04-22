@@ -63,7 +63,8 @@ func connect_signals():
 	# left clicks
 	ShipListScreen.connect("system_clicked", self, "_system_view")
 	ShipListScreen.connect("planet_clicked", self, "_planet_view")
-	ShipListScreen.connect("ship_clicked", self, "return_screen")
+	# Have to call a proxy function because discarding signal arguments is not possible, and return_screen doesn't have any parameters
+	ShipListScreen.connect("ship_clicked", self, "return_screen_proxy")
 	
 	# Ship Design signals
 	# new ship project
@@ -79,6 +80,9 @@ func connect_signals():
 	GalaxyScreen.connect("next_requested", self, "_next_turn_requested")
 	GalaxyScreen.connect("auto_requested", self, "_auto_requested")
 	pass
+
+func return_screen_proxy(arg0 = null, arg1 = null, arg2 = null):
+	return_screen()
 
 func return_screen():
 	# New Game selected & confirmed: move forward

@@ -1,5 +1,6 @@
 const ColonyManager = preload("res://Scripts/Manager/ColonyManager.gd")
 const ColonyController = preload("res://Scripts/Controller/ColonyController.gd")
+const ShipFactory = preload("res://Scripts/Factories/ShipFactory.gd")
 
 static func debug_snapshot(player, planets):
 	set_up_early_game(player, planets)
@@ -37,24 +38,19 @@ static func set_up_early_game(player, planets):
 
 static func set_up_colonizer(player, planets):
 	print("setting up colonizers")
-	var ship_size = "medium"
-	var ship_modules = ["tonklin_motor", "proton_shaver", "star_lane_drive", "colonizer"]
-	var ship_name = "Colonizer"
-	var ship_design = {}
-
-	for i in range(ship_modules.size()):
-		var coords = ShipDefinitions.ship_size_templates[ship_size][i]
-		var pos = Vector2(coords[0], coords[1])
-		ship_design[pos] = ship_modules[i]
-
-	var current_ship_design = {
-		size = ship_size,
-		modules = ship_design,
-		ship_name = ship_name
+	var template = {
+		ship_size = "medium",
+		ship_modules = ["tonklin_motor", "proton_shaver", "star_lane_drive", "colonizer"],
+		ship_name = "Colonizer"
 	}
+	var ship_design = ShipFactory.get_design_from_template(template)
+
 	for planet in planets:
 		var colony = planet.colony
-		ColonyController.start_ship_project(colony, current_ship_design, Vector2(0, 0))
+		# var position = ColonyController.get_free_orbital()
+		var position = Vector2()
+		if position != null:
+			ColonyController.start_ship_project(colony, ship_design, position)
 
 	pass
 

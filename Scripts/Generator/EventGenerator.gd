@@ -12,12 +12,11 @@ const SPACE_EXPLORATION = "%s Scientist Report: We now have all technology neede
 const SPACE_EXPLORATION_INFO = "Generators provide power for all components on a ship, engines provide movement within star systems, and star drives provide movement through star lanes.\n\nWith continued research we'll be able to improve these.\n\nShips can be built by clicking on an empty orbital square on a planet that has a Shipyard."
 const RACE_SHIP_CONTACT = "An unidentified ship has entered the %s system which we occupy. They seem to be contacting us."
 const SHIP_ENTERED_ORBIT = "%s: We've entered orbit around %s. Awaiting orders."
-const SHIP_SYSTEM_ARRIVAL = ""
+const SHIP_SYSTEM_ARRIVAL = "%s: We've arrived at the %s System. Awaiting orders."
 const HOSTILE_SHIPS_REMAINING_MOVES = "There are remaining moves in the %s System, which contains hostile ships. Move to next day anyway?"
 #{CONSTRUCTION, FREE_POP, SPECIAL_ABILITY, 
 #	RESEARCH_COMPLETE, SPACE_EXPLORATION, RACE_SHIP_CONTACT, SHIP_SYSTEM_ARRIVAL}
 
-# FIXME: distinguish between project types
 # TODO: add custom event for ships "Construction of Ship 'Name' is complete"
 static func generate_construction(project, planet):
 	var ev = GameplayEvent.new()
@@ -28,7 +27,10 @@ static func generate_construction(project, planet):
 		project_image = TextureHandler.get_surface_building(project.project)
 		project_text = CONSTRUCTION % [BuildingDefinitions.building_defs[project.project].building_name, planet.colony.colony_name]
 	elif project.type == "Orbital":
-		project_image = TextureHandler.get_orbital_building(project.project, planet.colony.owner)
+		if project.sub_type != null and project.sub_type.begins_with("Ship"):
+			project_image = TextureHandler.get_orbital_building(project, planet.colony.owner)
+		else:
+			project_image = TextureHandler.get_orbital_building(project.project, planet.colony.owner)
 		project_text = CONSTRUCTION % [OrbitalDefinitions.orbital_defs[project.project].orbital_name, planet.colony.colony_name]
 	elif project.type == "Tech":
 		project_image = TextureHandler.get_tech_project(project.project)
@@ -116,7 +118,8 @@ static func generate_ship_system_arrival(ship):
 	var planets = 0
 	var lanes = 0
 	var enemies = []
-	var top_line = SHIP_SYSTEM_ARRIVAL % [ship.ship_name, ship.location_system]
+	#prints("Ship Name:", ship.ship_name, "System: ", ship.location_system, "System Name: ", ship.location_system.system_name)
+	var top_line = SHIP_SYSTEM_ARRIVAL % [ship.ship_name, ship.location_system.system_name]
 	ev.text = [top_line]
 	ev.buttons = ["system", "OK"]
 	ev.targets = [system_data, null]

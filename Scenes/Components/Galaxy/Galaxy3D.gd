@@ -46,7 +46,7 @@ func rotate(delta, direction = 1):
 
 func set_galaxy(game_state, interaction = true):
 	var galaxy = game_state.galaxy
-	generate_starsystem_display(galaxy, interaction)
+	generate_galaxy_display(galaxy, interaction)
 	draw_lines(game_state)
 	pass
 
@@ -151,7 +151,7 @@ func clear_display():
 			spr.call_deferred("queue_free")
 	sprites.clear()
 	
-func generate_starsystem_display(galaxy, interaction = true):
+func generate_galaxy_display(galaxy, interaction = true):
 	clear_display()
 	for sys in galaxy.systems:
 		#var sys = galaxy.systems[s]

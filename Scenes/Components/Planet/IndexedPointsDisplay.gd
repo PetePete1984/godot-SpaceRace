@@ -37,5 +37,5 @@ func _load_texture():
 
 	if texture != null:
 		set_normal_texture(texture)
-		update()
+		# update()
 	pass

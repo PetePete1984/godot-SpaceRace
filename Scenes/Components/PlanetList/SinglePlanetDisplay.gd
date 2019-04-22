@@ -25,11 +25,10 @@ var shows_planet = null
 	
 func set_planet(planet):
 	shows_planet = planet
-	update()
+	update_display()
 	connect_buttons(planet)
-	pass
 	
-func update():
+func update_display():
 	# TODO: remember planet state in planets so they can be marked dirty only on change
 	# TODO: orbitals are shown as icons (shipyard, orbital dock)
 	# TODO: worker display
@@ -51,16 +50,24 @@ func update():
 	PlanetDesc.set_text("(%s %s Planet)" % [planet.size.capitalize(), planet.type.capitalize()])
 	if planet.colony.project != null:
 		var project = planet.colony.project
-		# FIXME: use proper definition and distinguish between project types
-		var proj_text = project.project.capitalize()
+		var project_name
+		if project.type == "Surface":
+			project_name = BuildingDefinitions.building_defs[project.project].building_name
+		elif project.type == "Orbital":
+			project_name = OrbitalDefinitions.orbital_defs[project.project].orbital_name
+		elif project.type == "Tech":
+			project_name = TechProjectDefinitions.project_defs[project.project].project_name
+		var proj_text = project_name
 		var remaining = project.remaining_industry
 		var planet_industry = planet.colony.adjusted_industry
 		if planet_industry == 0:
 			proj_text += " (No industry)"
 		else:
-			# TODO: compare days to normal project display, move formula to single place (gamerules)
-			var days = ceil(remaining / planet_industry)
+			# TODO: move formula to single place (gamerules)
+			var days = ceil(float(remaining) / float(planet_industry))
 			proj_text += " (%d days)" % [days]
+		if project.continuous:
+			proj_text = project_name
 		Project.set_text(proj_text)
 	else:
 		var no_proj_text = "No Project"
@@ -71,6 +78,7 @@ func update():
 	
 func connect_buttons(planet):
 	# TODO: check for prior connection before connecting, don't disconnect
+	# TODO: or maybe disconnect to refresh?
 	if SystemButton.is_connected("pressed", self, "_on_system_pressed"):
 		SystemButton.disconnect("pressed", self, "_on_system_pressed")
 	SystemButton.connect("pressed", self, "_on_system_pressed", [planet.system])
@@ -78,7 +86,6 @@ func connect_buttons(planet):
 	if PlanetButton.is_connected("pressed", self, "_on_planet_pressed"):
 		PlanetButton.disconnect("pressed", self, "_on_planet_pressed")
 	PlanetButton.connect("pressed", self, "_on_planet_pressed", [planet])
-	pass
 	
 func set_workers(planet):
 	# TODO: implement generic worker display that works on both list and planet screens

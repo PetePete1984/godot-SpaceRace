@@ -6,7 +6,7 @@
 # chunk "offense" = 1 weapon
 # chunk "defense" = 1 shield
 # chunk "balanced" = 1 shield, 1 weapon
-var chunks = {
+const chunks = {
 	"basic_movement": {
 		"tags": {
 			"drive": 1, 
@@ -14,12 +14,12 @@ var chunks = {
 			"lane_drive": 1
 		}
 	},
-	"full_colony": {
+	"fill_colony": {
 		"modules": {
 			"colonizer": -1
 		}
 	},
-	"full_invader": {
+	"fill_invader": {
 		"modules": {
 			"invasion_module": -1
 		}
@@ -56,7 +56,7 @@ var chunks = {
 	}
 }
 
-var prefabs = {
+const prefabs = {
 	small_colony = {
 		size = "small",
 		chunks = ["basic_movement", "fill_colony"],

@@ -19,6 +19,8 @@ var ShipController = preload("res://Scripts/Controller/ShipController.gd")
 var StarSystemController = preload("res://Scripts/Controller/StarSystemController.gd")
 var BattleCommand = preload("res://Scripts/Model/BattleCommand.gd")
 
+var ControlStateMachine = preload("res://Scenes/Components/Battle/States/Control/ControlStateMachine.gd").new()
+
 # Viewport for the 3D screen
 onready var viewport = get_node("BattleViewport/Viewport")
 # Viewport Sprite
@@ -86,6 +88,7 @@ var currently_animated = null
 # right-clicking empty space deselects
 # right-clicking object in list focuses (planet, ship)
 # right-clicking object in space focuses, even in targeting mode
+# right-clicking during movement of anything skips to the end state
 # targeting draws a line
 # movement targeting is scary, I don't know where to start
 # enemy ships can be selected but show empty module lists (unless you have scanners + x-ray)
@@ -120,6 +123,7 @@ func _ready():
 	battle_root.connect("battle_object_hover_begin", self, "_on_battle_object_hover_begin")
 	battle_root.connect("battle_object_hover_end", self, "_on_battle_object_hover_end")
 	battle_root.connect("any_click", self, "_on_any_click")
+	battle_root.connect("state_now_dirty", self, "set", ["trigger_update", true])
 
 	# connect to viewportsprite
 	vp_sprite.connect("vp_hover_end", self, "_on_vp_hover_end")
@@ -135,6 +139,7 @@ func _ready():
 	pass
 
 func _process(delta):
+	ControlStateMachine.process(delta)
 	# TODO: move commands to some battlescreencontroller
 	# TODO: animate inside battle3d
 	# not currently animating, grab the next command
@@ -151,15 +156,68 @@ func _process(delta):
 				# TODO: check for null position
 				if currently_animated.position == null:
 					print("arrived")
+
+				# TODO: this needs to change
+				# The initial movement command needs to determine the distance and store it in a travel_distance
+				# every subsequent tick must not only move the object, but also keep track of the distance moved and deduct it from travel_distance
+				# this should - in theory - prevent both overshooting and wiggle,
+				# because the final tick (where remaining travel_distance might be smaller than tick distance) can just move the remaining travel distance
+				var movement_target_position = currently_animated.command.target
+				var mover_position = currently_animated.position
 				
-				var movement_vector = currently_animated.command.target - currently_animated.position
+				var movement_vector = movement_target_position - mover_position
+				### 
+				# TODO: move as far as the ship's engines allow
 				StarSystemController.move_ship(currently_animated)
-				#print(movement_vector.length())
-				if movement_vector.length() > delta:
+				###
+
+				var movement_chunk = movement_vector.normalized()
+				var ship_movement_per_frame = movement_chunk * delta
+
+				var remaining_distance = movement_vector.length()
+				var ship_moves_this_far = ship_movement_per_frame.length()
+				#print(remaining_distance - ship_moves_this_far)
+
+				if ship_moves_this_far >= remaining_distance or remaining_distance <= 0.1:
+					print("should have arrived now")
+					if currently_animated.command.target_object != null:
+						var arrived = false
+						var destination = currently_animated.command.target_object
+						if destination extends StarLane:
+							var entered_starlane = ShipController.enter_starlane(destination, currently_animated)
+							if entered_starlane:
+								# remove ship, animate starlane
+								prints("entered", destination, entered_starlane)
+								arrived = true
+								pass
+							else:
+								# bump ship back
+								pass
+						elif destination extends Planet:
+							var docked = ShipController.attempt_orbit(destination, currently_animated)
+							if docked:
+								prints("docked", destination, docked)
+								# remove ship
+								arrived = true
+								pass
+
+						if arrived:
+							current_animation_mode = animation_mode.NONE
+							currently_animated.command.reset()
+							currently_animated = null
+				else:
+					#print("keep moving")
+					currently_animated.position += ship_movement_per_frame
+					#battle_root.object_map[currently_animated].translate(ship_movement_per_frame)
+
+				#<<<<<<<<<<<<<<<
+				return
+				#>>>>>>>>>>>>>>>
+				if movement_vector.length() > 4 * delta:
 					movement_vector = movement_vector.normalized()
 					currently_animated.position += movement_vector * 3 * delta
 					#battle_root.animate_object(currently_animated.command, movement_vector)
-					battle_root.object_map[currently_animated].translate(movement_vector * 3 * delta)
+					#battle_root.object_map[currently_animated].translate(movement_vector * 3 * delta)
 					#currently_animated.command.actor.translate(movement_vector * delta)
 				else:
 					# TODO: finish command, whatever that means (chain into explosion, deal damage etc)
@@ -171,6 +229,7 @@ func _process(delta):
 						if to extends StarLane:
 							if (from.position - from.command.target).length() <= 0.01:
 								var entered_starlane = ShipController.enter_starlane(to, from)
+								
 								if entered_starlane:
 									current_selection.reset()
 									battle_root.remove_display_for_object(currently_animated)
@@ -189,10 +248,11 @@ func _process(delta):
 							current_animation_mode = animation_mode.NONE
 							currently_animated.command.reset()
 							currently_animated = null
-
-					current_animation_mode = animation_mode.NONE
-					currently_animated.command.reset()
-					currently_animated = null
+					else:
+						current_animation_mode = animation_mode.NONE
+						if currently_animated != null:
+							currently_animated.command.reset()
+							currently_animated = null
 		else:
 			current_animation_mode = animation_mode.NONE
 	pass
@@ -216,6 +276,9 @@ func _maybe_refresh():
 func set_system(system):
 	# update 3D display
 	battle_root.set_system(system)
+	# feed it the galaxy for background stars
+	# TODO: find reasonable place for game_state access / passing in
+	battle_root.set_background_stars(system, GameStateHandler.game_state.galaxy)
 	# update UI
 	update_ui(system)
 	current_system = system
@@ -285,6 +348,8 @@ func planet_clicked(planet):
 				# var ship_sprite = current_selection.sprite
 				# ship_sprite.click_area.connect("area_enter", self, "_on_ship_area_entered", [sprite.click_area])
 				command_queue.append(current_selection.battle_object)
+				current_control_mode = control_mode.NONE
+				current_selection.reset()
 			pass
 	else:
 		current_selection.sprite = sprite
@@ -300,6 +365,8 @@ func starlane_clicked(starlane):
 				# FIXME: this can fill the command queue if you click very quickly, have to rethink the whole thing
 				ShipController.command_move_to_starlane(current_selection.battle_object, starlane)
 				command_queue.append(current_selection.battle_object)
+				current_control_mode = control_mode.NONE
+				current_selection.reset()
 	pass
 
 func ship_clicked(ship):
@@ -335,6 +402,8 @@ func space_clicked(event, coords, rotation):
 				# TODO: find and assign sprite
 				# current_selection.command.actor = sprite
 				command_queue.append(current_selection.battle_object)
+				current_control_mode = control_mode.NONE
+				current_selection.reset()
 				pass
 			elif current_control_mode == control_mode.SHIP_MOVE_REQUEST:
 				# send z coordinate to ? and switch to ship_move_confirm, which optionally accepts a right click to skip the animation

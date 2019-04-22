@@ -5,12 +5,14 @@ extends Sprite3D
 export var depth_cue = true
 export var radar_line = false
 
-onready var radar_geo = get_node("radar_line")
+var radar_geo
 
 var assigned_battle_object
 var click_area
 
 func _ready():
+	if has_node("radar_line"):
+		radar_geo = get_node("radar_line")
 	_on_update_pos()
 	
 func draw_line(from, to):
@@ -33,7 +35,7 @@ func _on_update_pos():
 		# from official shader: they would just change the alpha
 		# texColor.a *= v_depth_cue;
 		set_modulate(Color(col_value,col_value,col_value,1))
-	if radar_line == true:
+	if radar_geo != null && radar_line == true:
 		if assigned_battle_object != null:
 			var object_pos = assigned_battle_object.position
 			var zero_pos = Vector3(object_pos.x, 0, object_pos.z)
@@ -45,7 +47,8 @@ func _on_data_position_changed(old, new, factor = 1.0):
 func _on_data_arrived():
 	var pos3d = get_global_transform().origin
 	var pos0 = Vector3(pos3d.x, 0, pos3d.z)
-	draw_line(pos3d, pos0)
+	if radar_geo != null:
+		draw_line(pos3d, pos0)
 
 func _on_data_removed():
 	queue_free()

@@ -44,7 +44,7 @@ func view_own_items(player, system):
 		display.connect_button("Ship")
 		display.connect("clicked", self, "_on_ship_clicked", [player, ship])
 
-	update()
+	# update()
 	pass
 
 func view_other_items(player, system):
@@ -78,12 +78,12 @@ func view_other_items(player, system):
 		display.connect_button("Ship")
 		display.connect("clicked", self, "_on_ship_clicked", [player, ship])
 
-	update()
+	# update()
 	pass
 
 func view_planet_modules(player, planet):
 	clear_items()
-	print("should have cleared")
+	# print("should have cleared")
 	# surface modules: tractor beam
 	# orbital modules: missiles, short whopper, long whopper
 	pass

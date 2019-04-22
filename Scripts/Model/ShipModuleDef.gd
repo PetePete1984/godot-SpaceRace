@@ -7,6 +7,8 @@ var ship_module_name = ""
 # the module's category, assigned from the defs
 # one of ["weapon", "shield", "drive", "scanner", "generator", "special"]
 var category
+# additional subcategory tags for blueprinting
+var tags = []
 # power drain for modules
 # power provided for generators
 var power

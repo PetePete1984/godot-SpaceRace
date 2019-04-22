@@ -4,11 +4,8 @@ var display = preload("res://Scenes/Components/PlanetList/SinglePlanetDisplay.ts
 
 signal system_clicked(system)
 signal planet_clicked(planet)
-
-func _ready():
-	pass
 	
-func update():
+func update_list():
 	var current_planets = get_children()
 	if current_planets.size() > 0:
 		var owner = current_planets[0].shows_planet.colony.owner
@@ -16,10 +13,9 @@ func update():
 			set_planets(owner)
 		else:
 			for c in current_planets:
-				c.update()
+				c.update_display()
 	else:
 		clear_display()
-	pass
 
 func set_planets(player):
 	clear_display()
@@ -30,7 +26,6 @@ func set_planets(player):
 		list_item.set_planet(colony.planet)
 		list_item.connect("system_clicked", self, "_on_system_clicked")
 		list_item.connect("planet_clicked", self, "_on_planet_clicked")
-	pass
 
 func clear_display():
 	for d in get_children():

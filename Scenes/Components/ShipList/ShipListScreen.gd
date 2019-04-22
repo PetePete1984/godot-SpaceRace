@@ -7,17 +7,17 @@ signal system_clicked(system)
 signal planet_clicked(planet)
 signal ship_clicked
 
-
 func set_player(player):
 	# TODO: find the total number of ships, allowed ships and the difference
 	#Flag.set_texture(TextureHandler.get_race_flag(player))
 	ShipList.set_ships(player)
 
-func update():
-	ShipList.update()
+func update_screen():
+	if is_visible():
+		ShipList.update_list()
 
 func _ready():
-	connect("visibility_changed", self, "update")
+	connect("visibility_changed", self, "update_screen")
 	ShipList.connect("system_clicked", self, "_on_signal", ["system_clicked"])
 	ShipList.connect("planet_clicked", self, "_on_signal", ["planet_clicked"])
 	ShipList.connect("ship_clicked", self, "_on_signal", ["ship_clicked"])

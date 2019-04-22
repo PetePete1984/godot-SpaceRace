@@ -166,7 +166,7 @@ func turn_maintenance():
 					ShipController.move_in_starlane(ship)
 					if ship.starlane_progress >= 1.0:
 						ShipController.exit_starlane(ship)
-						# TODO: trigger "ship reports arrival" event if the system is unknown
+						# TODO: trigger "ship reports discovery" event if the system is unknown, otherwise announce arrival
 						# TODO: update knowledge
 						var ev = EventGenerator.generate_ship_system_arrival(ship)
 						EventHandler.add_event(player, ev)

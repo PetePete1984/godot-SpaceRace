@@ -110,3 +110,5 @@ func _ready():
 			def.slots.append(slot)
 
 		def.num_slots = def.slots.size()
+
+		ship_defs[s] = def

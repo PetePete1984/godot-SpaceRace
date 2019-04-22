@@ -44,10 +44,10 @@ func set_modules(module_position_list):
 	for position in module_position_list:
 		var def = ShipModuleDefinitions.ship_module_defs[module_position_list[position]]
 		var index = def.index
-		# open cell gets replaces
+		# open cell gets replaced
 		if get_cellv(position) == 0:
 			set_cellv(position, index)
-			# occupied cell looks for free cells
+		# occupied cell looks for free cells
 		else:
 			# FIXME: kinda wasteful?
 			var free_cells = get_used_cells()

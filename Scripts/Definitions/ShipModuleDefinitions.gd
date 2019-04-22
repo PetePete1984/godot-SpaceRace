@@ -278,11 +278,13 @@ var ship_module_defs = {
 	},
 	"star_lane_drive": {
 		"category": "special",
-		"requires_research": "spacetime_surfing"
+		"requires_research": "spacetime_surfing",
+		"tags": ["lane_drive"]
 	},
 	"star_lane_hyperdrive": {
 		"category": "special",
-		"requires_research": "advanced_exploration"
+		"requires_research": "advanced_exploration",
+		"tags": ["lane_drive"]
 	},
 	"positron_bouncer": {
 		"category": "special",
@@ -434,3 +436,10 @@ func _ready():
 			def.ship_module_name = key.capitalize()
 		real_defs[key] = def
 	ship_module_defs = real_defs
+
+func get_modules_by_tag(tag):
+	var list = []
+	for moduleDef in ship_module_defs:
+		if moduleDef.category == tag or tag in moduleDef.tags:
+			list.append(moduleDef)
+	return list

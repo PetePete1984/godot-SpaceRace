@@ -12,7 +12,7 @@ var planets = [] # list of v3, planet
 var lanes = {} # list of v3, lane
 # ships should be an array of ship IDs / instances
 var ships = [] # list of v3, ship
-# TODO: nebulae need work (original analysis)
+# TODO: nebulae need work (original analysis) and they're probably a property of the galaxy
 var nebulae = {} # list of v3, nebula
 
 # the system's position in the galaxy
