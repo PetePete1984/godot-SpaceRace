@@ -19,12 +19,12 @@
 [ext_resource path="res://Images/Screens/Planet/Buildings/Surface/01_factory.png" type="Texture" id=17]
 [ext_resource path="res://Images/SpaceRace/planet_tile.png" type="Texture" id=18]
 [ext_resource path="res://Scenes/Components/Planet/Workers.gd" type="Script" id=19]
-[ext_resource path="res://Scenes/Components/Planet/ProjectDisplay.gd" type="Script" id=20]
-[ext_resource path="res://Scenes/Components/Planet/IndexedPointDisplay.tscn" type="PackedScene" id=21]
-[ext_resource path="res://Images/Screens/Planet/Industry/00.png" type="Texture" id=22]
-[ext_resource path="res://Images/Screens/Planet/Prosperity/00.png" type="Texture" id=23]
-[ext_resource path="res://Scenes/Components/Planet/ProjectGrid.gd" type="Script" id=24]
-[ext_resource path="res://Images/Screens/Planet/Layout/popup.png" type="Texture" id=25]
+[ext_resource path="res://Scenes/Components/Planet/IndexedPointDisplay.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Images/Screens/Planet/Industry/00.png" type="Texture" id=21]
+[ext_resource path="res://Images/Screens/Planet/Prosperity/00.png" type="Texture" id=22]
+[ext_resource path="res://Scenes/Components/Planet/ProjectGrid.gd" type="Script" id=23]
+[ext_resource path="res://Images/Screens/Planet/Layout/popup.png" type="Texture" id=24]
+[ext_resource path="res://Scenes/Components/Planet/ProjectDisplay.gd" type="Script" id=25]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 
@@ -42,7 +42,7 @@ content_margin/left = -1.0
 content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
-texture = ExtResource( 25 )
+texture = ExtResource( 24 )
 margin/left = 0.0
 margin/right = 0.0
 margin/top = 0.0
@@ -62,6 +62,9 @@ _is_overlay = false
 
 texture = ExtResource( 2 )
 offset = Vector2( 320, 294 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="PlanetSprite" type="Sprite" parent="."]
 
@@ -73,6 +76,9 @@ script/script = ExtResource( 4 )
 
 texture = ExtResource( 5 )
 centered = false
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="OrbitalAnchor" type="Node2D" parent="."]
 
@@ -243,8 +249,9 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="ProjectDisplay" type="CenterContainer" parent="PlanetUI"]
+[node name="OldProjectDisplay" type="CenterContainer" parent="PlanetUI"]
 
+visibility/visible = false
 anchor/right = 1
 anchor/bottom = 1
 focus/ignore_mouse = false
@@ -256,73 +263,11 @@ margin/top = 7.0
 margin/right = 7.0
 margin/bottom = 373.0
 use_top_left = false
-script/script = ExtResource( 20 )
 __meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
+"_edit_group_": true
 }
 
-[node name="Stack" type="VBoxContainer" parent="PlanetUI/ProjectDisplay"]
-
-editor/display_folded = true
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 1.0
-margin/top = 24.0
-margin/right = 169.0
-margin/bottom = 76.0
-alignment = 0
-
-[node name="ProjectTitle" type="Label" parent="PlanetUI/ProjectDisplay/Stack"]
-
-rect/min_size = Vector2( 168, 0 )
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 0
-size_flags/vertical = 0
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 168.0
-margin/bottom = 14.0
-text = "No Project"
-align = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="ProjectIcon" type="TextureFrame" parent="PlanetUI/ProjectDisplay/Stack"]
-
-rect/min_size = Vector2( 34, 34 )
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 0
-size_flags/vertical = 0
-margin/left = 67.0
-margin/top = 18.0
-margin/right = 101.0
-margin/bottom = 52.0
-stretch_mode = 0
-
-[node name="ProjectDays" type="Label" parent="PlanetUI/ProjectDisplay/Stack"]
-
-visibility/visible = false
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 0
-size_flags/vertical = 0
-margin/left = 4.0
-margin/top = 56.0
-margin/right = 163.0
-margin/bottom = 70.0
-text = "20 days until completion"
-align = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="ResearchDisplay" parent="PlanetUI" instance=ExtResource( 21 )]
+[node name="ResearchDisplay" parent="PlanetUI" instance=ExtResource( 20 )]
 
 margin/left = 7.0
 margin/top = 7.0
@@ -331,28 +276,29 @@ margin/bottom = 107.0
 points = 0
 display_type = "Research"
 
-[node name="IndustryDisplay" parent="PlanetUI" instance=ExtResource( 21 )]
+[node name="IndustryDisplay" parent="PlanetUI" instance=ExtResource( 20 )]
 
 margin/left = 123.0
 margin/top = 7.0
 margin/right = 231.0
 margin/bottom = 107.0
-textures/normal = ExtResource( 22 )
+textures/normal = ExtResource( 21 )
 points = 0
 display_type = "Industry"
 
-[node name="ProsperityDisplay" parent="PlanetUI" instance=ExtResource( 21 )]
+[node name="ProsperityDisplay" parent="PlanetUI" instance=ExtResource( 20 )]
 
 margin/left = 239.0
 margin/top = 7.0
 margin/right = 347.0
 margin/bottom = 107.0
-textures/normal = ExtResource( 23 )
+textures/normal = ExtResource( 22 )
 points = 0
 display_type = "Prosperity"
 
 [node name="AcceptDialog" type="AcceptDialog" parent="PlanetUI"]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true
@@ -369,7 +315,7 @@ dialog/hide_on_ok = true
 [node name="ProjectGrid" type="Position2D" parent="PlanetUI/AcceptDialog"]
 
 transform/pos = Vector2( 0, 35 )
-script/script = ExtResource( 24 )
+script/script = ExtResource( 23 )
 
 [node name="GridContainer" type="GridContainer" parent="PlanetUI/AcceptDialog/ProjectGrid"]
 
@@ -476,5 +422,67 @@ enabled_focus_mode = 2
 shortcut = null
 params/resize_mode = 0
 params/stretch_mode = 0
+
+[node name="ProjectDisplay" type="VBoxContainer" parent="PlanetUI"]
+
+rect/min_size = Vector2( 170, 100 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 463.0
+margin/top = 7.0
+margin/right = 633.0
+margin/bottom = 107.0
+alignment = 1
+script/script = ExtResource( 25 )
+
+[node name="ProjectTitle" type="Label" parent="PlanetUI/ProjectDisplay"]
+
+rect/min_size = Vector2( 168, 0 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 1.0
+margin/top = 0.0
+margin/right = 169.0
+margin/bottom = 14.0
+text = "No Project"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ProjectIcon" type="TextureFrame" parent="PlanetUI/ProjectDisplay"]
+
+rect/min_size = Vector2( 112, 52 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 1
+size_flags/vertical = 1
+margin/left = 29.0
+margin/top = 24.0
+margin/right = 141.0
+margin/bottom = 76.0
+texture = ExtResource( 17 )
+expand = true
+stretch_mode = 6
+
+[node name="ProjectDays" type="Label" parent="PlanetUI/ProjectDisplay"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 0
+size_flags/vertical = 0
+margin/left = 5.0
+margin/top = 86.0
+margin/right = 164.0
+margin/bottom = 100.0
+text = "20 days until completion"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 

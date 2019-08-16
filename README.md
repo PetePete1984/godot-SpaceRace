@@ -5,10 +5,10 @@ The codebase currently consists of Godot 2.1.4-styled GDScript and will likely m
 
 ## Some important caveats:
 
-- The game is incomplete as of August 2018
+- The game is incomplete as of August 2019
   - With the amount of features missing, it's not even in the typical alpha stage of development
-  - There is no music. It's just not Ascendancy without the music..
-  - There is no space travel in this space game.. yet. But ships can be ejected from planets, to be stuck in space forever.
+  - It plays music and the beeping sound, when they're extracted and converted to wav/ogg with ffmpeg
+  - Ships can in fact travel through space, dock at other planets and even traverse star lanes in a rudimentary way. In-system travel does not regard ship engines and movement limits so far.
 - I don't have access to an iDevice compatible with the last released iOS version of the game, so can't compare or analyze that
 - Without access to the source code, all game interactions can only be an approximation derived from existing gameplay (without the fabled Antagonizer patch, for now)
   - If you're reading this and you're a decompilation/disassembly wizard proficient in either Watcom compiled C++ from the 90s (bundled with DOS/4GW) or iOS ARM from 2012ish, and you're interested in contributing, hit me up!
@@ -32,15 +32,16 @@ The codebase currently consists of Godot 2.1.4-styled GDScript and will likely m
 - The history screen
 - Starfield / Cosmos generation
 - Star System generation
-- Crude nearest-neighbor Star Lanes that don't even connect all star clusters (obviously WIP)
-- Much of the Cosmos / Galaxy Screen
-- Many of the Gameplay Event notifications as well as advancing turns
-- Much of the Star System / Battle Screen
+- Crude nearest-neighbor Star Lanes that don't even connect all star clusters (obviously WIP), but all stars are reachable
+- Much of the Cosmos / Galaxy Screen, although icons are missing
+- Most of the Gameplay Event notifications
+- Advancing turns one by one, or until an event happens
+- Much of the Star System / Battle Screen, including the distant starfield
 - Most of the Planet Screen
   - supports both viewing empty planets as well as colonized ones
   - supports building up your colony while respecting most limitations like planet square type, required research and population 
 - Most of the Planet List Screen
-- Most of the Research Screen
+- Most of the Research Screen, although it fails in Android builds for some reason
 - Rudimentary AI (very WIP)
   - picks not entirely unreasonable construction projects
   - follows a generally useful research plan in the beginning (targets early space travel, then prefers high-value research like the megafacility, if available)

@@ -15,7 +15,9 @@ var DepthCue = preload("res://Scenes/Components/DepthCueSprite3D.gd")
 func _ready():
 	pass
 
-func setup(system, signal_handler, interaction = true):
+func setup(system, signal_handler, game_state, interaction = true):
+	var human_player = game_state.human_player
+
 	# small = true
 	var texture = TextureHandler.get_star(system, true)
 	star.set_texture(texture)
@@ -39,30 +41,47 @@ func setup(system, signal_handler, interaction = true):
 		
 	#spr3d.set_name(system.system_name)
 	
+	# TODO: wait why depth cue on a star in the center of the place
 	# add Depth Cueing
 	star.set_script(DepthCue)
 	
 	# FIXME: this drawing hack must be nicer later
 	var system_has_owner = false
 	var system_has_home = false
-	var owner
+	var system_has_player_home = false
+
+	var owner = null
+	var owner_planets = 0
+
+	var owners = {}
 	
 	for planet in system.planets:
-		# TODO: formalize planet / system ownership in game state
+		# TODO: formalize planet / system ownership in game state, because it depends on amount and owners of colonies; can be multiple in one system
 		if planet.owner != null:
-			system_has_owner = true
-			owner = planet.owner
-			if planet.colony.home == true:
-				system_has_home = true
-	if system_has_owner:
-		if system_has_home:
+			if not owners.has(planet.owner):
+				owners[planet.owner] = 0
+			owners[planet.owner] += 1
+
+			if owners[planet.owner] > owner_planets:
+				owner = planet.owner
+				owner_planets = owners[planet.owner]
+
+	if owner != null:
+		if owner.home_colony.planet.system == system:
 			# TODO: set correct flag texture in TH
 			flag.set_texture(TextureHandler.get_race_flag(owner))
-			flag.show()
-		else:
-			flag.hide()
+			# TODO: last condition may not be exactly correct
+			if owner == human_player:
+				flag.show()
+			elif human_player.knowledge.systems[system] == true:
+				flag.show()
+			elif human_player.knowledge.races[owner.race.type] == true:
+				flag.show()
+			else:
+				flag.hide()
+		# TODO: color according to owner
 		# TODO: apply star-rings
-		# TODO: apply player knowledge to visibility
+		# TODO: apply player knowledge to general visibility
 		control.show()
 	
 	return star

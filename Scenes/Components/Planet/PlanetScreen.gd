@@ -225,13 +225,15 @@ func draw_ships():
 	for x in range(orbitals.size()):
 		for y in range(orbitals[x].size()):
 			var orbital = orbitals[x][y]
+			# FIXME: this draws over ship construction projects
 			if orbital.type == null and orbital.orbiting_ship != null:
 				var ship = orbital.orbiting_ship
-				var sprite = PlanetShipSprite.instance()
-				tilemap_orbitals.add_child(sprite)
-				sprite.set_ship(ship)
-				sprite.set_pos(tilemap_orbitals.map_to_world(Vector2(x, y)))
-				sprite.tile_position = Vector2(x, y)
+				if ship.active:
+					var sprite = PlanetShipSprite.instance()
+					tilemap_orbitals.add_child(sprite)
+					sprite.set_ship(ship)
+					sprite.set_pos(tilemap_orbitals.map_to_world(Vector2(x, y)))
+					sprite.tile_position = Vector2(x, y)
 				# TODO: connect to click command or leave that to orbital tilemap
 				#sprite.connect("clicked")
 
@@ -383,6 +385,7 @@ func _on_orbital_clicked(cell, pos):
 			ship_popup.set_script(ShipCommandPopup)
 			ship_popup.add_to_group("overlay_popup")
 			add_child(ship_popup)
+			# TODO: Add ship refit when orbital dock is available
 			ship_popup.setup_for_ship(ship, currentPlanet)
 			ship_popup.connect("leave_orbit", self, "_on_ship_leave_orbit", [ship, orbital_cell])
 			ship_popup.connect("colonize", self, "_on_ship_colonize", [ship, currentPlanet])

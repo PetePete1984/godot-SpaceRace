@@ -17,6 +17,7 @@ static func initialize_player_knowledge(player, game_state):
 	var lanes = galaxy.lanes
 	var races = game_state.races
 
+	# TODO: this prevents having multiples of the same race
 	var this_race = player.race
 	var race_key = this_race.type
 
@@ -36,7 +37,7 @@ static func initialize_player_knowledge(player, game_state):
 	for system in systems:
 		knowledge.systems[system] = false
 
-	# TODO: this currently just stores race keys, might not be enough
+	# TODO: this currently just stores race keys, might not be enough if there's a need to distinguish between "knows system" and "knows where home planets are"
 	for race in races:
 		if see_home_stars:
 			for colony in race.colonies:
@@ -56,7 +57,12 @@ static func initialize_player_knowledge(player, game_state):
 
 	# TODO: see own race, home system and planet, obviously
 	knowledge.races[race_key] = true
-	for colony in this_race.colonies:
+	for colony_key in player.colonies:
+		var colony = player.colonies[colony_key]
 		knowledge.systems[colony.planet.system] = true
+		for lane_key in lanes:
+			var this_lane = lanes[lane_key]
+			if this_lane.connects_to(colony.planet.system):
+				knowledge.lanes[lane_key] = true
 
 	player.knowledge = knowledge

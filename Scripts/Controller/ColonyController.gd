@@ -40,7 +40,10 @@ static func colonize_planet(planet, player, position, name = null):
 
 static func make_home_colony(colony):
 	# TODO: either "un-home" all owner's colonies here, or in the caller
+	if colony.owner.home_colony != null:
+		colony.owner.home_colony.home = false
 	colony.home = true
+	colony.owner.home_colony = colony
 
 static func start_project(colony, position, project_payload):
 	if typeof(project_payload) == TYPE_DICTIONARY:

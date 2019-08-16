@@ -34,14 +34,16 @@ func get_race_flag(player):
 	var race = _type(player)
 	var path = "res://Images/Races/FlagsBW/raceflag.ascshp_%03d.png" % [race.index]
 	return get_texture(path)
-	pass
 	
-func get_race_icon(player):
+func get_race_icon(player, small = true):
 	var race = _type(player)
 	var index = race.index
-	var path = "res://Images/Races/Icons/smrace%02d/smrace%02d.ascshp_000.png" % [index, index]
+	var path = null
+	if small:
+		path = "res://Images/Races/Icons/smrace%02d/smrace%02d.ascshp_000.png" % [index, index]
+	else:
+		path = "res://Images/Screens/RaceIntro/Races/lgrace%02d/lgrace%02d.ascshp_000.png" % [index, index]
 	return get_texture(path)
-	pass
 
 func get_race_ring_neutral():
 	var path = "res://Images/Races/Rings/racering.ascshp_007.png"
@@ -52,7 +54,6 @@ func get_home_planet(player):
 	var index = race.index
 	var path = "res://Images/Races/HomePlanets/smhome.ascshp_%03d.png" % [index]
 	return get_texture(path)
-	pass
 	
 func get_star(system, small = false):
 	var path = null
@@ -122,8 +123,8 @@ func get_ship_for_planet(ship, sprite):
 		var offset_scale = ShipDefinitions.drawing_scale_offset[ship.size]
 		var offset = Vector2(offset_scale.offset_planet[0], offset_scale.offset_planet[1])
 		var scale = Vector2(offset_scale.scale_planet, offset_scale.scale_planet)
-		sprite.set_scale(scale)
 		sprite.set_offset(offset)
+		sprite.set_scale(scale)
 
 func get_ship_module(ship_module):
 	# TODO: this is no longer the image index, maybe just offset by -1

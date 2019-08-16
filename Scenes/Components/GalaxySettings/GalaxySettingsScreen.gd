@@ -3,7 +3,7 @@ extends "res://Scripts/Model/Screen.gd"
 # entering this screen _always_ regenerates a new galaxy and resets all options
 # BUT this new galaxy doesn't overwrite an existing one
 
-signal galaxy_init(galaxy_options, race_key)
+signal galaxy_init(galaxy_options, race_key, color_key)
 signal need_new_stars(size)
 
 onready var next_screen = get_node("UI/NewGameAnchor/TextureButton")
@@ -41,7 +41,7 @@ func _ready():
 	connect("need_new_stars", GameStateHandler, "generate_stars")
 	GameStateHandler.connect("new_stars_generated", self, "repaint_galaxies")
 	reset()
-	
+
 func reset():
 	# TODO: scroll the container to the top
 	for option in defaults:
@@ -72,7 +72,7 @@ func update_setting(list, setting, button):
 		current_settings[setting] = new_option
 		return new_option
 	return current_option
-	
+
 func set_race(race_key):
 	current_race = race_key
 	color_picker.set_race(race_key)
@@ -89,15 +89,11 @@ func set_color(color):
 func _on_density_button():
 	emit_signal("need_new_stars", update_setting("galaxy_sizes", "galaxy_size", density_button))
 	settings_text.update(current_settings)
-	pass
-	
+
 func _on_races_button():
 	update_setting("race_range", "races", races_button)
 	settings_text.update(current_settings)
-	pass
 
 func _on_atmosphere_button():
 	update_setting("atmospheres", "atmosphere", atmosphere_button)
 	settings_text.update(current_settings)
-	pass
-	

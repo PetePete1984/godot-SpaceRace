@@ -69,6 +69,7 @@ var min_races = 3
 var max_races = 7
 var race_range = range(min_races, max_races+1)
 
+var galaxy_color_list = ["GREEN", "PURPLE", "YELLOW", "PINK", "BROWN", "BLUE", "ORANGE"]
 var galaxy_colors = {
 	"GREEN": Color8(0,142,69),
 	"PURPLE": Color8(130,69,142),
@@ -79,7 +80,7 @@ var galaxy_colors = {
 	"ORANGE": Color8(195,97,4),
 }
 var default_race = "minions"
-var default_color = galaxy_colors["GREEN"]
+var default_color = "GREEN"
 
 # map defs
 # planetmap calculates offsets from planet_max_grid automatically
@@ -279,6 +280,9 @@ var planet_xeno_chance = 1.0
 
 # used for tilemap index
 var cell_types = ["black", "white", "red", "green", "blue"]
+# used for scoring and pathfinding
+# red is best, black is worst, green and blue are better than white
+var cell_weights = [4, 3, 1, 2, 2]
 enum CELLS {BLACK, WHITE, RED, GREEN, BLUE}
 
 # FIXME: find references to mapdefs.building_types and replace by BuildingDefinitions.building_types

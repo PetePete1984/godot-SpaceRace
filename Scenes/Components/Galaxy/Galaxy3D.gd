@@ -5,7 +5,6 @@ onready var line_anchor = get_node("galaxy_center/line_anchor")
 onready var line_drawer = line_anchor.get_node("line_drawer")
 onready var gizmo_anchor = get_node("galaxy_center/star_anchor")
 
-
 const SPIN_SPEED = 360/5
 const ZOOM_SPEED = 2
 const SYSTEMS = 100
@@ -45,8 +44,8 @@ func rotate(delta, direction = 1):
 		emit_signal("rotated")
 
 func set_galaxy(game_state, interaction = true):
-	var galaxy = game_state.galaxy
-	generate_galaxy_display(galaxy, interaction)
+	# TODO: feed the game state deeper into the functions, so the human player can be used for displays (they depend on it)
+	generate_galaxy_display(game_state, interaction)
 	draw_lines(game_state)
 	pass
 
@@ -85,11 +84,11 @@ func reset_camera():
 	emit_signal("rotated")
 	emit_signal("zoomed")
 
-func get_clickable_sprite3D_for_system(sys, interaction = true):
+func get_clickable_sprite3D_for_system(sys, game_state, interaction = true):
 	var star_sprite = StarSprite.instance()
 	anchor.add_child(star_sprite)
 	# self = signal_handler for clicks
-	star_sprite.setup(sys, self, interaction)
+	star_sprite.setup(sys, self, game_state, interaction)
 	return star_sprite
 	pass
 	
@@ -151,11 +150,13 @@ func clear_display():
 			spr.call_deferred("queue_free")
 	sprites.clear()
 	
-func generate_galaxy_display(galaxy, interaction = true):
+func generate_galaxy_display(game_state, interaction = true):
 	clear_display()
+	var galaxy = game_state.galaxy
+	var player = game_state.human_player
 	for sys in galaxy.systems:
 		#var sys = galaxy.systems[s]
-		var spr3d = get_clickable_sprite3D_for_system(sys)
+		var spr3d = get_clickable_sprite3D_for_system(sys, game_state)
 		spr3d.set_translation(sys.position)
 		connect("rotated", spr3d.star, "_on_update_pos")
 		sprites.append(spr3d)
@@ -171,7 +172,7 @@ func generate_debug_display(interaction = true):
 func _create_random_starsystem(used_star_names, i, interaction = true):
 	var sys = StarSystemGenerator.generate_system(used_star_names, i)
 	var space_pos = Utils.rand_v3_in_unit_sphere(1)
-	var spr3d = get_clickable_sprite3D_for_system(sys, interaction)
+	var spr3d = get_clickable_sprite3D_for_system(sys, GameStateHandler.game_state, interaction)
 	spr3d.set_translation(space_pos)
 	anchor.add_child(spr3d)
 	sprites.append(spr3d)

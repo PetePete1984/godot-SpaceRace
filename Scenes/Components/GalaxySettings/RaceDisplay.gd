@@ -20,7 +20,8 @@ func set_race(race_key):
 	race_desc.set_text(race.race_description)
 	pass
 	
-func set_color(color):
+func set_color(color_key):
+	var color = mapdefs.galaxy_colors[color_key]
 	# FIXME: Find a way to set shader params without access to this? It won't be available later
 	race_name.get_material().set_shader_param("Color", color)
 	race_flag.set_modulate(color)

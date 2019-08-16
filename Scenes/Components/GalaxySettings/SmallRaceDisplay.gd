@@ -10,5 +10,5 @@ func set_race(race_key):
 	pass
 	
 func set_color(color):
-	race_ring.set_modulate(color)
+	race_ring.set_modulate(mapdefs.galaxy_colors[color])
 	pass

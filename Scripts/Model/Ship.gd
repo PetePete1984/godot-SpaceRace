@@ -62,12 +62,12 @@ var drives = []
 var lane_speed
 
 # convenience dict
-var module_count
+var module_count = {}
 # convenience list
-var unique_modules
+var unique_modules = []
 
-var experience
-var experience_level
+var experience = 0
+var experience_level = 0
 
 func has_module(module):
 	var result = false
@@ -90,6 +90,11 @@ func has_invader():
 func update_stats(category = null):
 	var drive_temp = 0
 	var power_temp = 0
+	# clear convenience lists
+	drives = []
+	unique_modules = []
+	module_count = {}
+
 	for coords in modules:
 		var tile = modules[coords]
 		if tile != null:
@@ -99,8 +104,14 @@ func update_stats(category = null):
 					drives.append(tile)
 				if tile.module_type.category == "generator":
 					power_temp += tile.module_type.power
+				if not tile.module_type.type in unique_modules:
+					unique_modules.append(tile.module_type.type)
+				if not module_count.has(tile.module_type.type):
+					module_count[tile.module_type.type] = 0
+				module_count[tile.module_type.type] += 1
 	drive = drive_temp
 	maximum_power = power_temp
+	#print(inst2dict(self))
 	pass
 
 func _set_position(new_position):

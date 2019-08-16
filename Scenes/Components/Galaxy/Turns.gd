@@ -17,7 +17,7 @@ func _ready():
 
 func set_color(color):
 	# TODO: use materialhandler
-	_10k.get_material().set_shader_param("Color", color)
+	_10k.get_material().set_shader_param("Color", mapdefs.galaxy_colors[color])
 	pass
 	
 func set_turn(turn):

@@ -56,3 +56,6 @@ func _ready():
 		real_defs[pkey] = pDef
 	project_defs = real_defs
 	pass
+
+func get_name(def_key):
+	return project_defs[def_key].project_name

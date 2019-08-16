@@ -9,6 +9,9 @@ var extinct = false
 
 # set of owned colonies
 var colonies = {}
+# reference to home colony
+var home_colony = null
+
 # list of owned ships
 var ships = []
 
@@ -26,6 +29,7 @@ var research_project = null
 var total_research = 0
 
 # initialized from mapdefs colors
+# TODO: might be better to store the color key ("GREEN")
 var color = null
 
 var stats = {

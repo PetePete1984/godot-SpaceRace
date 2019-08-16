@@ -13,6 +13,8 @@ static func initialize_ship(size, modules, ship_name, player):
 		# TODO: give ship module tile an init with module name
 		var module_tile = ShipModuleTile.new()
 		module_tile.module_type = ShipModuleDefinitions.ship_module_defs[module_type]
+		#var ship_mod_defs = get_tree().get_root().get_node("ShipModuleDefinitions")
+		#module_tile.module_type = ship_mod_defs.ship_module_defs[module_type]
 		module_tile.phantom = module_type
 		module_tile.previous_module = module_type
 		ship.modules[position] = module_tile
@@ -43,47 +45,85 @@ static func get_design_from_template(template):
 	return current_ship_design
 
 # TODO: not sure if blueprint will be a string key, or a dict
-static func get_design_from_blueprint(blueprint, player, mode = null):
+static func get_template_from_blueprint(blueprint, player, mode = null):
 	# mode = cheapest or strongest, can come from the blueprint or be overridden
+	if mode == null:
+		mode = "cheapest"
 	var chunk_list = ShipTemplate.chunks
 	var parts_list = []
 	var template = {
 		ship_size = blueprint.size,
-		ship_modules = {},
+		ship_modules = [],
 		ship_name = ""
 	}
 
-	var max_slots = ShipDefinitions[blueprint.size].num_slots
+	var max_slots = ShipDefinitions.ship_defs[blueprint.size].num_slots
 	var current_slots = 0
 	var bp_chunks = blueprint.chunks
+	var all_chunks = ShipTemplate.chunks
 	var tags = {}
 	var modules = []
-	for chunk in bp_chunks:
+	var fill_modules = []
+	for chunk_key in bp_chunks:
+		var chunk = all_chunks[chunk_key]
 		if chunk.has("tags"):
 			for key in chunk.tags.keys():
 				if tags.has(key):
 					tags[key] = tags[key] + chunk.tags[key]
 				else:
 					tags[key] = chunk.tags[key]
-				current_slots += chunk.tags[key]
+				#current_slots += chunk.tags[key]
 		if chunk.has("modules"):
 			for key in chunk.modules.keys():
 				if chunk.modules[key] == -1:
-					var remaining_slots = max_slots - current_slots
-					for i in range(remaining_slots):
-						modules.append(key)
-						current_slots += 1
+					if not fill_modules.has(key):
+						fill_modules.append(key)
 				else:
 					for i in range(chunk.modules[key]):
 						modules.append(key)
 						current_slots += 1
-	print("Slots in use: ", current_slots, " while available are ", max_slots)
+	#print("Slots in use: ", current_slots, " while available are ", max_slots)
 	for key in tags.keys():
 		# find all modules that match the tag as category or tag
 		# remove all modules that the player can't use
 		# sort by cost (asc = cheapest, desc = strongest)
 		# pick first, if available
 		# add the module to the parts list as often as the tag list wants it
-		pass
+		#prints("looking for", key)
+		var matching = ShipModuleDefinitions.get_modules_by_tag(key)
+		var available_for_tag = []
+		for module in matching:
+			if module.requires_research in player.completed_research:
+				available_for_tag.append(module)
 
-	pass
+		if available_for_tag.size() > 1:
+			available_for_tag.sort_custom(ModuleSorter, "sort_%s" % mode)
+		#prints("found", available_for_tag)
+		# pick module
+		var picked_module = available_for_tag.front()
+		for amount in range(tags[key]):
+			modules.append(picked_module.type)
+			current_slots += 1
+		pass
+	
+	if current_slots < max_slots:
+		if fill_modules.size() > 0:
+			var remaining_slots = max_slots - current_slots
+			#prints("remaining slots before filling: ", remaining_slots)
+			var fill_index = 0
+			for i in range(remaining_slots):
+				modules.append(fill_modules[fill_index % fill_modules.size()])
+				fill_index += 1
+				current_slots += 1
+
+	#print("Slots in use: ", current_slots, " while available are ", max_slots)
+
+	template.ship_modules = modules
+	return template
+
+class ModuleSorter:
+	static func sort_cheapest(a, b):
+		return a.cost < b.cost
+
+	static func sort_strongest(a, b):
+		return a.cost > b.cost

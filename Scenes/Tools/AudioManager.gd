@@ -11,8 +11,8 @@ var music_pos = 0.0
 var sounds_path = "res://Audio/Sounds"
 var music_path = "res://Audio/Music"
 
-var sounds_volume = 0.0
-var music_volume = 0.0
+var sounds_volume = 1.0
+var music_volume = 1.0
 
 onready var sample_player = get_node("SamplePlayer")
 onready var stream_player = get_node("StreamPlayer")
@@ -36,6 +36,10 @@ func _process(delta):
 			vol = 1.0
 			set_process(false)
 		stream_player.set_volume(vol)
+
+func play(sample):
+	if sample_player.get_sample_library().has_sample(sample):
+		sample_player.play(sample)
 
 func bleep():
 	if sample_player.get_sample_library().has_sample("button"):

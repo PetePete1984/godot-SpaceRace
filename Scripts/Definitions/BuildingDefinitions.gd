@@ -257,3 +257,6 @@ func _ready():
 		real_defs[bkey] = bDef
 	building_defs = real_defs
 	pass
+
+func get_name(def_key):
+	return building_defs[def_key].building_name

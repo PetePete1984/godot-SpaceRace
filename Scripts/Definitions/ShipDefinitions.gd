@@ -26,7 +26,15 @@ var drawing_scale_offset = {
 	},
 	"medium": {
 		"scale_planet": 0.5,
-		"offset_planet": [-5, 11]
+		"offset_planet": [-4, 12]
+	},
+	"large": {
+		"scale_planet": 0.5,
+		"offset_planet": [0, 0]
+	},
+	"enormous": {
+		"scale_planet": 0.5,
+		"offset_planet": [0, 0]
 	}
 }
 

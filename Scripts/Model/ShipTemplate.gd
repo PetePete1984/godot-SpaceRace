@@ -74,5 +74,13 @@ const prefabs = {
 		size = "medium",
 		chunks = ["basic_movement", "fill_colony"],
 		bias = "cheapest"
+	},
+	large_debug = {
+		size = "large",
+		chunks = ["basic_movement", "fill_colony"]
+	},
+	enormous_debug = {
+		size = "enormous",
+		chunks = ["basic_movement", "fill_colony"]
 	}
 }

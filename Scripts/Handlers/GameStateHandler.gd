@@ -52,7 +52,7 @@ func start_new_game():
 	#randomize()
 	#purge_game_state(game_state)
 	generate_stars(mapdefs.default_galaxy_settings.galaxy_size)
-	initialize_galaxy(mapdefs.default_galaxy_settings, "minions", mapdefs.galaxy_colors.GREEN)
+	initialize_galaxy(mapdefs.default_galaxy_settings, mapdefs.default_race, mapdefs.default_color)
 	#print(inst2dict(game_state))
 	return game_state
 
@@ -77,7 +77,7 @@ func generate_stars(size = null):
 # this takes the existing prepared galaxy (from new_game_state)
 # applies the options from the settings screen
 # and initializes a proper game state
-func initialize_galaxy(galaxy_options, race_key, color):
+func initialize_galaxy(galaxy_options, race_key, color_key):
 	if new_game_state:
 		# fill temp galaxy with planets
 		GalaxyGenerator.generate_star_systems(new_game_state.galaxy)
@@ -89,9 +89,13 @@ func initialize_galaxy(galaxy_options, race_key, color):
 
 		# initialize player race
 		var player = RaceGenerator.generate_player(new_game_state, race_key)
-		player.color = color
+		player.color = mapdefs.galaxy_colors[color_key]
 		new_game_state.races[race_key] = player
 		new_game_state.human_player = player
+		var remaining_colors = []
+		for col in mapdefs.galaxy_color_list:
+			if col != color_key:
+				remaining_colors.append(col)
 
 		# pick & initialize the rest of the races
 		var num_races = galaxy_options.races
@@ -105,6 +109,9 @@ func initialize_galaxy(galaxy_options, race_key, color):
 				other_races.append(picked)
 		for other_race in other_races:
 			var alien = RaceGenerator.generate_player(new_game_state, other_race)
+			var alien_color_key = remaining_colors.front()
+			remaining_colors.pop_front()
+			alien.color = mapdefs.galaxy_colors[alien_color_key]
 			alien.type = "ai"
 			new_game_state.races[other_race] = alien
 			
@@ -129,7 +136,7 @@ func initialize_galaxy(galaxy_options, race_key, color):
 			#new_game_state.galaxy.races = new_game_state.races
 		for r_key in new_game_state.races:
 			var participant = new_game_state.races[r_key]
-			#KnowledgeFactory.initialize_player_knowledge(participant, new_game_state)
+			KnowledgeFactory.initialize_player_knowledge(participant, new_game_state)
 
 		# move everything into the normal game state
 		if game_state != null:

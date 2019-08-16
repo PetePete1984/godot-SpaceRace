@@ -20,4 +20,7 @@ var connections = {}
 var exits = []
 
 func from_to(from):
-	return connects[connects.find(from) + 1 % connects.size()]
+	return connects[(connects.find(from) + 1) % connects.size()]
+
+func connects_to(system):
+	return connects.find(system) != -1

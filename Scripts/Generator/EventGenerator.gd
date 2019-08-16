@@ -25,16 +25,20 @@ static func generate_construction(project, planet):
 	var project_text
 	if project.type == "Surface":
 		project_image = TextureHandler.get_surface_building(project.project)
-		project_text = CONSTRUCTION % [BuildingDefinitions.building_defs[project.project].building_name, planet.colony.colony_name]
+		project_text = CONSTRUCTION % [BuildingDefinitions.get_name(project.project), planet.colony.colony_name]
+		#project_text = CONSTRUCTION % [BuildingDefinitions.building_defs[project.project].building_name, planet.colony.colony_name]
 	elif project.type == "Orbital":
+		# TODO: I think this check is doubled in TextureHandler.gd:145 etc
 		if project.sub_type != null and project.sub_type.begins_with("Ship"):
 			project_image = TextureHandler.get_orbital_building(project, planet.colony.owner)
 		else:
 			project_image = TextureHandler.get_orbital_building(project.project, planet.colony.owner)
-		project_text = CONSTRUCTION % [OrbitalDefinitions.orbital_defs[project.project].orbital_name, planet.colony.colony_name]
+		project_text = CONSTRUCTION % [OrbitalDefinitions.get_name(project.project), planet.colony.colony_name]
+		#project_text = CONSTRUCTION % [OrbitalDefinitions.orbital_defs[project.project].orbital_name, planet.colony.colony_name]
 	elif project.type == "Tech":
 		project_image = TextureHandler.get_tech_project(project.project)
-		project_text = CONSTRUCTION % [TechProjectDefinitions.project_defs[project.project].project_name, planet.colony.colony_name]
+		project_text = CONSTRUCTION % [TechProjectDefinitions.get_name(project.project), planet.colony.colony_name]
+		#project_text = CONSTRUCTION % [TechProjectDefinitions.project_defs[project.project].project_name, planet.colony.colony_name]
 	var planet_image = TextureHandler.get_planet(planet, true)
 	ev.images = [project_image, planet_image]
 	var top_line = project_text

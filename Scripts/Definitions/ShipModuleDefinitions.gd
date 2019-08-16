@@ -423,6 +423,11 @@ func _ready():
 			data = sim_defs[key]
 		else:
 			data = ship_module_defs[key]
+
+		# FIXME: hackedy hack until the data csv contains tags
+		if ship_module_defs[key].has("tags"):
+			data.tags = ship_module_defs[key].tags
+			
 		var def = ShipModuleDef.new()
 		def.type = key
 		if data.index:
@@ -439,7 +444,11 @@ func _ready():
 
 func get_modules_by_tag(tag):
 	var list = []
-	for moduleDef in ship_module_defs:
+	for moduleDef_key in ship_module_defs:
+		var moduleDef = ship_module_defs[moduleDef_key]
 		if moduleDef.category == tag or tag in moduleDef.tags:
 			list.append(moduleDef)
 	return list
+
+func get_name(def_key):
+	return ship_module_defs[def_key].ship_module_name

@@ -107,10 +107,10 @@ func title_screen():
 	set_payload(TitleScreen, GameStateHandler.game_state)
 	move_to_screen(TitleScreen)
 	
-func use_galaxy_options_and_show_intro(galaxy_options, race_key, color):
-	RaceIntroScreen.setup_display(galaxy_options, race_key, color)
-	GameStateHandler.initialize_galaxy(galaxy_options, race_key, color)
-	GalaxyScreen.set_color(color)
+func use_galaxy_options_and_show_intro(galaxy_options, race_key, color_key):
+	RaceIntroScreen.setup_display(galaxy_options, race_key, color_key)
+	GameStateHandler.initialize_galaxy(galaxy_options, race_key, color_key)
+	GalaxyScreen.set_color(color_key)
 	move_to_screen(RaceIntroScreen)
 	var race_index = RaceDefinitions.race[race_key].index
 	AudioManager.play_race_music(race_index)

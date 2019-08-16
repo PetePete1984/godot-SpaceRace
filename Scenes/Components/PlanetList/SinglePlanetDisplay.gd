@@ -52,11 +52,14 @@ func update_display():
 		var project = planet.colony.project
 		var project_name
 		if project.type == "Surface":
-			project_name = BuildingDefinitions.building_defs[project.project].building_name
+			project_name = BuildingDefinitions.get_name(project.project)
+			#project_name = BuildingDefinitions.building_defs[project.project].building_name
 		elif project.type == "Orbital":
-			project_name = OrbitalDefinitions.orbital_defs[project.project].orbital_name
+			project_name = OrbitalDefinitions.get_name(project.project)
+			#project_name = OrbitalDefinitions.orbital_defs[project.project].orbital_name
 		elif project.type == "Tech":
-			project_name = TechProjectDefinitions.project_defs[project.project].project_name
+			project_name = TechProjectDefinitions.get_name(project.project)
+			#project_name = TechProjectDefinitions.project_defs[project.project].project_name
 		var proj_text = project_name
 		var remaining = project.remaining_industry
 		var planet_industry = planet.colony.adjusted_industry

@@ -2,6 +2,7 @@
 extends Reference
 
 static func can_automate_surface(player, planet, surface_building_tile):
+	# TODO: might be easier to just check for existing research
 	var researched = project_available(player, "automation", "Tech")
 	var has_idlers = planet.population.idle >= 1
 	var automated = false
@@ -20,7 +21,6 @@ static func project_available(player, project, type = null):
 	if type == "Surface":
 		definition = BuildingDefinitions.building_defs[project]
 	elif type == "Orbital":
-		# TODO: ships need to ask the planet for a shipyard, refits for an orbital dock
 		definition = OrbitalDefinitions.orbital_defs[project]
 	elif type == "Tech":
 		definition = TechProjectDefinitions.project_defs[project]
@@ -184,22 +184,19 @@ static func get_projects_for_orbit(planet, orbital_tile):
 	var existing_orbital_type = null
 
 	if orbital_tile.type != null:
-		# orbital exists already
+		# an orbital exists on the chosen tile already
 		existing_orbital_type = orbital_tile.type.type
 	
 	for odef_key in OrbitalDefinitions.orbital_defs:
 		var orbital = OrbitalDefinitions.orbital_defs[odef_key]
 
 		var allowed = true
-		# TODO: use project_available
-		if orbital.requires_research != null:
-			if player != null:
-				if not orbital.requires_research in player.completed_research:
-					continue
 		
 		if orbital.buildable == false:
 			continue
 
+		if not project_available(player, odef_key, "Orbital"):
+			continue
 		# 4 things can be on a tile
 		# a) nothing
 		# b) a finished orbital building
@@ -212,6 +209,13 @@ static func get_projects_for_orbit(planet, orbital_tile):
 				continue
 		else:
 			pass
+
+		if odef_key == "ship_placeholder":
+			# ships need a shipyard on any other tile
+			var has_shipyard = "shipyard" in planet.colony.unique_orbitals
+			if not has_shipyard:
+				continue
+		
 		if allowed:
 			projects.append(odef_key)
 	return projects

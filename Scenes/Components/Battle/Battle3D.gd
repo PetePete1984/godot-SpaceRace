@@ -4,6 +4,9 @@ onready var anchor = get_node("battle_center")
 onready var line_drawer = anchor.get_node("line_drawer")
 onready var grid = anchor.get_node("Grid")
 
+onready var ships_center = get_node("ships_center")
+onready var lanes_center = get_node("lanes_center")
+
 onready var movement_spatial = get_node("move_spatial")
 onready var movement_line = movement_spatial.get_node("movement_line")
 
@@ -48,6 +51,8 @@ signal rotated
 signal zoomed
 signal reset
 signal pivot_changed
+
+signal state_now_dirty
 
 signal any_click(event, coords, rotation)
 
@@ -109,6 +114,13 @@ func zoom(delta, direction):
 	if direction != 0:
 		camera.fov += delta*ZOOM_SPEED*direction
 		emit_signal("zoomed")
+
+# takes a position of a celestial object and shifts the camera
+func focus(position):
+	camera.translate(position)
+
+func reset_camera():
+	camera.set_translation(Vector3())
 	
 func display_grid(display = true):
 	grid.set("geometry/visible", display)
@@ -137,11 +149,29 @@ func remove_display_for_object(battle_object):
 	sprites.erase(sprite)
 	object_map.erase(battle_object)
 	sprite.call_deferred("queue_free")
+	battle_object.disconnect("left_system", self, "remove_display_for_object")
+	emit_signal("state_now_dirty")
 
 func set_system(system):
 	generate_starsystem_display(system)
 	line_drawer.set_system(system)
 	emit_signal("sprites_repainted")
+
+func set_background_stars(system, galaxy):
+	# TODO: find a way to keep distant stars in front outside of the camera's view
+	var distance_factor = 100
+	var distance_scale = 25
+	for sys in galaxy.systems:
+		var backgroundSprite = BillboardSprite3D.instance()
+		# small = true
+		backgroundSprite.set_texture(TextureHandler.get_star(sys, true))
+		anchor.add_child(backgroundSprite)
+		backgroundSprite.translate(system.position * distance_factor)
+		backgroundSprite.translate(sys.position * distance_factor)
+		backgroundSprite.set_scale(Vector3(distance_scale,distance_scale,distance_scale))
+		connect("rotated", backgroundSprite, "_on_update_pos")
+		sprites.append(backgroundSprite)
+		pass
 	pass
 	
 func generate_starsystem_display(system):
@@ -188,7 +218,10 @@ func generate_starsystem_display(system):
 		var ship_sprite = get_clickable(TextureHandler.get_ship(ship.owner, ship.size), ship.position, ship.ship_name, ship)
 		sprites.append(ship_sprite)
 		ship.connect("position_changed", ship_sprite, "_on_data_position_changed")
-		ship.connect("left_system", ship_sprite, "_on_data_removed")
+		#ship.connect("left_system", ship_sprite, "_on_data_removed")
+		# TODO: update ship list somehow
+		if !ship.is_connected("left_system", self, "remove_display_for_object"):
+			ship.connect("left_system", self, "remove_display_for_object", [ship])
 		object_map[ship] = ship_sprite
 	pass
 

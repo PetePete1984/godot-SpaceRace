@@ -4,7 +4,8 @@ const ShipFactory = preload("res://Scripts/Factories/ShipFactory.gd")
 
 static func debug_snapshot(player, planets):
 	set_up_early_game(player, planets)
-	set_up_colonizer(player, planets)
+	# set_up_colonizer(player, planets)
+	set_up_ship_debug(player, planets)
 
 static func set_up_early_game(player, planets):
 	print("setting up early game")
@@ -31,37 +32,71 @@ static func set_up_early_game(player, planets):
 					ColonyController.start_project(planet.colony, build_next.square, [build_next.project, build_next.type])
 					ColonyController.finish_project(planet.colony)
 					ColonyController.grow_population(planet.colony)
-		
+
+		# TODO: build a shipyard / handle shipyard building in colonymanager
+		ColonyController.start_project(planet.colony, Vector2(0, 0), ["shipyard", "Orbital"])
+		ColonyController.finish_project(planet.colony)
+		ColonyController.grow_population(planet.colony)
+
 		# create new fresh pops
 		ColonyController.grow_population(planet.colony)
 		ColonyController.grow_population(planet.colony)
 
-static func set_up_colonizer(player, planets):
-	print("setting up colonizers")
-	var template = {
-		ship_size = "medium",
-		ship_modules = ["tonklin_motor", "proton_shaver", "star_lane_drive", "colonizer"],
-		ship_name = "Colonizer"
-	}
-	var ship_design = ShipFactory.get_design_from_template(template)
+static func set_up_colonizer(player, planets, finish = true):
+	print("setting up colonizers on all planets")
+	
+	var ship_design = ShipFactory.get_design_from_template(ShipFactory.get_template_from_blueprint(ShipFactory.ShipTemplate.prefabs.medium_colony_double_speed, player))
 
 	for planet in planets:
 		var colony = planet.colony
 		# var position = ColonyController.get_free_orbital()
-		var position = Vector2()
+		var position = Vector2(0, 1)
 		if position != null:
 			ColonyController.start_ship_project(colony, ship_design, position)
-
+			if finish:
+				ColonyController.finish_project(planet.colony)
+				ColonyController.grow_population(planet.colony)
 	pass
 
-func set_up_warship():
+static func set_up_warship():
 	pass
 
-func set_up_module_spammer():
+static func set_up_module_spammer():
 	pass
 
-func set_up_mid_game():
+static func set_up_mid_game():
 	pass
 
-func set_up_end_game():
+static func set_up_end_game():
+	pass
+
+static func set_up_ship_debug(player, planets, large = true, enormous = true, finish = true):
+	print("setting up large and/or enormous ships on all planets")
+	
+	var ship_large = ShipFactory.get_design_from_template(ShipFactory.get_template_from_blueprint(ShipFactory.ShipTemplate.prefabs.large_debug, player))
+	var ship_enormous = ShipFactory.get_design_from_template(ShipFactory.get_template_from_blueprint(ShipFactory.ShipTemplate.prefabs.enormous_debug, player))
+
+	for planet in planets:
+		var colony = planet.colony
+		# var position = ColonyController.get_free_orbital()
+		if large:
+			var position = Vector2(0, 2)
+			if position != null:
+				ColonyController.start_ship_project(colony, ship_large, position)
+				if finish:
+					ColonyController.finish_project(planet.colony)
+					ColonyController.grow_population(planet.colony)
+
+		if enormous:
+			if large and not finish:
+				ColonyController.finish_project(planet.colony)
+				ColonyController.grow_population(planet.colony)
+			var position = Vector2(1, 2)
+			if position != null:
+				ColonyController.start_ship_project(colony, ship_enormous, position)
+				if finish:
+					ColonyController.finish_project(planet.colony)
+					ColonyController.grow_population(planet.colony)
+	
+
 	pass

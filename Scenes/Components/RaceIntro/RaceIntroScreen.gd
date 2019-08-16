@@ -16,7 +16,7 @@ func _ready():
 func _start_game():
 	emit_signal("start_game")
 	
-func setup_display(galaxy_settings, race_key, color):
+func setup_display(galaxy_settings, race_key, color_key):
 	var race = RaceDefinitions.race[race_key]
 	# FIXME: entry seems to be missing sometimes, probably unparsed (maybe init empty)
 	var flavor = ""
@@ -27,18 +27,8 @@ func setup_display(galaxy_settings, race_key, color):
 	desc.set_text("%s" % race.race_history.intro + str(flavor))
 	hist.set_text("%s" % race.race_history.text)
 	
-	# TODO: Use TextureHandler
-	var flag_path = "res://Images/Races/FlagsBW/raceflag.ascshp_%03d.png" % [race.index]
-	# TODO: Use Texturehandler and use proper texture location (Screens/RaceIntro/Races)
-	var pic_path = "res://Images/Screens/RaceIntro/Races/lgrace%02d/lgrace%02d.ascshp_000.png" % [race.index, race.index]
+	flag.set_texture(TextureHandler.get_race_flag(race))
+	flag.set_modulate(mapdefs.galaxy_colors[color_key])
 
-	var file = File.new()
-	if file.file_exists(flag_path):
-		flag.set_texture(load(flag_path))
-		flag.set_modulate(color)
-	else:
-		print("flag not found")
-	if file.file_exists(pic_path):
-		portrait.set_texture(load(pic_path))
-	else:
-		print("portrait not found")
+	var small = false
+	portrait.set_texture(TextureHandler.get_race_icon(race, small))

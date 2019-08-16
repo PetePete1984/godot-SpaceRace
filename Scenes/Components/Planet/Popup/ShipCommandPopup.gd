@@ -8,16 +8,20 @@ signal abandon_ship
 signal popup_cancel
 signal colonize
 signal invade
+signal refit
 
 func setup_for_ship(ship, planet):
 	label.set_text(ship.ship_name)
 	if ship.active:
-		if ship.has_colonizer():# and planet.colony == null:
+		if ship.has_colonizer() and planet.colony == null:
 			spawn_button("Colonize", "colonize")
 		elif ship.has_invader() and planet.colony != null and planet.colony.owner != ship.owner:
 			# TODO: check diplomacy peace status and use some enum
 			if ship.owner.relationship(planet.colony.owner) != "peace":
 				spawn_button("Invade", "invade")
+		if planet.colony != null and planet.colony.owner == ship.owner:
+			if "dock" in planet.colony.unique_orbitals:
+				spawn_button("Refit", "refit")
 		spawn_button("Leave Orbit", "leave_orbit")
 	spawn_button("Cancel", "popup_cancel")
 
