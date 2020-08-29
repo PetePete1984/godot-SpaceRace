@@ -113,6 +113,10 @@ func rotate(delta, direction):
 func zoom(delta, direction):
 	if direction != 0:
 		camera.fov += delta*ZOOM_SPEED*direction
+		if camera.fov <= 0.01:
+			camera.fov = 0.01
+		elif camera.fov >= 90:
+			camera.fov = 90
 		emit_signal("zoomed")
 
 # takes a position of a celestial object and shifts the camera

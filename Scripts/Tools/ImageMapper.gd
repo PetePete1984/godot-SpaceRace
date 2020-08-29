@@ -1,5 +1,5 @@
 const cob_path = "res://Cob"
-const image_path = "res://ImagesX"
+const image_path = "res://Images"
 const mapping_path = "res://Data/ImageMappings.csv"
 
 const csv2dict = preload("res://Scripts/Tools/CSVtoDict.gd")

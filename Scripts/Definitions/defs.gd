@@ -275,6 +275,9 @@ var planet_slots = {
 	"cornucopia": [[7,7], [8,8], [12,12], [20,20], [29,29]]
 }
 
+var orbital_grid_width = 2
+var orbital_grid_height = 5
+
 # chance for xeno ruins per planet
 var planet_xeno_chance = 1.0
 

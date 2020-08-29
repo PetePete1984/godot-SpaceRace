@@ -13,13 +13,15 @@ onready var RaceListScreen = get_node("RaceListScreen")
 onready var BattleScreen = get_node("BattleScreen")
 onready var PlanetScreen = get_node("PlanetScreen")
 onready var ShipDesignScreen = get_node("ShipDesignScreen")
+onready var NegotiationScreen = get_node("NegotiationScreen")
 
 signal leaving_screen(old_screen)
 signal showing_screen(new_screen)
 signal quit_requested
 
-# TODO: Screens should be states. The ScreenHandler should be the one taking input and/or unhandled input and passing it down to a common input interface. Enter, Exit and Return transitions should be possible.
+# TODO: Screens should be states. The ScreenHandler should be the one taking input and/or unhandled input and passing it down to a common input interface (Technically the Screens being Nodes already accomplishes that). Enter, Exit and Return transitions should be possible.
 # TODO: Screens that have Substates should perform like a hierarchical FSM and, where needed, run concurrent FSMs.
+
 # screen stack
 var screens = []
 var current_screen
@@ -47,6 +49,9 @@ func connect_signals():
 	GalaxyScreen.connect("planetlist_requested", self, "_planetlist_view")
 	GalaxyScreen.connect("research_requested", self, "_research_view")
 	GalaxyScreen.connect("shiplist_requested", self, "_shiplist_view")
+	#GalaxyScreen.connect("species_requested", self, "_species_view")
+	GalaxyScreen.connect("species_requested", self, "_negotiation_view")
+	GalaxyScreen.connect("negotiation_requested", self, "_negotiation_view")
 	
 	# connect to a click on a planet
 	BattleScreen.connect("planet_picked", self, "_planet_view")
@@ -155,6 +160,15 @@ func _system_view(system):
 func _planet_view(planet):
 	set_payload(PlanetScreen, planet)
 	move_to_screen(PlanetScreen)
+
+func _species_view(player = null):
+	RaceOverviewScreen.set_player(GameStateHandler.game_state.human_player)
+	move_to_screen(RaceOverviewScreen)
+
+func _negotiation_view(species = null):
+	NegotiationScreen.set_player(GameStateHandler.game_state.human_player)
+	set_payload(NegotiationScreen, species)
+	move_to_screen(NegotiationScreen)
 
 func request_new_game():
 	GalaxySettingsScreen.reset()

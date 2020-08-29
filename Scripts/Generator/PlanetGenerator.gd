@@ -6,7 +6,9 @@ const PlanetTile = preload("res://Scripts/Model/PlanetTile.gd")
 const BuildingTile = preload("res://Scripts/Model/BuildingTile.gd")
 const OrbitalTile = preload("res://Scripts/Model/OrbitalTile.gd")
 
-static func generate_planet(existing_planet = null, size = null, type = null):
+const PlanetNavigator = preload("res://Scripts/Things/PlanetNavigator.gd")
+
+static func generate_planet(existing_planet = null, size = null, type = null, planet_name = null):
 	#randomize()
 	var planet
 	if existing_planet == null:
@@ -23,12 +25,17 @@ static func generate_planet(existing_planet = null, size = null, type = null):
 		randomize_planet_type(planet)
 	else:
 		planet.type = type
-		
+	
+	planet.planet_name = planet_name
+
 	generate_planet_grid(planet)
 	generate_orbital_grid(planet)
 	
 	#initialize_building_grid(planet)
 	spawn_xeno_ruins(planet)
+
+	var pn = PlanetNavigator.new()
+	pn.init_astar_grid(planet)
 	
 	# define population size
 	var size_index = mapdefs.planet_sizes.find(planet.size)
@@ -70,9 +77,15 @@ static func generate_planet_grid(planet):
 	
 	# init empty grid
 	# TODO: consider using Array.resize()
+	planet.grid.resize(planet_max_grid)
+	planet.buildings.resize(planet_max_grid)
 	for x in range(planet_max_grid):
-		planet.grid.append([])
-		planet.buildings.append([])
+		# planet.grid.append([])
+		# planet.buildings.append([])
+		planet.grid[x] = []
+		planet.buildings[x] = []
+		planet.grid[x].resize(planet_max_grid)
+		planet.buildings[x].resize(planet_max_grid)
 		for y in range(planet_max_grid):
 			# init empty planet tile
 			# TODO: this might be stupid in the long run, but interaction is blocked so eh..
@@ -80,12 +93,14 @@ static func generate_planet_grid(planet):
 			var planet_tile = PlanetTile.new()
 			planet_tile.tilemap_x = x
 			planet_tile.tilemap_y = y
-			planet.grid[x].append(planet_tile)
+			# planet.grid[x].append(planet_tile)
+			planet.grid[x][y] = planet_tile
 			
 			var building_tile = BuildingTile.new()
 			building_tile.tilemap_x = x
 			building_tile.tilemap_y = y
-			planet.buildings[x].append(building_tile)
+			# planet.buildings[x].append(building_tile)
+			planet.buildings[x][y] = building_tile
 	
 	# iterate over tiles
 	for x in range(template.size()):
@@ -108,13 +123,17 @@ static func generate_planet_grid(planet):
 
 static func generate_orbital_grid(planet):
 	planet.orbitals.clear()
-	for x in range(2):
-		planet.orbitals.append([])
-		for y in range(5):
+	planet.orbitals.resize(mapdefs.orbital_grid_width)
+	for x in range(0, mapdefs.orbital_grid_width):
+		# planet.orbitals.append([])
+		planet.orbitals[x] = []
+		planet.orbitals[x].resize(mapdefs.orbital_grid_height)
+		for y in range(0, mapdefs.orbital_grid_height):
 			var orbital_tile = OrbitalTile.new()
 			orbital_tile.tilemap_x = x
 			orbital_tile.tilemap_y = y
-			planet.orbitals[x].append(orbital_tile)
+			# planet.orbitals[x].append(orbital_tile)
+			planet.orbitals[x][y] = orbital_tile
 
 static func spawn_xeno_ruins(planet):
 	# decide if xeno ruins should be spawned on this planet

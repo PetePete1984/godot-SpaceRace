@@ -54,6 +54,7 @@ static func purge_races(races):
 		
 		if player != null:
 			player.race = null
+			player.home_colony = null
 			purge_colonies(player.colonies)
 			player.colonies = null
 			purge_ships(player.ships)
@@ -63,6 +64,7 @@ static func purge_races(races):
 			player.completed_research = null
 			player.research_project = null
 			player.color = null
+			player.color_key = null
 			if player.knowledge:
 				purge_knowledge(player.knowledge)
 				player.knowledge = null

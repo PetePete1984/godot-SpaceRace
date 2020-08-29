@@ -14,6 +14,8 @@ var Colony = preload("res://Scripts/Model/Colony.gd")
 var GalaxyGenerator = preload("res://Scripts/Generator/GalaxyGenerator.gd")
 var RaceGenerator = preload("res://Scripts/Generator/RaceGenerator.gd")
 var ColonyGenerator = preload("res://Scripts/Generator/ColonyGenerator.gd")
+const StarSystemGenerator = preload("res://Scripts/Generator/StarSystemGenerator.gd")
+
 
 var KnowledgeFactory = preload("res://Scripts/Factories/KnowledgeFactory.gd")
 
@@ -81,15 +83,16 @@ func initialize_galaxy(galaxy_options, race_key, color_key):
 	if new_game_state:
 		# fill temp galaxy with planets
 		GalaxyGenerator.generate_star_systems(new_game_state.galaxy)
+		# connect stars with lanes
 		GalaxyGenerator.connect_star_systems(new_game_state.galaxy)
 		#print(new_game_state.galaxy.lanes)
-		
 		# initialize the navigator
 		GalaxyNavigator.get_astar_from_galaxy(new_game_state.galaxy)
 
 		# initialize player race
 		var player = RaceGenerator.generate_player(new_game_state, race_key)
 		player.color = mapdefs.galaxy_colors[color_key]
+		player.color_key = color_key
 		new_game_state.races[race_key] = player
 		new_game_state.human_player = player
 		var remaining_colors = []
@@ -112,6 +115,7 @@ func initialize_galaxy(galaxy_options, race_key, color_key):
 			var alien_color_key = remaining_colors.front()
 			remaining_colors.pop_front()
 			alien.color = mapdefs.galaxy_colors[alien_color_key]
+			alien.color_key = alien_color_key
 			alien.type = "ai"
 			new_game_state.races[other_race] = alien
 			

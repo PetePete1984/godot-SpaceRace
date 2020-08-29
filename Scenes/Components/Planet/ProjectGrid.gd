@@ -19,9 +19,12 @@ func get_sprites_for_projects(projects, tile, type = "Surface", player = null):
 	if not type in ["Surface", "Orbital", "Tech"]:
 		print("Unknown tile type %s" % type)
 		return null
+		
+	texturebuttons.resize(projects.size())
 	for p in range(projects.size()):
 		var project = projects[p]
-		texturebuttons.append(ProjectGridButton.new(project, tile, type, player))
+		#texturebuttons.append(ProjectGridButton.new(project, tile, type, player))
+		texturebuttons[p] = ProjectGridButton.new(project, tile, type, player)
 	return texturebuttons
 	pass
 

@@ -35,28 +35,15 @@ func _ready():
 # TODO: use _unhandled_input so UI can intercept events
 func _input(event):
 	# check for unicode of accents and discard them
-	if event.type == InputEvent.KEY and event.scancode == KEY_ESCAPE and event.is_pressed():
-		if event.unicode != 0:
-			return
+	if InputHandler.skip_if_escape(event):
+		return
 	
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().set_input_as_handled()
 		back_pressed()
 	
-	# DEBUG keys
-	if event.type == InputEvent.KEY and event.is_pressed():
-		if event.scancode == KEY_E:
-			pass
-		if event.scancode == KEY_S:
-			#GameStateHandler.save_game_state("user://debug_save.json")
-			pass
-		if event.scancode == KEY_L:
-			#GameStateHandler.load_game_state("user://debug_save.json")
-			pass
-
-	if event.type == InputEvent.MOUSE_BUTTON and event.is_pressed():
-		if not event.button_index in [4, 5, 6, 7]: # button_wheel constants
-			AudioManager.bleep()
+	InputHandler.check_global_keys(event)
+	InputHandler.feedback_mouse_click(event)
 
 func _process(delta):
 	pass
@@ -71,6 +58,7 @@ func back_pressed(silent = true):
 
 func quit_clean():
 	GameStateHandler.GameStatePurger.purge_game_state(GameStateHandler.game_state)
+	CodeProfiler.report()
 	get_tree().quit()	
 	
 func _notification(what):

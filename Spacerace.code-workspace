@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"GodotTools.godotVersion": 2,
+		"gitlens.codeLens.authors.enabled": false,
+		"gitlens.codeLens.recentChange.enabled": false,
+		"gitlens.codeLens.enabled": false,
+		"gitlens.currentLine.enabled": false,
+		"GodotTools.editorPath": "D:\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.32.exe",
+		"gitlens.blame.avatars": false,
+		"git.ignoredRepositories": [
+			"Images"
+		],
+		"godot-tool.check_status": "false"
+	}
+}

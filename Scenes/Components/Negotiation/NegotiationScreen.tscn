@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=1]
+
+[ext_resource path="res://Scenes/Components/Negotiation/NegotiationScreen.gd" type="Script" id=1]
+[ext_resource path="res://Images/Placeholder/ascend_042.png" type="Texture" id=2]
+
+[node name="NegotiationScreen" type="Node2D"]
+
+script/script = ExtResource( 1 )
+_is_overlay = false
+
+[node name="Placeholder" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+centered = false
+

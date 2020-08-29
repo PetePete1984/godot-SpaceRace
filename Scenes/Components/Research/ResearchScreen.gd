@@ -74,13 +74,13 @@ func show_default():
 	research_title.show()
 	research_time.show()
 
+# TODO: the name/title label flips out when the name is too long, like "Environmental Encapsulation" - every other title then gets squashed; use containers
 # displays research under the mouse
 func preview_research(player, research):
 	show_default()
 	current_title.hide()
 	active_research.set_texture(TextureHandler.get_research_icon(research))
-	var research_def = ResearchDefinitions.research_defs[research]
-	research_title.set_text(research_def.research_name)
+	research_title.set_text(ResearchDefinitions.get_name(research))
 	display_research_time(player, research)
 	display_results(player, research)
 	pass
@@ -92,8 +92,7 @@ func display_current_research(player):
 		show_default()
 		current_title.show()
 		active_research.set_texture(TextureHandler.get_research_icon(research))
-		var research_def = ResearchDefinitions.research_defs[research]
-		research_title.set_text(research_def.research_name)
+		research_title.set_text(ResearchDefinitions.get_name(research))
 		display_research_time(player, research)
 		display_results(player, research)
 	pass

@@ -74,13 +74,13 @@ static func generate_research_available(player):
 	ev.buttons = ["research", "OK"]
 	ev.targets = [player, null]
 	return ev
-	
+
 static func generate_research_complete(player, research):
 	var ev = GameplayEvent.new()
 	ev.type = GameplayEvent.RESEARCH_COMPLETE
 	var research_image = TextureHandler.get_research_icon(research)
 	ev.images = [research_image]
-	var top_line = RESEARCH_COMPLETE % [player.race.race_name, ResearchDefinitions.research_defs[research].research_name]
+	var top_line = RESEARCH_COMPLETE % [player.race.race_name, ResearchDefinitions.get_name(research)]
 	ev.text = [top_line]
 	ev.buttons = ["research", "OK"]
 	ev.targets = [player, null]

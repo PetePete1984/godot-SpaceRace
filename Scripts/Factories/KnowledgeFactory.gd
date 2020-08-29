@@ -40,7 +40,8 @@ static func initialize_player_knowledge(player, game_state):
 	# TODO: this currently just stores race keys, might not be enough if there's a need to distinguish between "knows system" and "knows where home planets are"
 	for race in races:
 		if see_home_stars:
-			for colony in race.colonies:
+			for colony_key in races[race].colonies:
+				var colony = races[race].colonies[colony_key]
 				if colony.home:
 					knowledge.systems[colony.planet.system] = true
 					break

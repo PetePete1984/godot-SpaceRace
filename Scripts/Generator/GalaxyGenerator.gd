@@ -32,13 +32,24 @@ static func generate_stars(size):
 		size = random_size()
 		
 	var galaxy = Galaxy.new()
-	var used_star_names = []
+
+	# create shuffled list of indices into star name array
+	# TODO: create safeguard for galaxy_size > name list size
+	var galaxy_size = mapdefs.galaxy_size[size]
+	var indices = range(galaxy_size)
+	Utils.array_shuffle(indices)
+	
+	var picked_star_names = []
+	picked_star_names.resize(galaxy_size)
+
+	for i in range(indices.size()):
+		picked_star_names[i] = mapdefs.system_names[indices[i]]
+
 	var used_positions = []
 
-	for s in range(mapdefs.galaxy_size[size]):
+	for s in range(galaxy_size):
 		# generate star without planets
-		# TODO: Give star systems an index
-		var sys = StarSystemGenerator.generate_star(used_star_names, s)
+		var sys = StarSystemGenerator.generate_star(picked_star_names, s)
 		# generate system position
 		var radius = 1
 		var integer_pos = false
@@ -60,11 +71,13 @@ static func generate_stars(size):
 		pass
 	return galaxy
 
-# only generate systems when stars are done
+# only generate planets when stars are done
 static func generate_star_systems(galaxy):
+	assert(CodeProfiler.start("Planets"))
 	for system in galaxy.systems:
 		#var system = galaxy.systems[sys]
 		StarSystemGenerator.generate_planets(system)
+	assert(CodeProfiler.stop("Planets"))
 	pass
 	
 static func connect_star_systems(galaxy):

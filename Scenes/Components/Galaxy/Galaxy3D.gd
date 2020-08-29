@@ -74,11 +74,15 @@ func rotate_v(delta, direction):
 		emit_signal("rotated")
 	pass
 
+# TODO: original ascendancy keeps the star system icons the same size even when zoomed
 func zoom(delta, direction):
 	if direction != 0:
 		camera.size += delta*ZOOM_SPEED*direction
+		if camera.size <= 0.25:
+			camera.size = 0.25
+		elif camera.size >= 4:
+			camera.size = 4
 		emit_signal("zoomed")
-	pass
 
 func reset_camera():
 	emit_signal("rotated")

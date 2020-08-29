@@ -436,3 +436,6 @@ func _ready():
 	#	printt(rkey, real_defs[rkey].allows)
 	research_defs = real_defs
 	pass
+
+func get_name(def_key):
+	return research_defs[def_key].research_name

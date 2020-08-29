@@ -7,6 +7,9 @@ signal auto_requested(enable)
 signal research_requested
 signal planetlist_requested
 signal shiplist_requested
+signal special_ability_requested
+signal species_requested
+signal negotiation_requested
 
 # Display Elements
 onready var Galaxy3D = get_node("Galaxy3D")
@@ -111,9 +114,11 @@ func _research_requested():
 	
 func _special_ability_window():
 	_cancel_auto()
+	emit_signal("special_ability_requested")
 	
 func _species_requested():
 	_cancel_auto()
+	emit_signal("species_requested")
 
 func _auto_toggled(pressed):
 	emit_signal("auto_requested", pressed)
@@ -146,3 +151,6 @@ func _on_reset():
 	Galaxy_Root.reset_camera()
 	pass
 
+func _input(event):
+
+	pass

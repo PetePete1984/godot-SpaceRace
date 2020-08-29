@@ -13,6 +13,24 @@ static func randi_between(min_num, max_num):
 static func rand_between(lowest, highest):
 	return rand_range(lowest, highest)
 
+func rand_v2_in_unit_circle(radius, integers = false):
+	var rand_func
+	if integers:
+		rand_func = funcref(self, "randi_between")
+	else:
+		rand_func = funcref(self, "rand_between")
+	var in_circle = false
+	var result = null
+	while in_circle == false:
+		var x = rand_func.call_func(-radius, radius)
+		var y = rand_func.call_func(-radius, radius)
+		var pos = Vector2(x, y)
+		if pos.length_squared() <= radius*radius:
+			in_circle = true
+			result = pos
+	return result
+
+
 func rand_v3_in_unit_sphere(radius, integers = false):
 	# find a random position in 3D space
 	var rand_func
@@ -57,6 +75,14 @@ func rand_pick_from_array_no_dupes(array, picked):
 		return rand_pick_from_array(copy)
 	else:
 		print("Array list picks exhausted, need a bigger list")
+
+func array_shuffle(array):
+	for i in range(array.size()):
+		var swap_val = array[i]
+		var swap_index = int(rand_range(i, array.size()))
+
+		array[i] = array[swap_index]
+		array[swap_index] = swap_val
 
 func array_intersect(small_set, big_set):
 	var result = true

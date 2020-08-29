@@ -30,7 +30,9 @@ var total_research = 0
 
 # initialized from mapdefs colors
 # TODO: might be better to store the color key ("GREEN")
+# TODO: or just store both
 var color = null
+var color_key = null
 
 var stats = {
 	starlane_factor = 1

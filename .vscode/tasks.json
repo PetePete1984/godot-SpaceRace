@@ -1,0 +1,115 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "run in godot",
+            "type": "process",
+            "command": "godot",
+            "windows": {
+                "command": "D:\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.32.exe"
+            },
+            "linux": {
+                "command": "/media/pete/Data/Tools/Godot/2.1.4/Godot_v2.1.4-stable_x11.64"
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "run in godot (verbose)",
+            "type": "process",
+            "command": "godot",
+            "windows": {
+                "command": "D:\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.32.exe"
+            },
+            "linux": {
+                "command": "/media/pete/Data/Tools/Godot/2.1.4/Godot_v2.1.4-stable_x11.64"
+            },
+            "args": [
+                "-v"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "run scene in godot",
+            "type": "process",
+            "command": "godot",
+            "windows": {
+                "command": "D:\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.32.exe"
+            },
+            "linux": {
+                "command": "/media/pete/Data/Tools/Godot/2.1.4/Godot_v2.1.4-stable_x11.64"
+            },
+            "args": [
+                "${file}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "run script in godot",
+            "type": "process",
+            "command": "godot",
+            "windows": {
+                "command": "D:\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.32.exe"
+            },
+            "linux": {
+                "command": "/media/pete/Data/Tools/Godot/2.1.4/Godot_v2.1.4-stable_x11.64"
+            },
+            "args": [
+                "-path",
+                "${workspaceFolder}",
+                "-v",
+                "-s",
+                "${file}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "open in godot editor",
+            "type": "process",
+            "command": "godot",
+            "windows": {
+                "command": "D:\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.32.exe"
+            },
+            "linux": {
+                "command": "/media/pete/Data/Tools/Godot/2.1.4/Godot_v2.1.4-stable_x11.64"
+            },
+            "args": [
+                "-e"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "export for windows",
+            "type": "process",
+            "command": "godot",
+            "windows": {
+                "command": "D:\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.32.exe"
+            },
+            "args": [
+                "-export",
+                "Windows Desktop",
+                "D:\\Projects\\Export\\${workspaceFolderBasename}\\windows\\${workspaceFolderBasename}.exe"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "export for android",
+            "type": "process",
+            "command": "godot",
+            "windows": {
+                "command": "D:\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.32.exe"
+            },
+            "args": [
+                "-export",
+                "Android",
+                "D:\\Projects\\Export\\${workspaceFolderBasename}\\Android\\${workspaceFolderBasename}.apk"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}

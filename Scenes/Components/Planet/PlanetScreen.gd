@@ -270,7 +270,7 @@ func _input(event):
 	if event.is_action_pressed("ui_right"):
 		emit_signal("design_new_ship")
 	
-	# hover display
+	# hover display is handled by signals
 	# TODO: might just live on the tilemap?
 	if event.type == InputEvent.MOUSE_MOTION and currentPlanet != null and false:
 		var relative_mouse_pos_orbital = tilemap_orbitals.get_local_mouse_pos()
@@ -362,7 +362,7 @@ func _on_cell_clicked(cell, pos):
 		#var cell = tilemap_cells.get_cell(tilemap_cells_pos.x, tilemap_cells_pos.y)			
 
 func _on_orbital_hover_in(cell, pos):
-	if pos.x in range(0, 2) and pos.y in range(0,5):
+	if pos.x in range(0, mapdefs.orbital_grid_width) and pos.y in range(0, mapdefs.orbital_grid_height):
 		orbital_cursor.set_pos(tilemap_orbitals.map_to_world(pos))
 		orbital_cursor.show()
 	else:
@@ -374,7 +374,7 @@ func _on_orbital_clicked(cell, pos):
 	if current_control_mode == control_mode.NONE:
 		pass
 	
-	if pos.x in range(0,2) and pos.y in range(0,5):
+	if pos.x in range(0, mapdefs.orbital_grid_width) and pos.y in range(0, mapdefs.orbital_grid_height):
 		var orbital_cell = currentPlanet.orbitals[pos.x][pos.y]
 
 		if orbital_cell.orbiting_ship != null:
